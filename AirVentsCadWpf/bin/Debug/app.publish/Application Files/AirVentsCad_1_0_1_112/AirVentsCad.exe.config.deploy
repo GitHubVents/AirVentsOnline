@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="AirVentsCadWpf.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
+  <connectionStrings>
+    <add name="AirVentsCadWpf.Properties.Settings.WorkingSqlConnection"
+      connectionString="Data Source=192.168.14.11;Initial Catalog=SWPlusDB;User ID=sa;Password=PDMadmin" />
+    <add name="AirVentsCadWpf.Properties.Settings.TestSqlConnection"
+      connectionString="Data Source=192.168.14.11;Initial Catalog=SWPlusDB_Test;User ID=sa;Password=PDMadmin" />
+  </connectionStrings>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+  </startup>
+  <userSettings>
+    <AirVentsCadWpf.Properties.Settings>
+      <setting name="UserName" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="Password" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="ConnectionToSQL" serializeAs="String">
+        <value>Data Source=192.168.14.11;Initial Catalog=SWPlusDB;User ID=sa;Password=PDMadmin</value>
+      </setting>
+      <setting name="SourceFolder" serializeAs="String">
+        <value>D:\Vents-PDM</value>
+      </setting>
+      <setting name="DestinationFolder" serializeAs="String">
+        <value>D:\Vents-PDM</value>
+      </setting>
+      <setting name="Domain" serializeAs="String">
+        <value>vents.local</value>
+      </setting>
+      <setting name="PdmBaseName" serializeAs="String">
+        <value>Vents-PDM</value>
+      </setting>
+      <setting name="TestPdmBaseName" serializeAs="String">
+        <value>Vents-PDM</value>
+      </setting>
+      <setting name="Developer" serializeAs="String">
+        <value>False</value>
+      </setting>
+    </AirVentsCadWpf.Properties.Settings>
+  </userSettings>
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors>
+        <behavior name="ServiceReference2.IBomTableService">
+          <serviceMetadata httpGetEnabled="true" />
+          <serviceDebug includeExceptionDetailInFaults="true" />
+        </behavior>
+        <behavior name="ServiceReference1.IBomTableService">
+          <serviceMetadata httpGetEnabled="true" />
+          <serviceDebug includeExceptionDetailInFaults="true" />
+        </behavior>
+      </serviceBehaviors>
+    </behaviors>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="BasicHttpBinding_IBomTableService" maxReceivedMessageSize="2147483647" />
+        <binding name="BasicHttpBinding_IBomTableService1" maxBufferSize="2147483647"
+          maxReceivedMessageSize="2147483647">
+          <readerQuotas maxDepth="32" maxStringContentLength="2147483647"
+            maxArrayLength="16348" maxBytesPerRead="4096" maxNameTableCharCount="16384" />
+        </binding>
+        <binding name="SpellServiceSoap" />
+        <binding name="BasicHttpBinding_LanguageService" />
+        <binding name="BasicHttpBinding_IBomTableService2" />
+      </basicHttpBinding>
+      <customBinding>
+        <binding name="SpellServiceSoap12">
+          <textMessageEncoding messageVersion="Soap12" />
+          <httpTransport />
+        </binding>
+      </customBinding>
+      <webHttpBinding>
+        <binding maxBufferSize="2147483647" maxReceivedMessageSize="2147483647" />
+      </webHttpBinding>
+    </bindings>
+    <client>
+      <endpoint address="http://192.168.14.11:8085/bomtable" binding="basicHttpBinding"
+        bindingConfiguration="BasicHttpBinding_IBomTableService1" contract="ServiceReference2.IBomTableService"
+        name="BasicHttpBinding_IBomTableService1" />
+      <endpoint address="http://192.168.14.11:8085/bomtable" binding="basicHttpBinding"
+        bindingConfiguration="BasicHttpBinding_IBomTableService" contract="ServiceReference1.IBomTableService"
+        name="BasicHttpBinding_IBomTableService" />
+      <endpoint address="http://speller.yandex.net/services/spellservice"
+        binding="basicHttpBinding" bindingConfiguration="SpellServiceSoap"
+        contract="ServiceReference3.SpellServiceSoap" name="SpellServiceSoap" />
+      <endpoint address="http://api.microsofttranslator.com/V2/soap.svc"
+        binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_LanguageService"
+        contract="ServiceReference4.LanguageService" name="BasicHttpBinding_LanguageService" />
+      <endpoint address="http://srvkb:8085/bomtable" binding="basicHttpBinding"
+        bindingConfiguration="BasicHttpBinding_IBomTableService2" contract="ServiceReference5.IBomTableService"
+        name="BasicHttpBinding_IBomTableService2" />
+    </client>
+  </system.serviceModel>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="NLog" publicKeyToken="5120e14c03d0593c" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+</configuration>
+<!--
+
+
+<system.serviceModel>
+   <behaviors>
+     <serviceBehaviors>
+       <behavior name="TestLargeWCF.Web.MyServiceBehavior">
+         <serviceMetadata httpGetEnabled="true"/>
+         <serviceDebug includeExceptionDetailInFaults="false"/>    srvkb       192.168.14.86  http://192.168.14.11:8085/bomtable
+       </behavior>
+     </serviceBehaviors>
+   </behaviors>
+   <bindings>
+     <customBinding>
+       <binding name="customBinding0">
+         <binaryMessageEncoding />
+
+<httpTransport maxReceivedMessageSize="2097152"
+               maxBufferSize="2097152"
+               maxBufferPoolSize="2097152"/>
+
+</binding>
+</customBinding>
+</bindings>
+<serviceHostingEnvironment aspNetCompatibilityEnabled="true"/>
+<services>
+  <service behaviorConfiguration="Web.MyServiceBehavior"             name="TestLargeWCF.Web.MyService">
+    <endpoint address=""
+             binding="customBinding"
+             bindingConfiguration="customBinding0"
+             contract="TestLargeWCF.Web.MyService"/>
+    <endpoint address="mex"
+             binding="mexHttpBinding"
+             contract="IMetadataExchange"/>
+  </service>
+</services>
+</system.serviceModel>
+
+
+<services>
+  <service name="Service.IService">
+    <clear />
+    <endpoint binding="basicHttpBinding" contract="Service.IService" />
+  </service>
+</services>
+<bindings>
+  <basicHttpBinding>
+    <binding maxBufferSize="2147483647" maxReceivedMessageSize="2147483647">
+      <readerQuotas maxDepth="32" maxStringContentLength="2147483647"
+        maxArrayLength="16348" maxBytesPerRead="4096" maxNameTableCharCount="16384" />
+    </binding>
+  </basicHttpBinding>
+  <webHttpBinding>
+    <binding maxBufferSize="2147483647" maxReceivedMessageSize="2147483647" />
+  </webHttpBinding>
+</bindings>  -->

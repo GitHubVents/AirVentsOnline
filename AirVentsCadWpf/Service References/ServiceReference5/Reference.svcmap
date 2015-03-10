@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b2bdaf99-c191-421c-bdcf-1e0567e4ab03" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://srvkb:8085/bomtable?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BomTableService.wsdl" MetadataType="Wsdl" ID="c84e0db9-7011-4cd9-b6be-ed886842b2a7" SourceId="1" SourceUrl="http://srvkb:8085/bomtable?wsdl" />
+    <MetadataFile FileName="bomtable.xsd" MetadataType="Schema" ID="beb48e1d-3d38-47c9-9382-b9de1161c09d" SourceId="1" SourceUrl="http://srvkb:8085/bomtable?xsd=xsd2" />
+    <MetadataFile FileName="bomtable1.xsd" MetadataType="Schema" ID="33932851-5b1e-44af-9bce-9dc7ff2144b7" SourceId="1" SourceUrl="http://srvkb:8085/bomtable?xsd=xsd0" />
+    <MetadataFile FileName="bomtable2.xsd" MetadataType="Schema" ID="8dda300d-a269-4678-b224-a11d56c49f43" SourceId="1" SourceUrl="http://srvkb:8085/bomtable?xsd=xsd3" />
+    <MetadataFile FileName="bomtable3.xsd" MetadataType="Schema" ID="ae6af76d-7452-4b6a-8ce7-070b0f78e09b" SourceId="1" SourceUrl="http://srvkb:8085/bomtable?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="18039dd3-a992-4e69-8702-209df01ec0c8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.14.86:8080/bomtable" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="bomtable4.xsd" MetadataType="Schema" ID="31579fa6-5bc7-4e8b-be7b-e3019e94e147" SourceId="1" SourceUrl="http://192.168.14.86:8080/bomtable?xsd=xsd3" />
+    <MetadataFile FileName="bomtable1.disco" MetadataType="Disco" ID="0cc157ea-c036-4263-aa21-a1c152926832" SourceId="1" SourceUrl="http://192.168.14.86:8080/bomtable?disco" />
+    <MetadataFile FileName="bomtable41.xsd" MetadataType="Schema" ID="930dd876-f935-42c8-a767-c8265021e7db" SourceId="1" SourceUrl="http://192.168.14.86:8080/bomtable?xsd=xsd1" />
+    <MetadataFile FileName="BomTableService1.wsdl" MetadataType="Wsdl" ID="8206a53a-eb4e-4d6b-889e-76a4d76f025b" SourceId="1" SourceUrl="http://192.168.14.86:8080/bomtable?wsdl" />
+    <MetadataFile FileName="bomtable42.xsd" MetadataType="Schema" ID="8d87e97c-c2dd-4482-8d57-beb3681c5117" SourceId="1" SourceUrl="http://192.168.14.86:8080/bomtable?xsd=xsd2" />
+    <MetadataFile FileName="bomtable43.xsd" MetadataType="Schema" ID="51e5031c-1cb5-4519-afdc-c047b31bc04b" SourceId="1" SourceUrl="http://192.168.14.86:8080/bomtable?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
