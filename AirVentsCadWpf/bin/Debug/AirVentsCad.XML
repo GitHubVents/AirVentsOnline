@@ -786,6 +786,12 @@
             <param name="swDoc">Деталь</param>
             <param name="componentId">The component identifier.</param>
         </member>
+        <member name="M:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.PartInfoToXml(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="filePath"></param>
+        </member>
         <member name="T:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.AddingPanel">
             <summary>
             

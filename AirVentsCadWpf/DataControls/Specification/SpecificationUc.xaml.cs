@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using AirVentsCadWpf.AirVentsClasses;
+using AirVentsCadWpf.AirVentsClasses.UnitsBuilding;
 using AirVentsCadWpf.Properties;
 using BomPartList.Спецификации;
 using EdmLib;
@@ -47,7 +48,7 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
           
             InitializeComponent();
-            ТаблицаСпецификации.Visibility  = Visibility.Collapsed;
+            ТаблицаСпецификации.Visibility = Visibility.Collapsed;
             СпецификацияТаблица.Visibility = Visibility.Collapsed;
             Exp1.Visibility = Visibility.Collapsed;
             Exp2.Visibility = Visibility.Collapsed;
@@ -56,6 +57,11 @@ namespace AirVentsCadWpf.DataControls.Specification
             ДобавитьТаблицу.Visibility = Visibility.Collapsed;
 
             ВыгрузитьВXml.IsEnabled = false;
+
+            ПереченьДеталей.Visibility = Visibility.Hidden;
+
+            PartsList.Visibility = Visibility.Hidden;
+            XmlParts.Visibility = Visibility.Hidden;
 
 
             _работаСоСпецификацией = new СпецификацияДляВыгрузкиСборки
@@ -84,7 +90,7 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         void НайтиПолучитьСборкуЕеКонфигурацииПоИмени(string имяСборки)
         {
-          //  имяСборки = "ВНС-904.40.300";
+            //  имяСборки = "ВНС-904.40.300";
 
             _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(имяСборки);
 
@@ -97,7 +103,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                 MessageBox.Show("Сборка не найдена!");
             }
 
-            _спецификация = _работаСоСпецификацией.Спецификация(_путьКСборке, "00");
+            _спецификация = _работаСоСпецификацией.Спецификация(_путьКСборке, 10, "00");
             ТаблицаСпецификации.ItemsSource = _спецификация;
         }
 
@@ -616,7 +622,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             };
             string file;
             bool isErrors;
-            cutlistClass.CreateFlattPatternUpdateCutlistAndEdrawing(fileName, out file, out isErrors);
+            cutlistClass.CreateFlattPatternUpdateCutlistAndEdrawing(fileName, out file, out isErrors, false, false);
 
             //var thread = new Thread(RegistationEdrw);
             //thread.Start();
@@ -853,6 +859,12 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         private void AutoCompleteTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Enter)
+            {
+                Button_Click_3(this, new RoutedEventArgs());
+            }
+
+
 
          ////   MessageBox.Show(AutoCompleteTextBox1.Text);
          //   if (AutoCompleteTextBox1.Text.Length > 8)
@@ -871,19 +883,27 @@ namespace AirVentsCadWpf.DataControls.Specification
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             AutoCompleteTextBox1Reload();
-            
+
+           // AutoCompleteTextBox1.DropDownOpening += AutoCompleteTextBox1_DropDownOpening;
+
+
          //   AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down));
             
 
             //AutoCompleteTextBox1_SelectionChanged(sender, null);
-            //AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Tab));
+         //   AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down));
             //AutoCompleteTextBox1_TextChanged(sender, new RoutedEventArgs());
 
-            //  AutoCompleteTextBox1.
+            
             //  AutoCompleteTextBox1.Text = AutoCompleteTextBox1.Text + "";
             //  AutoCompleteTextBox1.TextChanged += AutoCompleteTextBox1_TextChanged;
 
 
+        }
+
+        void AutoCompleteTextBox1_DropDownOpening(object sender, RoutedPropertyChangingEventArgs<bool> e)
+        {
+            MessageBox.Show("gvwg");
         }
 
        
@@ -893,11 +913,16 @@ namespace AirVentsCadWpf.DataControls.Specification
             //ВыгрузитьВXml.IsEnabled = false;
           //  MessageBox.Show("AutoCompleteTextBox1_SelectionChanged");
             ВыгрузитьВXml.IsEnabled = AsmsNames.Contains(AutoCompleteTextBox1.Text);
+
+            
+          
         }
 
         private void AutoCompleteTextBox1_TextChanged(object sender, RoutedEventArgs e)
         {
+           // AutoCompleteTextBox1.DropDownClosed;
 
+            
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -1070,6 +1095,203 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
             
 
+        }
+
+        private void AutoCompleteTextBox1_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            if (ВыгрузитьВXml.IsEnabled)
+            {
+                ИмяСборки1.Text = AutoCompleteTextBox1.Text;
+             //   Поиск_Click(null, null);
+            }
+        }
+
+        private void ПолучитьПереченьДеталей_Click(object sender, RoutedEventArgs e)
+        {
+            //if (ПолучитьПереченьДеталей.IsChecked == true)
+            //{
+            //    _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(AutoCompleteTextBox1.Text);
+
+            //    if (_путьКСборке != "")
+            //    {
+            //        Конфигурация.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
+            //        Конфигурация.IsEnabled = true;
+            //        Конфигурация.SelectedIndex = 0;
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Сборка не найдена!");
+            //    }
+            //}
+            //else
+            //{
+            //    Конфигурация.Text = "";
+            //    Конфигурация.IsEnabled = false;
+            //}
+        }
+
+
+        class PartsListXml
+        {
+            public bool Xml { get; set; }
+            public string Путь {  get; set; }
+            public string Наименование { get { return Path.GetFileNameWithoutExtension(Путь); } }
+        }
+       
+
+        private void ВыгрузитьВXml_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ВыгрузитьВXml.IsEnabled)
+            {
+                ПолучитьПереченьДеталей.IsEnabled = true;
+                
+            }
+            else
+            {
+                ПолучитьПереченьДеталей.IsEnabled = false;
+                ПолучитьПереченьДеталей.IsChecked = false;
+            }
+        }
+
+        private void Конфигурация_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var partsListXml = new List<PartsListXml>();
+
+            foreach (var данныеДляВыгрузки in _работаСоСпецификацией.Спецификация(_путьКСборке, 10, Конфигурация.Text).Where(x => x.Путь.ToLower().EndsWith("prt")).Where(x => x.Раздел == "Детали" || x.Раздел == "").GroupBy(v => v.Путь))//.Where(g => g.Count() > 1))
+            {
+                partsListXml.Add(new PartsListXml
+                {
+                    Путь = данныеДляВыгрузки.Key,
+                    Xml = new FileInfo(@"\\srvkb\SolidWorks Admin\XML\" + Path.GetFileNameWithoutExtension(данныеДляВыгрузки.Key) + ".xml").Exists    //  //@"C:\Temp\"
+                });
+            }
+
+            PartsList.ItemsSource = partsListXml.OrderBy(x => x.Xml).ThenBy(x => x.Наименование);
+        }
+
+        private void PartsList_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            var partsListXml = (PartsListXml)e.Row.DataContext;
+
+            if (partsListXml.Xml)
+            {
+                e.Row.Background = e.Row.GetIndex() % 2 == 1 ? _lightCyanColorBrush : _whiteColorBrush;
+            }
+            else
+            {
+                e.Row.Background = _orangeColorBrush;
+            }
+        }
+
+        private void XMLParts_Click(object sender, RoutedEventArgs e)
+        {
+            var modelSw = new ModelSw();
+
+            var list = PartsList.ItemsSource.OfType<PartsListXml>().ToList();
+            
+            //if (list == null) return;
+            foreach (var newComponent in list)
+            {
+                modelSw.PartInfoToXml(newComponent.Путь);
+            }
+
+            Конфигурация_SelectionChanged(null, null);
+
+        }
+
+        private void ПолучитьПереченьДеталей_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+           
+        }
+
+        private void Конфигурация_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Конфигурация.Visibility == Visibility.Visible )
+            {
+                PartsList.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PartsList.Visibility = Visibility.Hidden;
+                PartsList.ItemsSource = null;
+            }
+        }
+
+      
+
+        private void PartsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PartsList.HasItems)
+            {
+                XmlParts.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                XmlParts.Visibility = Visibility.Hidden;
+            }
+                
+        }
+
+        private void ПолучитьПереченьДеталей_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Конфигурация.Text = "";
+            Конфигурация.IsEnabled = false;
+            PartsList.ItemsSource = null;
+            ПереченьДеталей.Visibility = Visibility.Hidden;
+
+
+            if (PartsList.HasItems)
+            {
+                XmlParts.Visibility = Visibility.Visible;
+                PartsList.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                XmlParts.Visibility = Visibility.Hidden;
+                PartsList.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void ПолучитьПереченьДеталей_Checked(object sender, RoutedEventArgs e)
+        {
+            _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(AutoCompleteTextBox1.Text);
+
+            if (_путьКСборке != "")
+            {
+                Конфигурация.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
+                Конфигурация.IsEnabled = true;
+                Конфигурация.SelectedIndex = 0;
+
+                ПереченьДеталей.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Сборка не найдена!");
+            }
+
+            if (PartsList.HasItems)
+            {
+                XmlParts.Visibility = Visibility.Visible;
+                PartsList.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                XmlParts.Visibility = Visibility.Hidden;
+                PartsList.Visibility = Visibility.Hidden;
+            }
+        }
+
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (PartsListXml)PartsList.SelectedItem;
+            MessageBox.Show(item.Путь);
+        }
+
+        private void OpenFile(object sender, RoutedEventArgs e)
+        {
+            var item = (PartsListXml)PartsList.SelectedItem;
+            Process.Start(@item.Путь);
         }
     }
 }

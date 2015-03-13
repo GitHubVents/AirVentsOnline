@@ -1821,6 +1821,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             swDoc = ((ModelDoc2)(_swApp.ActivateDoc2(nameAsm, true, 0)));
             var swModelDocExt = swDoc.Extension;
             var swCustPropForDescription = swModelDocExt.CustomPropertyManager[""];
+
+            GabaritsForPaintingCamera(swDoc);
             //swCustPropForDescription.Set("Наименование", typeOfPanel[0]);
             //swCustPropForDescription.Set("Description", typeOfPanel[0]);
 
@@ -1835,6 +1837,12 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             _swApp.CloseDoc(new FileInfo(newFramelessPanelPath).Name);
 
             CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
+
+            foreach (var newComponent in NewComponents)
+            {
+                PartInfoToXml(newComponent.FullName);
+            }
+            
 
             #endregion
 

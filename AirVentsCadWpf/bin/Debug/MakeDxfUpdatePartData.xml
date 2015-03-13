@@ -19,13 +19,15 @@
             Initializes a new instance of the <see cref="T:MakeDxfUpdatePartData.MakeDxfExportPartDataClass"/> class.
             </summary>
         </member>
-        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(System.String,System.String@,System.Boolean@)">
+        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(System.String,System.String@,System.Boolean@,System.Boolean,System.Boolean)">
             <summary>
             Creates the flatt pattern update cutlist and edrawing.
             </summary>
             <param name="filePath">The file path.</param>
             <param name="eDrwFileName">Name of the e DRW file.</param>
             <param name="isErrors">if set to <c>true</c> [is errors].</param>
+            <param name="makeDxf">if set to <c>true</c> [make DXF].</param>
+            <param name="makeEprt">if set to <c>true</c> [make eprt].</param>
         </member>
         <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.RegistrationPdm(System.String)">
             <summary>

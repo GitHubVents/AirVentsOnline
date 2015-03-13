@@ -322,8 +322,5 @@ namespace AirVentsCadWpf.AirVentsClasses
         }
 
         #endregion
-
-
-
     }
 }

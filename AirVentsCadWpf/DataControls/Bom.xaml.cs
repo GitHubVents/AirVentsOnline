@@ -710,20 +710,20 @@ namespace AirVentsCadWpf.DataControls
                 string valOut;
 
                 string codMaterial;
-                swCustProp.Get4("Код материала", false, out valOut, out codMaterial);
+                swCustProp.Get4("Код материала", true, out valOut, out codMaterial);
                 confiData.КодМатериала = codMaterial;
 
                 string материал;
-                swCustProp.Get4("Материал", false, out valOut, out материал);
+                swCustProp.Get4("Материал", true, out valOut, out материал);
                 confiData.Материал = материал;
 
                 string обозначение;
-                swCustProp.Get4("Обозначение", false, out valOut, out обозначение);
+                swCustProp.Get4("Обозначение", true, out valOut, out обозначение);
                 confiData.Обозначение = обозначение;
 
                 var swCustPropForDescription = swModelDocExt.CustomPropertyManager[""];
                 string наименование;
-                swCustPropForDescription.Get4("Наименование", false, out valOut, out наименование);
+                swCustPropForDescription.Get4("Наименование", true, out valOut, out наименование);
                 confiData.Наименование = наименование;
 
 
@@ -768,27 +768,27 @@ namespace AirVentsCadWpf.DataControls
                                 swCustPrpMgr.Add("Площадь поверхности", "Текст", "\"SW-SurfaceArea@@@Элемент списка вырезов1@"+Path.GetFileName(swModel.GetPathName())+"\"");
 
                                 string длинаГраничнойРамки;
-                                swCustPrpMgr.Get4(длинаГраничнойРамкиName, false, out valOut, out длинаГраничнойРамки);
+                                swCustPrpMgr.Get4(длинаГраничнойРамкиName, true, out valOut, out длинаГраничнойРамки);
                                 swCustProp.Set(длинаГраничнойРамкиName, длинаГраничнойРамки);
                                 confiData.ДлинаГраничнойРамки = длинаГраничнойРамки;
 
                                 string ширинаГраничнойРамки;
-                                swCustPrpMgr.Get4(ширинаГраничнойРамкиName, false, out valOut, out ширинаГраничнойРамки);
+                                swCustPrpMgr.Get4(ширинаГраничнойРамкиName, true, out valOut, out ширинаГраничнойРамки);
                                 swCustProp.Set(ширинаГраничнойРамкиName, ширинаГраничнойРамки);
                                 confiData.ШиринаГраничнойРамки = ширинаГраничнойРамки;
 
                                 string толщинаЛистовогоМеталла;
-                                swCustPrpMgr.Get4(толщинаЛистовогоМеталлаNAme, false, out valOut, out толщинаЛистовогоМеталла);
+                                swCustPrpMgr.Get4(толщинаЛистовогоМеталлаNAme, true, out valOut, out толщинаЛистовогоМеталла);
                                 swCustProp.Set(толщинаЛистовогоМеталлаNAme, толщинаЛистовогоМеталла);
                                 confiData.ТолщинаЛистовогоМеталла = толщинаЛистовогоМеталла;
 
                                 string сгибы;
-                                swCustPrpMgr.Get4(сгибыName, false, out valOut, out сгибы);
+                                swCustPrpMgr.Get4(сгибыName, true, out valOut, out сгибы);
                                 swCustProp.Set(сгибыName, сгибы);
                                 confiData.Сгибы = сгибы;
 
                                 string площадьПоверхности;
-                                swCustPrpMgr.Get4("Площадь поверхности", false, out valOut, out площадьПоверхности);
+                                swCustPrpMgr.Get4("Площадь поверхности", true, out valOut, out площадьПоверхности);
                                 swCustProp.Set(площадьПокрытияName, площадьПоверхности);
                                 confiData.ПлощадьПокрытия = площадьПоверхности;
                             }

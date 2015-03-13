@@ -58,16 +58,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //() =>SpigotStr(type, width, height)
             //);
             var path = DumperS(type, width, height);
-            if (path == "")
-            {
-                return;
-            }
-            if (MessageBox.Show(string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
-                   string.Format(" {0} ",
-                       Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
-            {
-                DumperS(type, width, height);
-            }
+            //if (path == "")
+            //{
+            //    return;
+            //}
+            //if (MessageBox.Show(string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
+            //       string.Format(" {0} ",
+            //           Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+            //{
+            //    DumperS(type, width, height);
+            //}
         }
 
         /// <summary>
@@ -83,8 +83,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             {
                 return "";
             }
-
-            if (!InitializeSw(true)) return "";
 
             string modelName;
             string modelDamperPath;
@@ -117,10 +115,14 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 DamperDestinationFolder, newDamperName);
             if (File.Exists(newDamperPath))
             {
-                GetLastVersionPdm(new FileInfo(newDamperPath).FullName, Settings.Default.TestPdmBaseName);
-                _swApp.OpenDoc6(newDamperPath, (int)swDocumentTypes_e.swDocDRAWING,
-                    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
-                return newDamperPath;
+                MessageBox.Show(newDamperPath, "Данная модель уже находится в базе");
+                return "";
+
+
+                //GetLastVersionPdm(new FileInfo(newDamperPath).FullName, Settings.Default.TestPdmBaseName);
+                //_swApp.OpenDoc6(newDamperPath, (int)swDocumentTypes_e.swDocDRAWING,
+                //    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+                //return "";
             }
 
             var modelDamperDrw = String.Format(@"{0}{1}\{2}.SLDDRW", Settings.Default.SourceFolder,
@@ -179,6 +181,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             GetLastVersionPdm(components, Settings.Default.PdmBaseName);
 
 
+
+            if (!InitializeSw(true)) return "";
             if (!Warning()) return "";
             var swDocDrw = _swApp.OpenDoc6(@modelDamperDrw, (int)swDocumentTypes_e.swDocDRAWING,
                 (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
@@ -878,6 +882,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             #endregion
 
             swDoc = ((ModelDoc2)(_swApp.ActivateDoc2(nameAsm, true, 0)));
+
+            GabaritsForPaintingCamera(swDoc);
             swDoc.EditRebuild3();
             swDoc.ForceRebuild3(true);
             var name = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder,
@@ -919,16 +925,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         public void Spigot(string type, string width, string height)
         {
             var path = SpigotStr(type, width, height);
-            if (path == "")
-            {
-                return;
-            }
-            if (MessageBox.Show(string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
-                  string.Format(" {0} ",
-                      Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
-            {
-                SpigotStr(type, width, height);
-            }
+            //if (path == "")
+            //{
+            //    return;
+            //}
+            //if (MessageBox.Show(string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
+            //      string.Format(" {0} ",
+            //          Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+            //{
+            //    SpigotStr(type, width, height);
+            //}
         }
 
         /// <summary>
@@ -945,7 +951,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 return "";
             }
 
-            if (!InitializeSw(true)) return "";
+            
 
             string modelName;
             switch (type)
@@ -966,10 +972,15 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 SpigotDestinationFolder, newSpigotName);
             if (File.Exists(newSpigotPath + ".SLDDRW"))
             {
-                GetLastVersionPdm(new FileInfo(newSpigotPath + ".SLDDRW").FullName, Settings.Default.TestPdmBaseName);
-                _swApp.OpenDoc6(newSpigotPath + ".SLDDRW", (int)swDocumentTypes_e.swDocDRAWING,
-                    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
-                return newSpigotPath + ".SLDDRW";
+                MessageBox.Show(newSpigotPath + ".SLDDRW", "Данная модель уже находится в базе");
+                return "";
+
+
+               // GetLastVersionPdm(new FileInfo(newSpigotPath + ".SLDDRW").FullName, Settings.Default.TestPdmBaseName);
+               // _swApp.OpenDoc6(newSpigotPath + ".SLDDRW", (int)swDocumentTypes_e.swDocDRAWING,
+               //     (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+               //// return newSpigotPath + ".SLDDRW";
+               // return "";
             }
 
             var drawing = "12-00";
@@ -994,7 +1005,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             };
             GetLastVersionPdm(components, Settings.Default.PdmBaseName);
 
-
+            if (!InitializeSw(true)) return "";
             if (!Warning()) return "";
             var swDrwSpigot = _swApp.OpenDoc6(modelSpigotDrw, (int)swDocumentTypes_e.swDocDRAWING,
                 (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
@@ -1271,6 +1282,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #endregion
 
+            GabaritsForPaintingCamera(swDoc);
+
             swDoc.ForceRebuild3(true);
             swDoc.SaveAs2(newSpigotPath + ".SLDASM", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
             _swApp.CloseDoc(newSpigotName + ".SLDASM");
@@ -1295,6 +1308,14 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             _swApp = null;
             //RegistrationPdm(NewComponents.OrderByDescending(x => x.Length).ToList(), true, Settings.Default.TestPdmBaseName);
             CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
+
+
+            foreach (var newComponent in NewComponents)
+            {
+                PartInfoToXml(newComponent.FullName);
+            }
+
+            MessageBox.Show(newSpigotPath, "Модель построена");
 
             return newSpigotPath;
         }
@@ -1356,10 +1377,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             if (File.Exists(newRoofPath))
             {
-                GetLastVersionPdm(new FileInfo(newRoofPath).FullName, Settings.Default.TestPdmBaseName);
-                _swApp.OpenDoc6(newRoofPath, (int)swDocumentTypes_e.swDocASSEMBLY,
-                    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
-                return newRoofPath;
+                MessageBox.Show(newRoofPath, "Данная модель уже находится в базе");
+                return "";
+
+                //GetLastVersionPdm(new FileInfo(newRoofPath).FullName, Settings.Default.TestPdmBaseName);
+                //_swApp.OpenDoc6(newRoofPath, (int)swDocumentTypes_e.swDocASSEMBLY,
+                //    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+                //return newRoofPath;
             }
 
             var pdmFolder = Settings.Default.SourceFolder;
@@ -1530,6 +1554,18 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"D1@Кривая2", Convert.ToString(weldW2*1000)},
                             {"D1@Кривая1", Convert.ToString(weldW*1000)}
                         });
+
+
+                    try
+                    {
+                        VentsMatdll(new[] { "1700" }, new[] { "", "Шаргень", "2" }, newPartName);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.Message);
+                    }
+
+
                     _swApp.CloseDoc(newPartName);
 
 
@@ -1609,11 +1645,21 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #endregion
 
+            GabaritsForPaintingCamera(swDoc);
+
             swDoc.ForceRebuild3(true);
             swDoc.SaveAs2(newRoofPath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
             newComponents.Add(new FileInfo(newRoofPath));
             _swApp.CloseDoc(Path.GetFileNameWithoutExtension(new FileInfo(newRoofPath).FullName));
             CheckInOutPdm(newComponents, true, Settings.Default.TestPdmBaseName);
+
+            foreach (var newComponent in NewComponents)
+            {
+                PartInfoToXml(newComponent.FullName);
+            }
+
+            MessageBox.Show(newRoofPath, "Модель построена");
+
             return newRoofPath;
         }
 

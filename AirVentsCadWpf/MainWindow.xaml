@@ -21,7 +21,7 @@
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"
               Background="#FFF1F1F1">
             <Label x:Name="CurrentVersion" Content="AirVentsCAD v. 3.1.3" HorizontalAlignment="Left" Margin="275,24,0,23" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Initialized="CurrentVersion_Initialized"/>
-            <Image HorizontalAlignment="Left" Height="90" VerticalAlignment="Center" Width="225" Source="logo.png" Margin="25,0,0,0"/>
+            <Image HorizontalAlignment="Left" Height="49" VerticalAlignment="Center" Width="200" Source="logo.png" Margin="0,24,0,17"/>
         </Grid>
 
         <Grid HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" Background="#FF8DD3F1"/>

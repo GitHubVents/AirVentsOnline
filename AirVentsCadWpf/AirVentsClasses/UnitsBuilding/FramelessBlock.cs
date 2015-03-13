@@ -276,6 +276,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             ((Dimension)(swDoc.Parameter("D1@Расстояние5"))).SystemValue = ((Convert.ToDouble(height) - 80) / 1000);
 
             swDoc = ((ModelDoc2)(_swApp.ActiveDoc));
+
+            GabaritsForPaintingCamera(swDoc);
+
             swDoc.ForceRebuild3(true);
             swDoc.SaveAs2(framelessBlockNewPath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
             NewComponents.Add(new FileInfo(framelessBlockNewPath));

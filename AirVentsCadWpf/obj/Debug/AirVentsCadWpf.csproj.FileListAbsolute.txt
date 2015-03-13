@@ -321,3 +321,4 @@ C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AirVen
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AirVentsCadWpf.csproj.GenerateResource.Cache
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AirVentsCad.exe.manifest
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AirVentsCad.application
+C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\MakeDxfUpdatePartData.dll

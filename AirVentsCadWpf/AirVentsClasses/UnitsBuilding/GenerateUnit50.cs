@@ -15,6 +15,7 @@ using NLog;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using VentsMaterials;
+using MakeDxfUpdatePartData;
 
 namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 {
@@ -1618,21 +1619,27 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         public void Panels50Build(string[] typeOfPanel, string width, string height, string[] materialP1, string[] meterialP2, string[] покрытие)
         {
             var path = Panels50BuildStr(typeOfPanel, width, height, materialP1, meterialP2, покрытие);
-             if (path == "") return;
-            if (MessageBox.Show(
-                string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
-                string.Format(" {0} ",
-                    Path.GetFileName(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) !=
-                MessageBoxResult.Yes) return;
-            LoggerInfo("Начало построения панели", "", "Panels50Build");
+            //MessageBox.Show(path);
+            // if (path == "") return;
+            //if (MessageBox.Show(
+            //    string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
+            //    string.Format(" {0} ",
+            //        Path.GetFileName(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) !=
+            //    MessageBoxResult.Yes) return;
+            
+            //Логгер.Информация("Начало построения панели","", "", "Panels50Build");
 
-            GetLastVersionPdm(new FileInfo(path).FullName, Settings.Default.TestPdmBaseName);
-            InitializeSw(true);
-            _swApp.OpenDoc6(new FileInfo(path).FullName, (int)swDocumentTypes_e.swDocASSEMBLY,
-                (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+            //GetLastVersionPdm(new FileInfo(path).FullName, Settings.Default.TestPdmBaseName);
+            ////_swApp.Visible = null;
+            //System.Diagnostics.Process.Start(@path);
 
-            //Panels50BuildStr(typeOfPanel, width, height, materialP1, meterialP2, покрытие);
-            LoggerInfo("Окончен процесс построения панели", "", "Panels50Build");
+
+            ////InitializeSw(true);
+            ////_swApp.OpenDoc6(new FileInfo(path).FullName, (int)swDocumentTypes_e.swDocASSEMBLY,
+            ////    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+
+            ////Panels50BuildStr(typeOfPanel, width, height, materialP1, meterialP2, покрытие);
+            //LoggerInfo("Окончен процесс построения панели", "", "Panels50Build");
         }
 
         /// <summary>
@@ -1651,7 +1658,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             {
                 return "";
             }
-            if (!InitializeSw(true)) return "";
 
             Логгер.Отладка("Начало построения 50-й панели. ", "", "Panels50BuildStr", "Panels50BuildStr");
 
@@ -1660,7 +1666,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             string nameAsm;
             var modelType = String.Format("50-{0}{1}-{2}{3}-MW",
                 materialP1[3],
-                materialP1[3] == "AZ" ? "" : materialP1[1],
+                materialP1[3] == "AZ" ? "" : materialP1[1], 
                 materialP2[3],
                 materialP2[3] == "AZ" ? "" : materialP2[1]);
 
@@ -1697,6 +1703,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     break;
             }
 
+           
+            
+            #region Обозначения и Хранилище
+            
             #region before
             //var newPanel50Name = String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}",
             //        modelName + "-" + width + "-" + height + "-50",
@@ -1710,8 +1720,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //        //string.IsNullOrEmpty(покрытие[5]) ? "" : "-" + покрытие[5],
             //        "-MW");
             #endregion
-            
-            #region Обозначения и Хранилище
 
             //if (покрытие[0] == "Без покрытия")
             //{
@@ -1878,11 +1886,17 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             
             if (File.Exists(new FileInfo(newPanel50Path).FullName))
             {
+                MessageBox.Show(newPanel50Path, "Данная модель уже находится в базе");
 
-                GetLastVersionPdm(new FileInfo(newPanel50Path).FullName, Settings.Default.TestPdmBaseName);
-                _swApp.OpenDoc6(new FileInfo(newPanel50Path).FullName, (int)swDocumentTypes_e.swDocASSEMBLY,
-                    (int) swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
-                return newPanel50Path;
+
+                //GetLastVersionPdm(new FileInfo(newPanel50Path).FullName, Settings.Default.TestPdmBaseName);
+                //System.Diagnostics.Process.Start(@newPanel50Path);
+
+                //if (!InitializeSw(true)) return "";
+                return "";
+                //_swApp.OpenDoc6(new FileInfo(newPanel50Path).FullName, (int)swDocumentTypes_e.swDocASSEMBLY,
+                //    (int) swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+                //return newPanel50Path;
             }
 
             var modelPanelAsmbly = String.Format(@"{0}{1}\{2}.SLDASM", Settings.Default.SourceFolder,
@@ -1923,9 +1937,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
             GetLastVersionPdm(components, Settings.Default.PdmBaseName);
 
+
+            //var process =  System.Diagnostics.Process.Start(modelPanelAsmbly);
+
+            if (!InitializeSw(true)) return "";
             if (!Warning()) return "";
+
+            //var swDoc = _swApp.ActivateDoc(new FileInfo(modelPanelAsmbly).Name);
+
             var swDoc = _swApp.OpenDoc6(modelPanelAsmbly, (int)swDocumentTypes_e.swDocASSEMBLY,
-                (int) swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
+                (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
             _swApp.Visible = true;
 
             var swAsm = (AssemblyDoc) swDoc;
@@ -2501,14 +2522,24 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             swCustPropForDescription.Set("Наименование", typeOfPanel[1]);
             swCustPropForDescription.Set("Description", typeOfPanel[1]);
 
+            GabaritsForPaintingCamera(swDoc);
+
             swDoc.EditRebuild3();
             swDoc.ForceRebuild3(true);
             swDoc.SaveAs2(new FileInfo(newPanel50Path).FullName, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
             NewComponents.Add(new FileInfo(newPanel50Path));
             _swApp.CloseDoc(new FileInfo(newPanel50Path).Name);
+            _swApp.Visible = true;
             //_swApp.ExitApp();
             //_swApp = null;
             CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
+
+            foreach (var newComponent in NewComponents)
+            {
+                PartInfoToXml(newComponent.FullName);
+            }
+
+            MessageBox.Show(newPanel50Path, "Модель построена");
 
             #region To Delete
 
@@ -2538,6 +2569,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //        Panel50DestinationFolder, newPanel50Name), true, Properties.Settings.Default.TestPdmBaseName);
 
             #endregion
+
+           // MessageBox.Show(newPanel50Path);
 
             return newPanel50Path;
         }
@@ -2588,6 +2621,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             {
                 MessageBox.Show(exception.StackTrace);
             }
+
+            GabaritsForPaintingCamera(_swApp.IActiveDoc2);
+
             _swApp.IActiveDoc2.Save();
         }
 
@@ -2879,16 +2915,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         public void MontageFrame(string widthS, string lenghtS, string thiknessS, string typeOfMf, string frameOffset, string material, string[] покрытие)
         {
           var path =  MontageFrameS(widthS, lenghtS, thiknessS, typeOfMf, frameOffset, material, покрытие);
-            if (path == "")
-            {
-                return;
-            }
-            if (MessageBox.Show(string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
-                 string.Format(" {0} ",
-                     Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
-          {
-              MontageFrameS(widthS, lenghtS, thiknessS, typeOfMf, frameOffset, material, покрытие);
-          }
+          //  if (path == "")
+          //  {
+          //      return;
+          //  }
+          //  if (MessageBox.Show(string.Format("Модель находится по пути:\n {0}\n Открыть модель?", new FileInfo(path).Directory),
+          //       string.Format(" {0} ",
+          //           Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
+          //{
+          //    MontageFrameS(widthS, lenghtS, thiknessS, typeOfMf, frameOffset, material, покрытие);
+          //}
         }
 
         string MontageFrameS(string widthS, string lenghtS, string thiknessS, string typeOfMf, string frameOffset, string material, IList<string> покрытие)
@@ -2931,9 +2967,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             var newMontageFramePath = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, BaseFrameDestinationFolder, newMontageFrameName);
             if (File.Exists(newMontageFramePath))
             {
-                GetLastVersionPdm(new FileInfo(newMontageFramePath).FullName, Settings.Default.TestPdmBaseName);
-                _swApp.OpenDoc6(newMontageFramePath, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
-                return newMontageFramePath;
+                MessageBox.Show(newMontageFramePath, "Данная модель уже находится в базе");
+                return "";
+                //GetLastVersionPdm(new FileInfo(newMontageFramePath).FullName, Settings.Default.TestPdmBaseName);
+                //_swApp.OpenDoc6(newMontageFramePath, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
+                //return newMontageFramePath;
             }
             var modelMontageFramePath = String.Format(@"{0}{1}\{2}.SLDASM", Settings.Default.SourceFolder, BaseFrameFolder, "10-4");
             
@@ -3395,6 +3433,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             _swApp.IActivateDoc2("10-4.SLDASM", false, 0);
             swDocMontageFrame = ((ModelDoc2)(_swApp.ActiveDoc));
+
+            GabaritsForPaintingCamera(swDocMontageFrame);
+
             swDocMontageFrame.ForceRebuild3(true);
 
             swDocMontageFrame.SaveAs2(newMontageFramePath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
@@ -3405,6 +3446,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //_swApp.ExitApp();
             _swApp = null;
             CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
+
+            foreach (var newComponent in NewComponents)
+            {
+                PartInfoToXml(newComponent.FullName);
+            }
+
+            MessageBox.Show(newMontageFramePath, "Модель построена");
 
             return newMontageFramePath;
         }
@@ -4547,6 +4595,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
         void SwPartParamsChangeWithNewName(string partName, string newName, string[,] newParams)
         {
+            Логгер.Отладка(string.Format("Начало изменения детали {0}", partName), "", "", "SwPartParamsChangeWithNewName");
             //Logger.Log(LogLevel.Debug, string.Format("Начало изменения детали {0}", partName));
             var swDoc = _swApp.OpenDoc6(partName + ".SLDPRT", (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
             var modName = swDoc.GetPathName();
@@ -4561,12 +4610,20 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 }
                 catch (Exception exception)
                 {
+                    Логгер.Отладка(string.Format("Во время изменения детали {4} произошла ошибка при изменении параметров {0}={1}. {2} {3}",
+                        newParams[i, 0], newParams[i, 1], exception.TargetSite, exception.Message, Path.GetFileNameWithoutExtension(modName)),
+                        "", "", "SwPartParamsChangeWithNewName");
+
                     LoggerDebug(string.Format("Во время изменения детали {4} произошла ошибка при изменении параметров {0}={1}. {2} {3}",
                         newParams[i, 0], newParams[i, 1], exception.TargetSite, exception.Message, Path.GetFileNameWithoutExtension(modName)),
                         "", "SwPartParamsChangeWithNewName");
                 }
             }
             if (newName == "") { return; }
+
+
+            GabaritsForPaintingCamera(swDoc);
+
             swDoc.EditRebuild3();
             swDoc.ForceRebuild3(false);
             NewComponents.Add(new FileInfo(newName + ".SLDPRT"));
@@ -4574,6 +4631,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //swApp = new SldWorks();
             //RegistrationPdm(newName, true, Properties.Settings.Default.TestPdmBaseName);
             _swApp.CloseDoc(newName + ".SLDPRT");
+            Логгер.Отладка(String.Format("Деталь {0} изменена и сохранена по пути {1}", partName, new FileInfo(newName).FullName), "", "", "SwPartParamsChangeWithNewName");
             LoggerInfo(String.Format("Деталь {0} изменена и сохранена по пути {1}", partName, new FileInfo(newName).FullName),"", "SwPartParamsChangeWithNewName");
         }
 
@@ -4621,7 +4679,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         
         internal bool Warning()
         {
-            return MessageBox.Show(" Перед началом работы рекомендуется закрыть все открытые документы в SolidWorks.", "", MessageBoxButton.OKCancel, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.None) != MessageBoxResult.Cancel;
+            return MessageBox.Show("Сохраните все открытые документы!",//" Перед началом работы рекомендуется закрыть все открытые документы в SolidWorks.", 
+                "",//"Сохраните все открытые документы!",
+                MessageBoxButton.OKCancel, MessageBoxImage.Exclamation, MessageBoxResult.OK, MessageBoxOptions.None) != MessageBoxResult.Cancel;
         }
 
         internal bool InitializeSw(bool visible)
@@ -4629,6 +4689,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             try
             {
                 _swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+                //_swApp = (SldWorks)Marshal.GetActiveObject("SWSHEL~1");
             }
             catch (Exception)
             {
@@ -4945,9 +5006,123 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
            
             File.Delete(@"C:\Program Files\SW-Complex\materialsXML.sldmat");
         }
-    }
+
+    
         #endregion
+
+        #region Выгрузка XML
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        public void PartInfoToXml(string filePath)
+        {
+            try
+            {
+                if (filePath == "") return;
+                var extension = Path.GetExtension(filePath);
+                if (extension == null) return;
+                if (extension.ToLower() != ".sldprt") return;
+                var @class = new MakeDxfExportPartDataClass
+                {
+                    PdmBaseName = Settings.Default.PdmBaseName
+                };
+                bool isErrors;
+                string newEdrwFileName;
+                @class.CreateFlattPatternUpdateCutlistAndEdrawing(filePath, out newEdrwFileName, out isErrors, false, false);
+                if (!isErrors)
+                {
+                    LoggerInfo("Закончена обработка " + Path.GetFileName(filePath), "", "PartInfoToXml");
+                }
+                else
+                {
+                    CheckInOutPdm(new List<FileInfo>{new FileInfo(newEdrwFileName)}, true, Settings.Default.TestPdmBaseName);
+                    LoggerError("Закончена обработка детали " + Path.GetFileName(filePath) + " с ошибками", "",
+                        "PartInfoToXml");
+                }
+            }
+            catch (Exception exception)
+            {
+                LoggerError("Ошибка: " + exception.StackTrace, GetHashCode().ToString("X"), "OnTaskRun");
+                
+            }
+
+        }
+
+        #endregion
+
+        static void GabaritsForPaintingCamera(IModelDoc2 swmodel)
+        {
+
+            const long valueset = 1000; 
+            const int swDocPart = 1;
+            const int swDocAssembly = 2;
+
+            for (int i = 0;  i < swmodel.GetConfigurationCount();i++)
+            {
+                i = i + 1;
+                var configname = swmodel.IGetConfigurationNames(ref i);
+
+                MessageBox.Show(configname, swmodel.GetConfigurationCount().ToString());
+
+                Configuration swConf = swmodel.GetConfigurationByName(configname);
+                if (swConf.IsDerived()) continue;
+                //swmodel.ShowConfiguration2(configname);
+                swmodel.EditRebuild3();
+
+                switch (swmodel.GetType())
+                {
+                    case swDocPart:
+                    {
+                        MessageBox.Show("swDocPart");
+
+                        var part = (PartDoc) swmodel;
+                        var box = part.GetPartBox(true);
+
+                        swmodel.AddCustomInfo3(configname, "Длина", 30, "");
+                        swmodel.AddCustomInfo3(configname, "Ширина", 30, "");
+                        swmodel.AddCustomInfo3(configname, "Высота", 30, "");
+
+                        swmodel.CustomInfo2[configname, "Длина"] =
+                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(box[0] - box[3])*valueset)), 0));
+                        swmodel.CustomInfo2[configname, "Ширина"] =
+                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(box[1] - box[4])*valueset)), 0));
+                        swmodel.CustomInfo2[configname, "Высота"] =
+                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(box[2] - box[5])*valueset)), 0));
+
+                    }
+                        break;
+                    case swDocAssembly:
+                    {
+                        MessageBox.Show("AssemblyDoc");
+
+                        var swAssy = (AssemblyDoc) swmodel;
+
+                        var boxAss = swAssy.GetBox((int) swBoundingBoxOptions_e.swBoundingBoxIncludeRefPlanes);
+
+                        swmodel.AddCustomInfo3(configname, "Длина", 30, "");
+                        swmodel.AddCustomInfo3(configname, "Ширина", 30, "");
+                        swmodel.AddCustomInfo3(configname, "Высота", 30, "");
+
+                        swmodel.CustomInfo2[configname, "Длина"] =
+                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(boxAss[0] - boxAss[3])*valueset)), 0));
+                        swmodel.CustomInfo2[configname, "Ширина"] =
+                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(boxAss[1] - boxAss[4])*valueset)), 0));
+                        swmodel.CustomInfo2[configname, "Высота"] =
+                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(boxAss[2] - boxAss[5])*valueset)), 0));
+                    }
+                        break;
+                }
+            }
+        }
+
 
         #endregion
 
     }
+
+
+   
+
+}
