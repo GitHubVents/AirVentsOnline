@@ -5064,7 +5064,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 i = i + 1;
                 var configname = swmodel.IGetConfigurationNames(ref i);
 
-                MessageBox.Show(configname, swmodel.GetConfigurationCount().ToString());
+               // MessageBox.Show(configname, swmodel.GetConfigurationCount().ToString());
 
                 Configuration swConf = swmodel.GetConfigurationByName(configname);
                 if (swConf.IsDerived()) continue;
@@ -5075,7 +5075,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 {
                     case swDocPart:
                     {
-                        MessageBox.Show("swDocPart");
+                    //    MessageBox.Show("swDocPart");
 
                         var part = (PartDoc) swmodel;
                         var box = part.GetPartBox(true);
@@ -5095,7 +5095,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         break;
                     case swDocAssembly:
                     {
-                        MessageBox.Show("AssemblyDoc");
+                     //   MessageBox.Show("AssemblyDoc");
 
                         var swAssy = (AssemblyDoc) swmodel;
 
