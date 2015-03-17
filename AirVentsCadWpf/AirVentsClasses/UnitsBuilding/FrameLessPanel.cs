@@ -733,13 +733,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             #region Оступы для отверстий заклепок, саморезов и винтов
 
             var отступОтветныхОтверстийШирина = 8;
-            var осьСаморезВинт = 8;
-            var осьОтверстийСаморезВинт = 5.3;
-            var осьПоперечныеОтверстия = 8.9;
+            var осьСаморезВинт = 9;
+            var осьОтверстийСаморезВинт = 7.5;// 5.3;
+            var осьПоперечныеОтверстия = 10.1;//8.9;
 
             if (скотч == "Со скотчем")
             {
-                осьПоперечныеОтверстия = 10.4;
+                осьПоперечныеОтверстия = 10.1;// 10.4;
             }
 
             switch (typeOfPanel[0])
@@ -748,9 +748,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 case "05": break;
 
                 default:
-                    отступОтветныхОтверстийШирина = 45;
+                    отступОтветныхОтверстийШирина = 47;
                     осьСаморезВинт = 10;
-                    осьОтверстийСаморезВинт = 7.3;
+                    осьОтверстийСаморезВинт = 8.5;//  7.3;
                     break;
             }
 
@@ -774,7 +774,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #region Диаметры отверстий
 
-            var диамЗаглушкаВинт = 11;//13.1
+            var диамЗаглушкаВинт = 13.1;
             var диамСаморезВинт = 3.3;
 
             switch (typeOfPanel[0])
@@ -903,11 +903,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                     // todo
                     swDoc.Extension.SelectByID2("D1@2-2@02-11-01-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
-                    ((Dimension)(swDoc.Parameter("D1@2-2@02-11-01-40-.Part"))).SystemValue = 0.067;
+                    ((Dimension)(swDoc.Parameter("D1@2-2@02-11-01-40-.Part"))).SystemValue = 0.065;
                     swDoc.EditRebuild3();
 
                     swDocExt.SelectByID2("D1@1-2@02-11-02-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
-                    ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.0643;
+                    ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.0635;
                     swDoc.EditRebuild3();
 
                     swDocExt.SelectByID2("Hole2", "FTRFOLDER", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
@@ -1022,7 +1022,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     {
                         // todo
                         swDocExt.SelectByID2("D1@1-2@02-11-02-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
-                        ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.0643;
+                        ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.0655;
                         swDoc.EditRebuild3();
 
                         swDocExt.SelectByID2("D1@2-2@02-11-01-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
@@ -1115,10 +1115,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 swDocExt.SelectByID2("Threaded Rivets-62@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                 swDocExt.SelectByID2("Washer 11371_gost-14@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                 swDocExt.SelectByID2("Washer 11371_gost-17@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-
-
-
-
 
             }
 
@@ -1268,54 +1264,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             #region Изменение деталей
 
             #region  Панель внешняя
-
-            //new FramelessPanelVault
-            //{
-            //    PartsParamsList = new List<FramelessPanelVault>
-            //    {
-            //        // Наружная панель
-            //        new FramelessPanelVault
-            //        {
-            //        PanelTypeName = typeOfPanel[1],
-            //        ElementType = 1,
-            //        Width = Convert.ToInt32(width),
-            //        Height = Convert.ToInt32(height),
-            //        Thickness = 40,
-            //        PartMat = Convert.ToInt32(materialP1[0]),
-            //        PartMatThick = Convert.ToDouble(materialP1[1].Replace('.', ',')),
-            //        Reinforcing = усиление,
-            //        Ral = покрытие[0],
-            //        CoatingType = покрытие[1],
-            //        CoatingClass = Convert.ToInt32(покрытие[2]),
-            //        Mirror = config.Contains("01"),
-            //        StepInsertion = расположениеВставок
-            //        },
-
-            //        // Внутрення панель
-            //        new FramelessPanelVault
-            //        {
-            //        PanelTypeName = typeOfPanel[1],
-            //        ElementType = 2,
-            //        Width = Convert.ToInt32(width),
-            //        Height = Convert.ToInt32(height),
-            //        Thickness = 40,
-            //        PartMat = Convert.ToInt32(materialP2[0]),
-            //        PartMatThick = Convert.ToDouble(materialP2[1].Replace('.', ',')),
-            //        Reinforcing = усиление,
-            //        Ral = покрытие[3],
-            //        CoatingType = покрытие[4],
-            //        CoatingClass = Convert.ToInt32(покрытие[5]),
-            //        Mirror = config.Contains("01"),
-            //        Step = расположениеПанелей,
-            //        StepInsertion = расположениеВставок
-            //        }
-            //    }
-            //}.AirVents_AddPanelFull();
-
-
-            var newName = панельВнешняя.NewName;
             
-
+            var newName = панельВнешняя.NewName;
             //var newName = String.Format("{0}{1}{2}",
             //    modelName + "-01-" + width + "-" + height + "-",
             //    "40-" + materialP1[0],
@@ -1338,50 +1288,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 bendRadius = Convert.ToDouble(bendParams[0]);
                 kFactor = Convert.ToDouble(bendParams[1]);
 
-                #region
-
-               // SetMeterial(materialP1[0], _swApp.ActivateDoc2("02-11-01-40-.SLDPRT", true, 0), "");
-
-                //todo Изменение параметров листового металла
-                
-                // MessageBox.Show(String.Format("Панель 1. толщина - {0}, радиус - {1}, к-фактор - {2}", materialP1[1].Replace('.', ','), bendRadius, kFactor));
-
-                //swDoc.Extension.SelectByID2("Листовой металл@02-11-01-40--1@" + nameAsm, "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
-                //var swSelMgr = swDoc.ISelectionManager;
-                //var swFeat = (Feature)swSelMgr.GetSelectedObject6(1, 0);
-                //swDoc.ClearSelection2(true);
-                //var sheetMetalFeatureData = (ISheetMetalFeatureData)swFeat.GetDefinition();
-                //MessageBox.Show(String.Format("Begin  BendRadius:{0} KFactor:{1} Thickness:{2}", sheetMetalFeatureData.BendRadius, sheetMetalFeatureData.KFactor, sheetMetalFeatureData.Thickness));
-                //sheetMetalFeatureData.BendRadius = bendRadius / 1000;
-                ////edge.BendRadius = 0.019;
-                //sheetMetalFeatureData.KFactor = kFactor;
-                //sheetMetalFeatureData.Thickness = Convert.ToDouble(materialP1[1].Replace('.', ',')) / 1000;
-                //var isModifyed =  swFeat.ModifyDefinition(sheetMetalFeatureData, swDoc, null);
-                //swDoc.ForceRebuild3(false);
-
-                //MessageBox.Show(String.Format("End  BendRadius: {0}({3}) KFactor: {1}({4}) Thickness: {2}({5}) "+isModifyed,
-                //    sheetMetalFeatureData.BendRadius, sheetMetalFeatureData.KFactor, sheetMetalFeatureData.Thickness,
-                //    bendRadius / 1000, kFactor, Convert.ToDouble(materialP1[1].Replace('.', ',')) / 1000));
-
-                //var swEdgeFlange = (EdgeFlangeFeatureData)swFeat.GetDefinition();
-                //MessageBox.Show(swEdgeFlange.OffsetDistance.ToString());
-                //swEdgeFlange.BendRadius = 0.0185;
-                //swEdgeFlange.BendRadius = 0.0185;
-                //MessageBox.Show(swEdgeFlange.OffsetDistance.ToString());
-
-                //try
-                //{
-                //    var setMaterials = new SetMaterials();
-                //    _swApp.ActivateDoc2("02-11-01-40-.SLDPRT", true, 0);
-                //    setMaterials.SetColor("00", покрытие[6], покрытие[1], покрытие[2], _swApp);// setMaterials.SetColor("00", "F6F6F6", "Шаргень", "2", _swApp);
-                //}
-                //catch (Exception exception)
-                //{
-                //    MessageBox.Show(exception.StackTrace);
-                //}
-
-                #endregion
-
                 SwPartParamsChangeWithNewName("02-11-01-40-",
                         String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new[,]
@@ -1392,7 +1298,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             
                             {"D1@1-4", Convert.ToString(колСаморезВинтВысота)},
                             
-                            {"D1@2-4", Convert.ToString(колСаморезВинтШирина)},    
+                            {"D1@2-4",  typeOfPanel[0] == "01" ?  Convert.ToString(колСаморезВинтШирина-1000) : Convert.ToString(колСаморезВинтШирина)},    
                             {"D1@3-4", Convert.ToString(колСаморезВинтВысота)},
 
                             {"D2@2-2", Convert.ToString(осьСаморезВинт)},
@@ -1410,7 +1316,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             
                             {"D1@Кривая1", Convert.ToString(колЗаклепокШирина)},
                             {"D1@Кривая2", Convert.ToString(колЗаклепокВысота)},
-                            
+
+                            {"D7@Ребро-кромка1", скотч == "Со скотчем" ? Convert.ToString(17.7):Convert.ToString(19.2)},
+
                             // Параметры листового металла
                             //{"D7@Листовой металл3", materialP1[1].Replace('.', ',')}
                             {"Толщина@Листовой металл", materialP1[1].Replace('.', ',')}
@@ -1418,37 +1326,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             //{"D2@Листовой металл3", Convert.ToString(kFactor*1000)}
                         });
                 VentsMatdll(materialP1, new[] { покрытие[6], покрытие[1], покрытие[2] }, newName);
-                //try
-                //{
-                //    _swApp.ActivateDoc2(newName, true, 0);
-                //    var setMaterials = new SetMaterials();
-
-                //    ToSQL.Conn = Settings.Default.ConnectionToSQL;
-                    
-                //    setMaterials.ApplyMaterial("",
-                //        "00", Convert.ToInt32(materialP1[0]), _swApp);
-                //    _swApp.IActiveDoc2.Save();
-                //    setMaterials.SetColor("00", покрытие[6], покрытие[1], покрытие[2], _swApp);//setMaterials.SetColor("00", "F6F6F6", "Шаргень", "2", _swApp);
-                //    _swApp.IActiveDoc2.Save();
-                //    try
-                //    {
-                //        string message;
-                //        setMaterials.CheckSheetMetalProperty("00", _swApp, out message);
-                //        if (message != null)
-                //        {
-                //            MessageBox.Show(message, newName);
-                //        }
-                //    }
-                //    catch (Exception exception)
-                //    {
-                //        MessageBox.Show(exception.StackTrace, exception.Message);
-                //    }
-                //}
-                //catch (Exception exception)
-                //{
-                //    MessageBox.Show(exception.StackTrace);
-                //}
-                //_swApp.IActiveDoc2.Save();
                 _swApp.CloseDoc(newName);
             }
 
@@ -1494,42 +1371,18 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
             else if (File.Exists(newPartPath) != true)
             {
-                #region To Delete
-                //SetMeterial(materialP2[0], _swApp.ActivateDoc2("02-11-02-40-.SLDPRT", true, 0), "");
-                //SetMaterials setMaterials = null;
-                //try
-                //{
-                //    setMaterials = new SetMaterials();
-                //}
-                //catch (Exception exception)
-                //{
-                //    MessageBox.Show(exception.StackTrace);
-                //}
-                //if (setMaterials != null)
-                //{
-                //    try
-                //    {
-                //        _swApp.ActivateDoc2("02-11-02-40-.SLDPRT", true, 0);
-                //        setMaterials.SetColor("00", покрытие[7], покрытие[4], покрытие[5], _swApp);
-                //    }
-                //    catch (Exception exception)
-                //    {
-                //        MessageBox.Show(exception.ToString());
-                //    }
-                //}
-                #endregion
                 SwPartParamsChangeWithNewName("02-11-02-40-",
                         String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new[,]
                         {
-                            {"D1@Эскиз1", Convert.ToString(ширинаПанели-44)},
-                            {"D2@Эскиз1", Convert.ToString(высотаПанели-44)},
+                            {"D1@Эскиз1", Convert.ToString(ширинаПанели-40)},
+                            {"D2@Эскиз1", Convert.ToString(высотаПанели-40)},
                             
                             {"D1@1-3", Convert.ToString(колСаморезВинтШирина)},
                             
                             {"D1@1-4", Convert.ToString(колСаморезВинтВысота)},
                             
-                            {"D1@Кривая5", Convert.ToString(колСаморезВинтШирина2)},
+                            {"D1@Кривая5", typeOfPanel[0] != "01" ?  Convert.ToString(колСаморезВинтШирина-1000) : Convert.ToString(колСаморезВинтШирина2)},
                             {"D1@Кривая6", Convert.ToString(колСаморезВинтВысота)},
                             {"D1@Кривая4", Convert.ToString(колСаморезВинтВысота)},
                             
@@ -1542,7 +1395,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                             {"D1@2-3", Convert.ToString(колЗаклепокШирина)},
 
-
                             {"D1@Кривая1", Convert.ToString(колЗаклепокШирина)},
                             {"D1@Кривая2", Convert.ToString(колЗаклепокВысота)},
 
@@ -1551,16 +1403,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"D1@Кривая7", Convert.ToString(колЗаклепокВысота)},
 
                             {"D3@Эскиз56", Convert.ToString(отступОтветныхОтверстийШирина)},
-
-                            //{"D3@Эскиз35", Convert.ToString(осьОтветныхОтверстийВ)},
-                            //{"D2@Эскиз36", Convert.ToString(осьОтветныхОтверстийН)},
-                            
-                            //{"D1@Эскиз35", Convert.ToString(диаметрОтветныхОтверстийШиринаВ)},
-                            //{"D2@Эскиз35", Convert.ToString(отступОтветныхОтверстийШирина)},
-                            //{"D1@Эскиз36", Convert.ToString(диаметрОтветныхОтверстийШиринаН)},
-                            //{"D7@Ребро-кромка1", Convert.ToString(20)},//18,7  
-                         
-                            //расстояниеL, out количествоВинтов
                             
                             // Расмеры для отверсти под клепальные гайки под съемные панели
                             {"G0@Эскиз49", Convert.ToString(OutVal.G0)},
@@ -1575,36 +1417,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"L3@Эскиз49", Convert.ToString(OutVal.L3)},
                             {"D1@Кривая12", Convert.ToString(OutVal.D3)},
 
-                            // Параметры листового металла
-                            //{"D7@Листовой металл3", materialP2[1].Replace('.', ',')}
-                            
                             {"Толщина@Листовой металл", materialP2[1].Replace('.', ',')}
-                            //{"D1@Листовой металл3", Convert.ToString(bendRadius*1.1)},
-                            //{"D2@Листовой металл3", Convert.ToString(kFactor*1000)}
                         });
                 VentsMatdll(materialP1, new[] { покрытие[7], покрытие[4], покрытие[5] }, newName);
-                //try
-                //{
-                //    _swApp.ActivateDoc2(newName, true, 0);
-                //    var setMaterials = new SetMaterials();
-                //    ToSQL.Conn = Settings.Default.ConnectionToSQL;
-                //    setMaterials.ApplyMaterial("",
-                //        "00", Convert.ToInt32(materialP2[0]), _swApp);
-                //    _swApp.IActiveDoc2.Save();
-                //    setMaterials.SetColor("00", покрытие[7], покрытие[4], покрытие[5], _swApp);
-                //    _swApp.IActiveDoc2.Save();
-                //    string message;
-                //    setMaterials.CheckSheetMetalProperty("00", _swApp, out message);
-                //    if (message != null)
-                //    {
-                //        MessageBox.Show(message, newName);
-                //    }
-                //}
-                //catch (Exception exception)
-                //{
-                //    MessageBox.Show(exception.StackTrace);
-                //}
-                //_swApp.IActiveDoc2.Save();
                 _swApp.CloseDoc(newName);
 
             }
@@ -1741,6 +1556,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #region Скотч
 
+            const double rizn = 3;//5.4
+
             if (скотч == "Со скотчем")
             {
                 
@@ -1765,8 +1582,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             newName),
                         new[,]
                         {
-                            {"D2@Эскиз1", Convert.ToString(высотаПанели - 5.4)},
-                            {"D1@Эскиз1", Convert.ToString(ширинаПанели - 5.4)}
+                            {"D2@Эскиз1", Convert.ToString(высотаПанели - rizn)},
+                            {"D1@Эскиз1", Convert.ToString(ширинаПанели - rizn)}
                         });
                     _swApp.CloseDoc(newName);
                 }
@@ -1799,8 +1616,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new[,]
                         {
-                            {"D2@Эскиз1", Convert.ToString(высотаПанели - 5.4)},
-                            {"D1@Эскиз1", Convert.ToString(ширинаПанели - 5.4)}
+                            {"D2@Эскиз1", Convert.ToString(высотаПанели - rizn)},
+                            {"D1@Эскиз1", Convert.ToString(ширинаПанели - rizn)}
                         });
                 _swApp.CloseDoc(newName);
             }
@@ -1838,10 +1655,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
 
-            foreach (var newComponent in NewComponents)
-            {
-                PartInfoToXml(newComponent.FullName);
-            }
+            //foreach (var newComponent in NewComponents)
+            //{
+            //    PartInfoToXml(newComponent.FullName);
+            //}
             
 
             #endregion
@@ -2417,7 +2234,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         {
             ширина = посадочнаяШирина - 2;
             высота = посадочнаяВысота - 2;
-            расстояниеL = посадочнаяШирина - 136;
+            расстояниеL = посадочнаяШирина - 132;
 
             количествоВинтов = 5000;
 
@@ -2557,8 +2374,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             // Зазоры по умолчанию
             OutVal.G0 = 46;
-            OutVal.G1 = 136;
-            OutVal.G2 = 136;
+            OutVal.G1 = 132;
+            OutVal.G2 = 132;
 
             if (Math.Abs(InVal.G0) > 0)
             {

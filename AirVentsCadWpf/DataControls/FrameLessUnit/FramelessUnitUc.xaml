@@ -334,9 +334,9 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                         <ComboBox x:Name="Отступ2" SelectedIndex="0"  HorizontalAlignment="Center" PreviewTextInput="NumberValidationTextBox"  VerticalAlignment="Center" Text="870" Grid.Column="3"  HorizontalContentAlignment="Center" MinWidth="40" TabIndex="5" KeyDown="ШиринаПанели_KeyDown">
-                                            <ComboBoxItem Content="136" ToolTip="Стандартный зазор"/>
-                                            <ComboBoxItem Content="150" ToolTip="Профиль 1"/>
-                                            <ComboBoxItem Content="180" ToolTip="Профиль 2"/>
+                                            <ComboBoxItem Content="132" ToolTip="Стандартный зазор"/>
+                                            <ComboBoxItem Content="132" ToolTip="Профиль 1"/>
+                                            <ComboBoxItem Content="132" ToolTip="Профиль 2"/>
                                             <ComboBoxItem Content="Задать" ToolTip="Задать отступ вручную в мм"/>
                                         </ComboBox>
                                         <Label x:Name="Отступ2L" Content="Отступ2" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="2" Margin="3,0,0,0" Padding="2"/>
@@ -351,9 +351,9 @@
                                     <Label   x:Name="Отступ3L"  Content="Отступ3" HorizontalAlignment="Center" Margin="2" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                 						Grid.Row="0" Grid.Column="3" Padding="2"/>
                                     <ComboBox x:Name="Отступ3" SelectedIndex="0"  HorizontalAlignment="Center" PreviewTextInput="NumberValidationTextBox"  VerticalAlignment="Center" Text="870" Grid.Column="5"  HorizontalContentAlignment="Center" MinWidth="40" TabIndex="5" KeyDown="ШиринаПанели_KeyDown">
-                                        <ComboBoxItem Content="136" ToolTip="Стандартный зазор"/>
+                                        <ComboBoxItem Content="132" ToolTip="Стандартный зазор"/>
                                         <ComboBoxItem Content="136" ToolTip="Профиль 1"/>
-                                        <ComboBoxItem Content="180" ToolTip="Профиль 2"/>
+                                        <ComboBoxItem Content="185" ToolTip="Профиль 2"/>
                                         <ComboBoxItem Content="Задать" ToolTip="Задать отступ вручную в мм"/>
                                     </ComboBox>
                                 </Grid>
