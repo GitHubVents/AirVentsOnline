@@ -516,7 +516,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     {
                         panelRemovable1,
                         panelRemovable2,
-                        panelRemovable3
+                        panelRemovable3,
+                        ПрименениеСкотча.Text
                     };
 
 

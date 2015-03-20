@@ -754,6 +754,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     break;
             }
 
+
+            // Поправка на толщину
+
+
             //if (typeOfPanel != "04" && typeOfPanel != "05")
             //{
             //    отступОтветныхОтверстийШирина = 45;
@@ -865,20 +869,19 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                     swDocExt.SelectByID2("Threaded Rivets-60@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                     swDocExt.SelectByID2("Threaded Rivets-61@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Washer 11371_gost-15@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Washer 11371_gost-16@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    
+                    //swDocExt.SelectByID2("Washer 11371_gost-15@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Washer 11371_gost-16@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
 
 
-                    swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-1@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-3@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-4@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-32@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-1@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-3@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-4@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-32@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
 
-                    swDocExt.SelectByID2("Винт саморез DIN 7504 K-2@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Винт саморез DIN 7504 K-3@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Винт саморез DIN 7504 K-4@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                    swDocExt.SelectByID2("Винт саморез DIN 7504 K-31@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Винт саморез DIN 7504 K-2@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Винт саморез DIN 7504 K-3@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Винт саморез DIN 7504 K-4@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Винт саморез DIN 7504 K-31@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
 
                     swDocExt.SelectByID2("1-1@02-11-01-40--1@02-11-40-1", "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
                     swDocExt.SelectByID2("1-2@02-11-01-40--1@02-11-40-1", "SKETCH", 0, 0, 0, true, 0, null, 0);
@@ -961,8 +964,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     // Одна ручка
                     if (Convert.ToInt32(height) < 825)
                     {
-                        swDocExt.SelectByID2("Washer 11371_gost-12@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
-                        swDocExt.SelectByID2("Washer 11371_gost-13@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
+                        //swDocExt.SelectByID2("Washer 11371_gost-12@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
+                        //swDocExt.SelectByID2("Washer 11371_gost-13@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
                         swDocExt.SelectByID2("SC GOST 17473_gost-12@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                         swDocExt.SelectByID2("SC GOST 17473_gost-13@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                         swDoc.Extension.SelectByID2("Вырез-Вытянуть19@02-11-01-40--1@" + nameAsm, "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
@@ -1005,10 +1008,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     swDocExt.SelectByID2("Вырез-Вытянуть15@02-11-01-40--1@" + nameAsm, "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
                     swDocExt.DeleteSelection2(deleteOption);
 
-                    swDocExt.SelectByID2("Washer 11371_gost-12@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                    swDoc.EditDelete();
-                    swDocExt.SelectByID2("Washer 11371_gost-13@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                    swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Washer 11371_gost-12@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    //swDoc.EditDelete();
+                    //swDocExt.SelectByID2("Washer 11371_gost-13@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    //swDoc.EditDelete();
                     swDocExt.SelectByID2("SC GOST 17473_gost-12@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0);
                     swDoc.EditDelete();
                     swDocExt.SelectByID2("SC GOST 17473_gost-13@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0);
@@ -1098,8 +1101,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             {
                 swDocExt.SelectByID2("SC GOST 17473_gost-1@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
                 swDocExt.SelectByID2("SC GOST 17473_gost-2@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
-                swDocExt.SelectByID2("Washer 11371_gost-1@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
-                swDocExt.SelectByID2("Washer 11371_gost-2@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                //swDocExt.SelectByID2("Washer 11371_gost-1@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
+                //swDocExt.SelectByID2("Washer 11371_gost-2@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
 
                 //swDocExt.SelectByID2("ВНС-901.40.001-1@" + nameAsm, "COMPONENT", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
                 //swDocExt.SelectByID2("ВНС-901.40.001-2@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
@@ -1109,12 +1112,12 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                 swDocExt.SelectByID2("Threaded Rivets-60@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                 swDocExt.SelectByID2("Threaded Rivets-61@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                swDocExt.SelectByID2("Washer 11371_gost-15@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                swDocExt.SelectByID2("Washer 11371_gost-16@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                //swDocExt.SelectByID2("Washer 11371_gost-15@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                //swDocExt.SelectByID2("Washer 11371_gost-16@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                 swDocExt.SelectByID2("Threaded Rivets-59@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
                 swDocExt.SelectByID2("Threaded Rivets-62@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                swDocExt.SelectByID2("Washer 11371_gost-14@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
-                swDocExt.SelectByID2("Washer 11371_gost-17@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                //swDocExt.SelectByID2("Washer 11371_gost-14@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
+                //swDocExt.SelectByID2("Washer 11371_gost-17@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0); swDoc.EditDelete();
 
             }
 
@@ -1139,10 +1142,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 swDoc.EditSuppress2(); swDoc.EditRebuild3();
                 swDocExt.SelectByID2("1-0@02-11-02-40--1@" + nameAsm, "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
                 swDoc.EditSuppress2(); swDoc.EditRebuild3();
-                swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-32@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0);
-                swDoc.EditDelete();
-                swDocExt.SelectByID2("Винт саморез DIN 7504 K-31@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0);
-                swDoc.EditDelete();
+                //swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-32@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                //swDoc.EditDelete();
+                //swDocExt.SelectByID2("Винт саморез DIN 7504 K-31@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                //swDoc.EditDelete();
 
                 // Погашение отверстий под клепальные гайки
                 swDoc.Extension.SelectByID2("Вырез-Вытянуть20@02-11-02-40--1@02-11-40-1", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
@@ -1164,10 +1167,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 swDoc.EditSuppress2(); swDoc.EditRebuild3();
                 swDocExt.SelectByID2("1-1@02-11-02-40--1@" + nameAsm, "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
                 swDoc.EditSuppress2(); swDoc.EditRebuild3();
-                swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-3@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0);
-                swDoc.EditDelete();
-                swDocExt.SelectByID2("Винт саморез DIN 7504 K-3@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0);
-                swDoc.EditDelete();
+                //swDocExt.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-3@" + nameAsm, "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                //swDoc.EditDelete();
+                //swDocExt.SelectByID2("Винт саморез DIN 7504 K-3@02-11-40-1", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                //swDoc.EditDelete();
 
                 // Погашение отверстий под клепальные гайки
                 swDoc.Extension.SelectByID2("Вырез-Вытянуть19@02-11-02-40--1@02-11-40-1", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);

@@ -96,7 +96,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             string height)
         {
             #region Start
-          
+
+
             var unitAsMmodel = String.Format(@"{0}{1}\{2}", Settings.Default.SourceFolder, FrameLessFolder, ModelName);
 
             var framelessBlockNewName = String.Format
@@ -144,6 +145,253 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #endregion
 
+            #region Метизы
+
+            switch (панелиСъемные[3])
+            {
+                case "Со скотчем":
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-1@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    break;
+                default:
+                    swDoc.Extension.SelectByID2("Threaded Rivets-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets-1@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Threaded Rivets-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    break;
+            }
+
+
+            switch (side)
+            {
+                case "левая":
+
+                    #region Верхняя и нижняя панели
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-18@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-53@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-53@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    #endregion
+
+                    #region Передняя и задняя панели
+
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-74@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-39@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-75@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-40@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-40@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Винт и заглушка правая панель", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("ЗеркальныйКомпонент8", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Винт и заглушка правая панель массив", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+                    #endregion
+
+                    #region Съемные панели
+
+                    if (String.IsNullOrEmpty(панелиСъемные[2]))
+                    {
+                        // Удаление 3-й панели
+
+                        MessageBox.Show("Удаление 3-й панели", "левая");
+                        swDoc.Extension.SelectByID2("Третья панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                        swDoc.EditDelete();
+                        swDoc.Extension.SelectByID2("SC GOST 17473_gost-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Washer 11371_gost-41@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Threaded Rivets Increased-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Threaded Rivets-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Threaded Rivets-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                        swDoc.EditDelete();
+
+                        if (String.IsNullOrEmpty(панелиСъемные[1]))
+                        {
+                            // Удаление 2-й панели
+
+                            MessageBox.Show("Удаление 2-й панели", "левая");
+                            swDoc.Extension.SelectByID2("Вторая панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                            swDoc.EditDelete();
+                            swDoc.Extension.SelectByID2("SC GOST 17473_gost-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Washer 11371_gost-37@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Threaded Rivets Increased-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Threaded Rivets-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Threaded Rivets-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                            swDoc.EditDelete();
+                        }
+                    }
+
+
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-38@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+                    swDoc.Extension.SelectByID2("Вторая панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("SC GOST 17473_gost-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.EditDelete();
+
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-38@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.ShowConfiguration2("Рифленая клепальная гайка М8");
+                    swDoc.Extension.SelectByID2("Threaded Rivets-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Вторая панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("SC GOST 17473_gost-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-42@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Третья панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("SC GOST 17473_gost-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-32@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Первая панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Третья панель лево зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+
+
+                    swDoc.Extension.SelectByID2("DerivedCrvPattern6", "COMPPATTERN", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("DerivedCrvPattern7", "COMPPATTERN", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("DerivedCrvPattern7", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+
+
+                    #endregion
+
+                    break;
+                case "правая":
+
+                    #region Съемные панели
+
+                    if (String.IsNullOrEmpty(панелиСъемные[2]))
+                    {
+                        // Удаление 3-й панели
+
+                        MessageBox.Show("Удаление 3-й панели", "правая");
+                        swDoc.Extension.SelectByID2("Третья панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                        swDoc.EditDelete();
+                        swDoc.Extension.SelectByID2("SC GOST 17473_gost-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Threaded Rivets-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Threaded Rivets Increased-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Washer 11371_gost-42@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                        swDoc.Extension.SelectByID2("Washer 11371_gost-42@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                        swDoc.EditDelete();
+
+                        if (String.IsNullOrEmpty(панелиСъемные[1]))
+                        {
+                            // Удаление 2-й панели
+
+                            MessageBox.Show("Удаление 2-й панели", "правая");
+
+                            swDoc.Extension.SelectByID2("Вторая панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                            swDoc.EditDelete();
+                            swDoc.Extension.SelectByID2("SC GOST 17473_gost-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Washer 11371_gost-38@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Threaded Rivets Increased-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Threaded Rivets-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                            swDoc.Extension.SelectByID2("Threaded Rivets-8@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                            swDoc.EditDelete();
+                        }
+                    }
+
+                    swDoc.Extension.SelectByID2("SC GOST 17473_gost-1@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-1@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-31@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets-1@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets-1@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Первая панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("SC GOST 17473_gost-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-37@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Вторая панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("SC GOST 17473_gost-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Washer 11371_gost-41@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets Increased-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Threaded Rivets-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Третья панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Первая панель право зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Третья панель право зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+
+                    swDoc.Extension.SelectByID2("DerivedCrvPattern4", "COMPPATTERN", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("DerivedCrvPattern5", "COMPPATTERN", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("DerivedCrvPattern5", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+                    #endregion
+
+                    #region Верхняя и нижняя панели
+
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-37@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-2@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    #endregion
+
+                    #region Передняя и задняя панели
+
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-37@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-72@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Заглушка пластикова для т.о. 16х13 сір.-73@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-38@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт саморез DIN 7504 K-38@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("Винт и заглушка левая панель", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("ЗеркальныйКомпонент6", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.Extension.SelectByID2("Винт и заглушка левая панель массив", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+                    swDoc.Extension.SelectByID2("ЗеркальныйКомпонент6", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
+                    swDoc.EditDelete();
+
+                    #endregion
+
+                    break;
+            }
+
+            #endregion
+
             #region Панели
 
             #region Сторона обслуживания
@@ -162,7 +410,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 panelLeft1 = панелиСъемные[0];
                 panelRight1 = панельНесъемная;
             }
-
 
             #endregion
 
