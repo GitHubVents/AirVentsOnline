@@ -58,6 +58,19 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней\nСъемной(ых)", Content = "НВЗС"}
             };
 
+
+          //  DataGrid1.ItemsSource = new List<Panels> { new Panels() }.ToList();
+
+
+            var images =
+                new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("Image1", @"\AHU Selection\br_icon_teaser_cad_sr_pos_150(1).ico"),
+                    new KeyValuePair<string, string>("Image2", @"D:\Photos\tn-36.jpg"),
+                    new KeyValuePair<string, string>("Image3", @"D:\Photos\tn-37.jpg")
+                };
+
+            DataGrid1.ItemsSource = images;
             //ТипУстановкиПромежуточныеВставки.ItemsSource = new List<ComboBoxItem>
             //{
             //    new ComboBoxItem {ToolTip = "Отсутствует", Content = "-"},
@@ -313,6 +326,14 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             HeightU.IsReadOnly = true;
             WidthU.IsEnabled = false;
             HeightU.IsEnabled = false;
+        }
+
+
+        public class Panels
+        {
+            public string Name { get; set; }
+            public string Value = @"AHU Selection\br_icon_teaser_cad_sr_pos_150(1).ico";
+            //  public Image Picture {get {return new Image().Source = new BitmapImage(new Uri(@"C:\"), UriKind.Absolute))}}
         }
 
         void BUILDING_Click(object sender, RoutedEventArgs e)

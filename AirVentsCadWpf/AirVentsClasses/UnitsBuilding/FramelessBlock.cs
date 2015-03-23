@@ -216,7 +216,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     {
                         // Удаление 3-й панели
 
-                        MessageBox.Show("Удаление 3-й панели", "левая");
+                        //MessageBox.Show("Удаление 3-й панели", "левая");
                         swDoc.Extension.SelectByID2("Третья панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
                         swDoc.EditDelete();
                         swDoc.Extension.SelectByID2("SC GOST 17473_gost-11@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
@@ -230,7 +230,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         {
                             // Удаление 2-й панели
 
-                            MessageBox.Show("Удаление 2-й панели", "левая");
+                      //      MessageBox.Show("Удаление 2-й панели", "левая");
                             swDoc.Extension.SelectByID2("Вторая панель право", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
                             swDoc.EditDelete();
                             swDoc.Extension.SelectByID2("SC GOST 17473_gost-7@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
@@ -297,7 +297,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     {
                         // Удаление 3-й панели
 
-                        MessageBox.Show("Удаление 3-й панели", "правая");
+//                        MessageBox.Show("Удаление 3-й панели", "правая");
                         swDoc.Extension.SelectByID2("Третья панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
                         swDoc.EditDelete();
                         swDoc.Extension.SelectByID2("SC GOST 17473_gost-12@01 - Frameless Design 40mm", "COMPONENT", 0, 0, 0, true, 0, null, 0);
@@ -311,7 +311,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         {
                             // Удаление 2-й панели
 
-                            MessageBox.Show("Удаление 2-й панели", "правая");
+                          //  MessageBox.Show("Удаление 2-й панели", "правая");
 
                             swDoc.Extension.SelectByID2("Вторая панель лево", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
                             swDoc.EditDelete();

@@ -734,12 +734,12 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             var отступОтветныхОтверстийШирина = 8;
             var осьСаморезВинт = 9;
-            var осьОтверстийСаморезВинт = 7.5;// 5.3;
+            var осьОтверстийСаморезВинт = typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? 12.0 : 11.0; // 7.5;// 5.3;
             var осьПоперечныеОтверстия = 10.1;//8.9;
 
             if (скотч == "Со скотчем")
             {
-                осьПоперечныеОтверстия = 10.1;// 10.4;
+                осьПоперечныеОтверстия =  10.1;// 10.4;
             }
 
             switch (typeOfPanel[0])
@@ -750,7 +750,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 default:
                     отступОтветныхОтверстийШирина = 47;
                     осьСаморезВинт = 10;
-                    осьОтверстийСаморезВинт = 8.5;//  7.3;
+                    осьОтверстийСаморезВинт = 10.0; //8.5;//  7.3;
                     break;
             }
 
@@ -910,7 +910,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     swDoc.EditRebuild3();
 
                     swDocExt.SelectByID2("D1@1-2@02-11-02-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
-                    ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.0635;
+                    ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? 0.044 : 0.045;
                     swDoc.EditRebuild3();
 
                     swDocExt.SelectByID2("Hole2", "FTRFOLDER", 0, 0, 0, false, 0, null, 0); swDoc.EditDelete();
@@ -1025,7 +1025,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     {
                         // todo
                         swDocExt.SelectByID2("D1@1-2@02-11-02-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
-                        ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.0655;
+                        ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.047;
                         swDoc.EditRebuild3();
 
                         swDocExt.SelectByID2("D1@2-2@02-11-01-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
@@ -1378,10 +1378,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new[,]
                         {
-                            {"D1@Эскиз1", Convert.ToString(ширинаПанели-40)},
-                            {"D2@Эскиз1", Convert.ToString(высотаПанели-40)},
+                            {"D1@Эскиз1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(ширинаПанели-42) : Convert.ToString(ширинаПанели-40)},
+                            {"D2@Эскиз1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(высотаПанели-42) : Convert.ToString(высотаПанели-40)},
                             
-                            {"D1@1-3", Convert.ToString(колСаморезВинтШирина)},
+                            {"D1@1-3", typeOfPanel[0] == "01" ?  Convert.ToString(колСаморезВинтШирина-1000) : 
+                                Convert.ToString(колСаморезВинтШирина)},
                             
                             {"D1@1-4", Convert.ToString(колСаморезВинтВысота)},
                             
@@ -1401,8 +1402,20 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"D1@Кривая1", Convert.ToString(колЗаклепокШирина)},
                             {"D1@Кривая2", Convert.ToString(колЗаклепокВысота)},
 
+                            {"D3@2-1-1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(54.0) : Convert.ToString(55.0)},
+                            {"D2@Эскиз29", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(54.0) : Convert.ToString(55.0)},
+                             
+                            {"D2@Эскиз43", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(11.0) : Convert.ToString(10.0)},
+                            
+                            {"D1@Эскиз29", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(11.3) : Convert.ToString(10.3)},
+                            {"D1@2-1-1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(11.3) : Convert.ToString(10.3)},
+                            {"D2@Эскиз39", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(11.3) : Convert.ToString(10.3)},
+                            {"D1@Эскиз39", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(5.0) : Convert.ToString(4.0)},
+                            
+                            //   
                             //Рамка усиливающая
-                            {"D1@Кривая9", Convert.ToString(колСаморезВинтШирина)},
+                            {"D1@Кривая9", typeOfPanel[0] == "01" ?  Convert.ToString(колСаморезВинтШирина-1000) : 
+                                Convert.ToString(колСаморезВинтШирина)},
                             {"D1@Кривая7", Convert.ToString(колЗаклепокВысота)},
 
                             {"D3@Эскиз56", Convert.ToString(отступОтветныхОтверстийШирина)},
@@ -1439,11 +1452,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 bendRadius = Convert.ToDouble(bendParams[0]);
                 kFactor = Convert.ToDouble(bendParams[1]);
 
-                var heightF = 38.0;
-                if (скотч == "Со скотчем")
-                {
-                    heightF = 39.5;
-                }
+                const double heightF = 38.0;
+                //if (скотч == "Со скотчем")
+                //{
+                //    heightF = 39.5;
+                //}
 
                 #region  Усиливающая рамка по ширине
                 
@@ -1468,10 +1481,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                             new[,]
                         {
-                            {"D2@Эскиз1", Convert.ToString(ширинаПанели - 52.6 + 2)},
+                            {"D2@Эскиз1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(ширинаПанели-48) : Convert.ToString(ширинаПанели-46)},
+                                //Convert.ToString(ширинаПанели - 46)},
                             {"D1@Эскиз1", Convert.ToString(heightF)},
 
-                            {"D1@Кривая3", Convert.ToString(колСаморезВинтШирина2)},
+                            {"D1@Кривая3", Convert.ToString(колСаморезВинтШирина2-1000) == "1" ?  "0" :  Convert.ToString(колСаморезВинтШирина2-1000)},
                             {"D1@Кривая2", Convert.ToString(колСаморезВинтШирина)},
 
                             {"Толщина@Листовой металл", thiknessF},     
@@ -1507,7 +1521,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             new[,]
                         {
                             // Габарит
-                            {"D3@Эскиз1", Convert.ToString(высотаПанели - 4 + 2.4 - 1.8)},
+                            {"D3@Эскиз1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(высотаПанели-2) : Convert.ToString(высотаПанели)},
                             {"D1@Эскиз1", Convert.ToString(heightF)},
                             // Отверстия
                             {"D1@Кривая2", Convert.ToString(колСаморезВинтВысота)},
