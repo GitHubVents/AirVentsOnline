@@ -974,7 +974,7 @@ namespace AirVentsCadWpf.DataControls
                 AssemblyPath = _assemblyPath
             };
             
-            //  var bomTable = _bomClass.BomListDocMgrTopLevel(config);
+            //  var bomTable = _bomClass.BomListDocMgrTopLevel(Config);
 
             try
             {

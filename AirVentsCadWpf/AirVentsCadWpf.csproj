@@ -27,7 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Vents</PublisherName>
-    <ApplicationRevision>128</ApplicationRevision>
+    <ApplicationRevision>132</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -212,6 +212,10 @@
     <Compile Include="DataControls\RoofUC.xaml.cs">
       <DependentUpon>RoofUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataControls\Specification\BomFormat.cs" />
+    <Compile Include="DataControls\Specification\SpecificationBomUc.xaml.cs">
+      <DependentUpon>SpecificationBomUc.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataControls\SpigotUC.xaml.cs">
       <DependentUpon>SpigotUC.xaml</DependentUpon>
     </Compile>
@@ -341,6 +345,10 @@
     <Page Include="DataControls\RoofUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataControls\Specification\SpecificationBomUc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DataControls\Unit50Uc.xaml">
       <SubType>Designer</SubType>

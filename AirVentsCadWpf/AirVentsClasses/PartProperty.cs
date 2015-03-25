@@ -219,8 +219,6 @@ namespace AirVentsCadWpf.AirVentsClasses
             public string ПоследняяВерсия { get; set; }
             public string Идентификатор { get; set; }
 
-
-
             // DocManager
             public string МатериалЦми { get; set; }
             public string ТолщинаЛиста { get; set; }

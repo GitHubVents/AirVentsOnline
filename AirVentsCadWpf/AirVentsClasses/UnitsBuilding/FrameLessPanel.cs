@@ -121,12 +121,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     CoatingType = покрытие[1],
                     CoatingClass = Convert.ToInt32(покрытие[2]),
                     Mirror = config.Contains("01"),
+                    StickyTape = скотч.Contains("Со скотчем"),
                     StepInsertion = расположениеВставок
                 };
             var id = панельВнешняя.AddPart();
             partIds.Add(id);
             панельВнешняя.NewName = "02-" + typeOfPanel[0] + "-1-" + id;
-
+            
             var панельВнутренняя =
                 new AddingPanel
                 {
@@ -143,6 +144,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     CoatingClass = Convert.ToInt32(покрытие[5]),
                     Mirror = config.Contains("01"),
                     Step = расположениеПанелей,
+                    StickyTape = скотч.Contains("Со скотчем"),
                     StepInsertion = расположениеВставок
                 };
             id = панельВнутренняя.AddPart();
@@ -279,12 +281,15 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 Step = расположениеПанелей,
                 StepInsertion = расположениеВставок,
                 Reinforcing = усиление,
+                StickyTape = скотч.Contains("Со скотчем"),
 
                 PanelNumber = newId
             }))
             {
                 idAsm =  сборка.Add();
             }
+
+
 
             #region 
 
@@ -315,7 +320,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //       CoatingClassOut = Convert.ToInt32(покрытие[2]),
             //       CoatingClassIn = Convert.ToInt32(покрытие[2]),
 
-            //       Mirror = config.Contains("01"),
+            //       Mirror = Config.Contains("01"),
             //       Step = расположениеПанелей,
             //       StepInsertion = расположениеВставок,
             //       Reinforcing = усиление,
@@ -354,7 +359,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //       CoatingClassIn = Convert.ToInt32(покрытие[5]),
 
 
-            //       Mirror = config.Contains("01"),
+            //       Mirror = Config.Contains("01"),
             //       Step = расположениеПанелей,
             //       StepInsertion = расположениеВставок,
             //       Reinforcing = усиление,
@@ -392,7 +397,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //      CoatingClassIn = Convert.ToInt32(покрытие[5]),
 
 
-            //      Mirror = config.Contains("01"),
+            //      Mirror = Config.Contains("01"),
             //      Step = расположениеПанелей,
             //      StepInsertion = расположениеВставок,
             //      Reinforcing = усиление,
@@ -429,7 +434,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //      CoatingClassIn = Convert.ToInt32(покрытие[5]),
 
 
-            //      Mirror = config.Contains("01"),
+            //      Mirror = Config.Contains("01"),
             //      Step = расположениеПанелей,
             //      StepInsertion = расположениеВставок,
             //      Reinforcing = усиление,
@@ -466,7 +471,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //      CoatingClassIn = Convert.ToInt32(покрытие[5]),
 
 
-            //      Mirror = config.Contains("01"),
+            //      Mirror = Config.Contains("01"),
             //      Step = расположениеПанелей,
             //      StepInsertion = расположениеВставок,
             //      Reinforcing = усиление,
@@ -503,7 +508,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //      CoatingClassIn = Convert.ToInt32(покрытие[5]),
 
 
-            //      Mirror = config.Contains("01"),
+            //      Mirror = Config.Contains("01"),
             //      Step = расположениеПанелей,
             //      StepInsertion = расположениеВставок,
             //      Reinforcing = усиление,
@@ -540,7 +545,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //       CoatingClassIn = Convert.ToInt32(покрытие[5]),
 
 
-            //       Mirror = config.Contains("01"),
+            //       Mirror = Config.Contains("01"),
             //       Step = расположениеПанелей,
             //       StepInsertion = расположениеВставок,
             //       Reinforcing = усиление,
@@ -578,6 +583,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             
             var обозначениеНовойПанели = "02-" + typeOfPanel[0] + "-" + idAsm;
 
+             //MessageBox.Show(string.Format("{0}\n{1}\n{2}\n{3}\n",
+             //    панельВнешняя.NewName,
+             //    панельВнутренняя.NewName,
+             //    усиливающаяРамкаПоВысоте.NewName,
+             //    усиливающаяРамкаПоШирине.NewName),
+             //    обозначениеНовойПанели + "  " + скотч.Contains("Со скотчем"));
+            
             #region
 
             //var обозначениеНовойПанели = String.Format(
@@ -1672,10 +1684,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
 
-            //foreach (var newComponent in NewComponents)
-            //{
-            //    PartInfoToXml(newComponent.FullName);
-            //}
+            foreach (var newComponent in NewComponents)
+            {
+               // MessageBox.Show(newComponent.Name);
+                PartInfoToXml(newComponent.FullName);
+            }
             
 
             #endregion
@@ -1853,6 +1866,15 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             /// The Reinforcing.
             /// </value>
             public bool Reinforcing { get; set; }
+            
+            /// <summary>
+            /// Gets or sets the sticky tape.
+            /// </summary>
+            /// <value>
+            /// The sticky tape.
+            /// </value>
+            public bool StickyTape { get; set; }
+            
             /// <summary>
             /// Цвет покраски RAL
             /// </summary>
@@ -2099,17 +2121,21 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                         panelMatThickOut : PanelMatThickOut,
                         panelMatThickIn : PanelMatThickIn,
-                        ralOut : RalOut,
-                        ralIn : RalIn,
-                        coatingTypeOut : CoatingTypeOut,
-                        coatingTypeIn : CoatingTypeIn,
-                        coatingClassOut : CoatingClassOut,
-                        coatingClassIn : CoatingClassIn,
+
+
+                        //ralOut : RalOut,
+                        //ralIn : RalIn,
+                        //coatingTypeOut : CoatingTypeOut,
+                        //coatingTypeIn : CoatingTypeIn,
+                        //coatingClassOut : CoatingClassOut,
+                        //coatingClassIn : CoatingClassIn,
 
                         mirror: Mirror.HasValue ? Mirror : false,
                         step : string.IsNullOrEmpty(Step) ? "0" : Step,
                         stepInsertion :  string.IsNullOrEmpty(StepInsertion) ? "0" : StepInsertion,
                         reinforcing01: Reinforcing,
+
+                        stickyTape: StickyTape,
                         
                         panelNumber :PanelNumber
                         );
@@ -2130,7 +2156,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 try
                 {
                     var sqlBaseData = new SqlBaseData();
-                    id = sqlBaseData.AirVents_AddPartOfPanel(
+                    id = sqlBaseData.AirVents_AddPartOfPanel
+                        (
                         panelTypeName: PanelTypeName,
                         elementType: ElementType,
                         width: Width,
@@ -2139,12 +2166,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         partMat: PartMat,
                         partMatThick: PartMatThick,
                         reinforcing: Reinforcing,
-                        ral: Ral,
-                        coatingType: CoatingType,
-                        coatingClass: CoatingClass,
+                        stickyTape: StickyTape,
+
+                        //ral: Ral,
+                        //coatingType: CoatingType,
+                        //coatingClass: CoatingClass,
+
                         mirror: Mirror.HasValue ? Mirror:false,
                         step: string.IsNullOrEmpty(Step) ? "0" : Step,
-                        stepInsertion: string.IsNullOrEmpty(StepInsertion) ? "0" : StepInsertion);
+                        stepInsertion: string.IsNullOrEmpty(StepInsertion) ? "0" : StepInsertion
+                        );
                 }
                 catch (Exception exception)
                 {
@@ -2441,7 +2472,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         }
 
         #endregion
-
-    
+        
     }
 }

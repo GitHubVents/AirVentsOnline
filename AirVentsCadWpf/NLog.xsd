@@ -11,7 +11,7 @@
     </xs:choice>
     <xs:attribute name="autoReload" type="xs:boolean">
       <xs:annotation>
-        <xs:documentation>Watch config file for changes and reload automatically.</xs:documentation>
+        <xs:documentation>Watch Config file for changes and reload automatically.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="internalLogToConsole" type="xs:boolean">
@@ -154,7 +154,7 @@
   <xs:complexType name="NLogInclude">
     <xs:attribute name="file" type="SimpleLayoutAttribute" use="required">
       <xs:annotation>
-        <xs:documentation>Name of the file to be included. The name is relative to the name of the current config file.</xs:documentation>
+        <xs:documentation>Name of the file to be included. The name is relative to the name of the current Config file.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="ignoreErrors" type="xs:boolean" use="optional" default="false">
@@ -727,7 +727,7 @@
         </xs:attribute>
         <xs:attribute name="connectionStringName" type="xs:string">
           <xs:annotation>
-            <xs:documentation>Name of the connection string (as specified in &lt;connectionStrings&gt; configuration section.</xs:documentation>
+            <xs:documentation>Name of the connection string (as specified in &lt;connectionStrings&gt; Configuration section.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="dbDatabase" type="SimpleLayoutAttribute">
@@ -1364,7 +1364,7 @@
         </xs:attribute>
         <xs:attribute name="endpointConfigurationName" type="xs:string">
           <xs:annotation>
-            <xs:documentation>Name of the endpoint configuration in WCF configuration file.</xs:documentation>
+            <xs:documentation>Name of the endpoint Configuration in WCF Configuration file.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="clientId" type="SimpleLayoutAttribute">

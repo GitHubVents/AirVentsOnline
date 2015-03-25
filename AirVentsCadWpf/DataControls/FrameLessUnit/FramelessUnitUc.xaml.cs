@@ -31,9 +31,6 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
         readonly SetMaterials _setMaterials = new SetMaterials();
         readonly ToSQL _toSql = new ToSQL();
 
-        
-
-
         bool _isDeveloper = false;
 
         private readonly DispatcherTimer _dispatcherTimer;
@@ -58,7 +55,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней\nСъемной(ых)", Content = "НВЗС"}
             };
 
-
+            DataGrid1.Visibility = Visibility.Collapsed;
           //  DataGrid1.ItemsSource = new List<Panels> { new Panels() }.ToList();
 
 
@@ -694,17 +691,17 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             {
                 //var modelSw = new ModelSw();
 
-                //string config;
+                //string Config;
 
                 //switch (ТипПанели.Text)
                 //{
                 //    case "01":
                 //    case "04":
                 //    case "05":
-                //        config = "00";
+                //        Config = "00";
                 //        break;
                 //    default:
-                //        config = "01";
+                //        Config = "01";
                 //        break;
                 //}
 
@@ -718,7 +715,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 //    new[] { МатериалВнутренней.Text, ТолщинаВннутренней.Text },
                 //    TypeOfPanelF1.Text == "Со скотчем" ? true : false,
                 //    strengthUp,
-                //    config,
+                //    Config,
                 //    PanelsConfig(),
                 //    new[] { Ral1.Text, CoatingType1.Text, CoatingClass1.Text });
             }

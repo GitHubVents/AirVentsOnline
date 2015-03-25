@@ -141,7 +141,7 @@
             <param name="tableParams"></param>
             <returns></returns>
         </member>
-        <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.AirVents_AddPartOfPanel(System.String,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Int32,System.Nullable{System.Int32},System.Nullable{System.Double},System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.String,System.Boolean)">
+        <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.AirVents_AddPartOfPanel(System.String,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Int32,System.Nullable{System.Int32},System.Nullable{System.Double},System.Nullable{System.Boolean},System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
             Airs the vents_ add part of panel.
             </summary>
@@ -152,13 +152,11 @@
             <param name="partThick">The part thick.</param>
             <param name="partMat">The part mat.</param>
             <param name="partMatThick">The part mat thick.</param>
-            <param name="ral">The ral.</param>
-            <param name="coatingType">Type of the coating.</param>
-            <param name="coatingClass">The coating class.</param>
             <param name="mirror">The mirror.</param>
             <param name="step">The step.</param>
             <param name="stepInsertion">The step insertion.</param>
-            <param name="reinforcing"></param>
+            <param name="reinforcing">if set to <c>true</c> [reinforcing].</param>
+            <param name="stickyTape">if set to <c>true</c> [sticky tape].</param>
             <returns></returns>
         </member>
         <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.PanelNumber">
@@ -167,7 +165,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.AirVents_AddPanel(System.Int32,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Int32,System.Nullable{System.Double},System.Nullable{System.Double},System.String,System.String,System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean},System.String,System.String,System.Boolean,System.Int32)">
+        <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.AirVents_AddPanel(System.Int32,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Int32,System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Boolean},System.String,System.String,System.Boolean,System.Boolean,System.Int32)">
             <summary>
             Airs the vents_ add panel.
             </summary>
@@ -190,6 +188,7 @@
             <param name="step">The step.</param>
             <param name="stepInsertion">The step insertion.</param>
             <param name="reinforcing01">if set to <c>true</c> [reinforcing01].</param>
+            <param name="stickyTape">if set to <c>true</c> [sticky tape].</param>
             <param name="panelNumber">The panel number.</param>
             <returns></returns>
         </member>
@@ -923,6 +922,14 @@
             The Reinforcing.
             </value>
         </member>
+        <member name="P:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.FramelessPanelVault.StickyTape">
+            <summary>
+            Gets or sets the sticky tape.
+            </summary>
+            <value>
+            The sticky tape.
+            </value>
+        </member>
         <member name="P:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.FramelessPanelVault.Ral">
             <summary>
             Цвет покраски RAL
@@ -1634,6 +1641,24 @@
             </summary>
         </member>
         <member name="M:AirVentsCadWpf.DataControls.RoofUc.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:AirVentsCadWpf.DataControls.Specification.SpecificationBomUc">
+            <summary>
+            
+            </summary>
+            <summary>
+            SpecificationBomUc
+            </summary>
+        </member>
+        <member name="M:AirVentsCadWpf.DataControls.Specification.SpecificationBomUc.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AirVentsCadWpf.DataControls.Specification.SpecificationUc"/> class.
+            </summary>
+        </member>
+        <member name="M:AirVentsCadWpf.DataControls.Specification.SpecificationBomUc.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>

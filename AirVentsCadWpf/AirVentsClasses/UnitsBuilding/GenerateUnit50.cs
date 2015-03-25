@@ -1702,8 +1702,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     modelName = "02-01";
                     break;
             }
-
-           
             
             #region Обозначения и Хранилище
             
@@ -1887,7 +1885,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             if (File.Exists(new FileInfo(newPanel50Path).FullName))
             {
                 MessageBox.Show(newPanel50Path, "Данная модель уже находится в базе");
-
 
                 //GetLastVersionPdm(new FileInfo(newPanel50Path).FullName, Settings.Default.TestPdmBaseName);
                 //System.Diagnostics.Process.Start(@newPanel50Path);
@@ -2298,7 +2295,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     materialP1[3],
                     materialP1[3] == "AZ" ? "" : materialP1[1]);
 
-
                 var newPartPath = String.Format(@"{0}{1}\{2}.SLDPRT", Settings.Default.DestinationFolder,
                     DestinationFolder, newName);
                 if (File.Exists(newPartPath))
@@ -2310,20 +2306,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 }
                 else if (File.Exists(newPartPath) != true)
                 {
-                    #region before
-                    //swApp.SendMsgToUser("Изменяем компонент " + @NewPartPath);
-                    //SetMeterial(materialP1[0], _swApp.ActivateDoc2("02-01-101-50.SLDPRT", true, 0), "");
-                    //try
-                    //{
-                    //    var setMaterials = new SetMaterials();
-                    //    _swApp.ActivateDoc2("02-01-101-50.SLDPRT", true, 0);
-                    //    setMaterials.SetColor("00", покрытие[6], покрытие[1], покрытие[2], _swApp);
-                    //}
-                    //catch (Exception exception)
-                    //{
-                    //    MessageBox.Show(exception.StackTrace);
-                    //}
-                    #endregion
                     SwPartParamsChangeWithNewName("02-01-101-50",
                         String.Format(@"{0}{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new[,]
@@ -2348,6 +2330,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     
                     _swApp.CloseDoc(newName);
                 }
+
                 #region before
                 //Панель внутреняя
                  //newName = String.Format("{0}{1}{2}{3}",
@@ -2357,8 +2340,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                  //   //string.IsNullOrEmpty(покрытие[4]) ? "" : "-" + покрытие[4]
                 //   );
                 #endregion
-                //newName = панельВнутренняя.NewName;
 
+                //newName = панельВнутренняя.NewName;
 
                 newName = String.Format("{0}-02-{1}-{2}-50-{3}{4}",
                     modelName,
@@ -2366,7 +2349,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     height,
                     materialP2[3],
                     materialP2[3] == "AZ" ? "" : materialP2[1]);
-
 
                 //newName = modelName + "-02-" + width + "-" + height + "-" + "50-" + materialP2[3] + materialP2[3] == "AZ" ? "" : materialP2[1];
 
@@ -2381,19 +2363,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 }
                 else if (File.Exists(newPartPath) != true)
                 {
-                    #region before
-                    //SetMeterial(materialP2[0], _swApp.ActivateDoc2("02-01-102-50.SLDPRT", true, 0), "");
-                    //try
-                    //{
-                    //    var setMaterials = new SetMaterials();
-                    //    _swApp.ActivateDoc2("02-01-102-50.SLDPRT", true, 0);
-                    //    setMaterials.SetColor("00", покрытие[7], покрытие[4], покрытие[5], _swApp);
-                    //}
-                    //catch (Exception exception)
-                    //{
-                    //    MessageBox.Show(exception.StackTrace);
-                    //}
-                    #endregion
                     SwPartParamsChangeWithNewName("02-01-102-50",
                         String.Format(@"{0}{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new [,]
@@ -2421,7 +2390,14 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 }
                 // Профиль 02-01-103-50
                 //newName = деталь103.NewName;
-                newName = modelName + "-03-" + width + "-" + height + "-" + "50-" + materialP2[3] + materialP2[3] == "AZ" ? "" : materialP2[1];
+                newName = String.Format("{0}-03-{1}-{2}-50-{3}{4}",
+                    modelName,
+                    width,
+                    height,
+                    materialP2[3],
+                    materialP2[3] == "AZ" ? "" : materialP2[1]);
+
+                    //  modelName + "-03-" + width + "-" + height + "-" + "50-" + materialP2[3] + materialP2[3] == "AZ" ? "" : materialP2[1];
                 newPartPath = String.Format(@"{0}{1}\{2}.SLDPRT", Settings.Default.DestinationFolder,
                     DestinationFolder, newName);
                 if (File.Exists(newPartPath))
@@ -2473,7 +2449,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         });
                     _swApp.CloseDoc(newName);
                 }
-
 
                 //Уплотнитель
 
@@ -2842,17 +2817,19 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                         panelMatThickOut: PanelMatThickOut,
                         panelMatThickIn: PanelMatThickIn,
-                        ralOut: RalOut,
-                        ralIn: RalIn,
-                        coatingTypeOut: CoatingTypeOut,
-                        coatingTypeIn: CoatingTypeIn,
-                        coatingClassOut: CoatingClassOut,
-                        coatingClassIn: CoatingClassIn,
+
+                        //ralOut: RalOut,
+                        //ralIn: RalIn,
+                        //coatingTypeOut: CoatingTypeOut,
+                        //coatingTypeIn: CoatingTypeIn,
+                        //coatingClassOut: CoatingClassOut,
+                        //coatingClassIn: CoatingClassIn,
 
                         mirror: Mirror,
                         step: "0",
                         stepInsertion:  "0",
                         reinforcing01: Reinforcing,
+                        stickyTape: false,
 
                         panelNumber: PanelNumber
                         );
@@ -2882,9 +2859,12 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         partMat: PartMat,
                         partMatThick: PartMatThick,
                         reinforcing: Reinforcing,
-                        ral: Ral,
-                        coatingType: CoatingType,
-                        coatingClass: CoatingClass,
+                        stickyTape: false,
+
+                        //ral: Ral,
+                        //coatingType: CoatingType,
+                        //coatingClass: CoatingClass,
+
                         mirror: Mirror,//.HasValue ? Mirror : false,
                         step: "0",
                         stepInsertion: "0");

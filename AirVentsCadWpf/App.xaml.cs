@@ -117,10 +117,10 @@ namespace AirVentsCadWpf
 //    //    public static void ConfigureLogger()
 //    //    {
 //    //        // Step 1. Create configuration object
-//    //        LoggingConfiguration config = new LoggingConfiguration();
+//    //        LoggingConfiguration Config = new LoggingConfiguration();
 
 //    //        FileTarget fileTarget = new FileTarget();
-//    //        config.AddTarget("file", fileTarget);
+//    //        Config.AddTarget("file", fileTarget);
 
 //    //        // Step 3. Set target properties
 
@@ -136,10 +136,10 @@ namespace AirVentsCadWpf
 //    //        fileTarget.Layout = "${longdate} | ${level} | ${message}";
 
 //    //        LoggingRule rule2 = new LoggingRule("*", LogLevel.Info, fileTarget);
-//    //        config.LoggingRules.Add(rule2);
+//    //        Config.LoggingRules.Add(rule2);
 
 //    //        // Step 5. Activate the configuration
-//    //        LogManager.Configuration = config;
+//    //        LogManager.Configuration = Config;
 //    //    }
 
 //    //    #endregion

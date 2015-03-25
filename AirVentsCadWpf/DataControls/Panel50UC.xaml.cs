@@ -118,7 +118,6 @@ namespace AirVentsCadWpf.DataControls
             var materialP1 = new[] { MaterialP1.SelectedValue.ToString(), ТолщинаВнешней.Text, MaterialP1.Text, mat1Code };
             var materialP2 = new[] { MaterialP2.SelectedValue.ToString(), ТолщинаВннутренней.Text, MaterialP2.Text, mat2Code };
 
-
            // MessageBox.Show(Ral1.SelectedValue + " " + CoatingType1.Text, CoatingClass1.Text);
 
             sw.Panels50Build(

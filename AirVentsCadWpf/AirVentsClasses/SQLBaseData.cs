@@ -98,13 +98,11 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// <param name="partThick">The part thick.</param>
         /// <param name="partMat">The part mat.</param>
         /// <param name="partMatThick">The part mat thick.</param>
-        /// <param name="ral">The ral.</param>
-        /// <param name="coatingType">Type of the coating.</param>
-        /// <param name="coatingClass">The coating class.</param>
         /// <param name="mirror">The mirror.</param>
         /// <param name="step">The step.</param>
         /// <param name="stepInsertion">The step insertion.</param>
-        /// <param name="reinforcing"></param>
+        /// <param name="reinforcing">if set to <c>true</c> [reinforcing].</param>
+        /// <param name="stickyTape">if set to <c>true</c> [sticky tape].</param>
         /// <returns></returns>
         public int AirVents_AddPartOfPanel
             (
@@ -115,13 +113,17 @@ namespace AirVentsCadWpf.AirVentsClasses
             int partThick,
             int? partMat,
             double? partMatThick,
-            string ral,
-            string coatingType,
-            int? coatingClass,
+
+            //string ral,
+            //string coatingType,
+            //int? coatingClass,
+
             bool? mirror,
             string step,
             string stepInsertion,
-            bool reinforcing)
+            bool reinforcing,
+            bool stickyTape
+            )
         {
             var partId = 0;
             using (var con = new SqlConnection(Properties.Settings.Default.ConnectionToSQL))
@@ -196,40 +198,40 @@ namespace AirVentsCadWpf.AirVentsClasses
 
                     #region @RAL
 
-                    if (ral == null)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@RAL", DBNull.Value);//@RAL = NULL,
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@RAL", ral);
-                    }
+                    //if (ral == null)
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@RAL", DBNull.Value);//@RAL = NULL,
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@RAL", ral);
+                    //}
 
                     #endregion
 
                     #region @CoatingType
 
-                    if (string.IsNullOrEmpty(coatingType))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingType", DBNull.Value); //@CoatingType = NULL,
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingType", coatingType);
-                    }
+                    //if (string.IsNullOrEmpty(coatingType))
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingType", DBNull.Value); //@CoatingType = NULL,
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingType", coatingType);
+                    //}
 
                     #endregion
 
                     #region @CoatingClass
 
-                    if (string.IsNullOrEmpty(coatingClass.ToString()))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingClass", DBNull.Value); //@CoatingClass = NULL,
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingClass", coatingClass);
-                    }
+                    //if (string.IsNullOrEmpty(coatingClass.ToString()))
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingClass", DBNull.Value); //@CoatingClass = NULL,
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingClass", coatingClass);
+                    //}
 
                     #endregion
                     
@@ -283,6 +285,12 @@ namespace AirVentsCadWpf.AirVentsClasses
                     //{
                     sqlCommand.Parameters.AddWithValue("@Reinforcing", reinforcing);// Convert.ToBoolean(reinforcing01) ? 0 : 1);
                     //}
+
+                    #endregion
+
+                    #region @StickyTape
+
+                    sqlCommand.Parameters.AddWithValue("@StickyTape", stickyTape);// Convert.ToBoolean(reinforcing01) ? 0 : 1);
 
                     #endregion
 
@@ -366,6 +374,7 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// <param name="step">The step.</param>
         /// <param name="stepInsertion">The step insertion.</param>
         /// <param name="reinforcing01">if set to <c>true</c> [reinforcing01].</param>
+        /// <param name="stickyTape">if set to <c>true</c> [sticky tape].</param>
         /// <param name="panelNumber">The panel number.</param>
         /// <returns></returns>
         public int AirVents_AddPanel
@@ -379,17 +388,20 @@ namespace AirVentsCadWpf.AirVentsClasses
             int panelThick,
             double? panelMatThickOut,
             double? panelMatThickIn,
-            string ralOut,
-            string ralIn,
-            string coatingTypeOut,
-            string coatingTypeIn,
-            int? coatingClassOut,
-            int? coatingClassIn,
+
+            //string ralOut,
+            //string ralIn,
+            //string coatingTypeOut,
+            //string coatingTypeIn,
+            //int? coatingClassOut,
+            //int? coatingClassIn,
 
             bool? mirror,
             string step,
             string stepInsertion,
             bool reinforcing01,
+            bool stickyTape,
+
             int panelNumber
             )
         {
@@ -492,79 +504,79 @@ namespace AirVentsCadWpf.AirVentsClasses
 
                     #region @RALOut
 
-                    if (ralOut == null)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@RALOut", DBNull.Value);//@RAL = NULL,
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@RALOut", ralOut);
-                    }
+                    //if (ralOut == null)
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@RALOut", DBNull.Value);//@RAL = NULL,
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@RALOut", ralOut);
+                    //}
 
                     #endregion
 
                     #region @RALIn
 
-                    if (ralIn == null)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@RALIn", DBNull.Value);//@RAL = NULL,
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@RALIn", ralIn);
-                    }
+                    //if (ralIn == null)
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@RALIn", DBNull.Value);//@RAL = NULL,
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@RALIn", ralIn);
+                    //}
 
                     #endregion
 
                     #region @CoatingTypeOut
 
-                    if (string.IsNullOrEmpty(coatingTypeOut))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingTypeOut", DBNull.Value); 
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingTypeOut", coatingTypeOut);
-                    }
+                    //if (string.IsNullOrEmpty(coatingTypeOut))
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingTypeOut", DBNull.Value); 
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingTypeOut", coatingTypeOut);
+                    //}
 
                     #endregion
 
                     #region @CoatingTypeIn
 
-                    if (string.IsNullOrEmpty(coatingTypeIn))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingTypeIn", DBNull.Value);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingTypeIn", coatingTypeIn);
-                    }
+                    //if (string.IsNullOrEmpty(coatingTypeIn))
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingTypeIn", DBNull.Value);
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingTypeIn", coatingTypeIn);
+                    //}
 
                     #endregion
 
                     #region @CoatingClassOut
 
-                    if (string.IsNullOrEmpty(coatingClassOut.ToString()))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingClassOut", DBNull.Value); 
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingClassOut", coatingClassOut);
-                    }
+                    //if (string.IsNullOrEmpty(coatingClassOut.ToString()))
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingClassOut", DBNull.Value); 
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingClassOut", coatingClassOut);
+                    //}
 
                     #endregion
 
                     #region @CoatingClassIn
 
-                    if (string.IsNullOrEmpty(coatingClassIn.ToString()))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingClassIn", DBNull.Value);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@CoatingClassIn", coatingClassIn);
-                    }
+                    //if (string.IsNullOrEmpty(coatingClassIn.ToString()))
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingClassIn", DBNull.Value);
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@CoatingClassIn", coatingClassIn);
+                    //}
 
                     #endregion
                     
@@ -620,7 +632,12 @@ namespace AirVentsCadWpf.AirVentsClasses
                     //}
 
                     #endregion
+                    
+                    #region @StickyTape
+                    
+                    sqlCommand.Parameters.AddWithValue("@StickyTape", stickyTape);
 
+                    #endregion
                     
                     #region @PanelNumber Output
 
@@ -1107,17 +1124,24 @@ Order BY PanelTypeCode";
         public DataTable MaterialsTable()
         {
             var materialsTable = new DataTable();
-            var connectionString = @Properties.Settings.Default.ConnectionToSQL;
-            const string query = @"SELECT [LevelID], CodeMaterial, MaterialsName
+            try
+            {
+                var connectionString = @Properties.Settings.Default.ConnectionToSQL;
+                const string query = @"SELECT [LevelID], CodeMaterial, MaterialsName
         FROM  [dbo].[MaterialsProp]
         WHERE  [Thickness] = 1";
-            var sqlConnection = new SqlConnection(connectionString);
-            var sqlCommand = new SqlCommand(query, sqlConnection);
-            sqlConnection.Open();
-            var sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-            sqlDataAdapter.Fill(materialsTable);
-            sqlConnection.Close();
-            sqlDataAdapter.Dispose();
+                var sqlConnection = new SqlConnection(connectionString);
+                var sqlCommand = new SqlCommand(query, sqlConnection);
+                sqlConnection.Open();
+                var sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(materialsTable);
+                sqlConnection.Close();
+                sqlDataAdapter.Dispose();
+            }
+            catch (Exception)
+            {
+            }
+            
             return materialsTable;
         }
 

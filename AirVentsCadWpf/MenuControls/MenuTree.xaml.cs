@@ -39,6 +39,9 @@ namespace AirVentsCadWpf.MenuControls
                 case "Спецификация":
                     Switcher.SwitchData(new SpecificationUc()); 
                     break;
+                case "Спецификации":
+                    Switcher.SwitchData(new SpecificationBomUc());
+                    break;
                 case "Перечень деталей":
                     Switcher.SwitchData(new Bom());
                     break;
