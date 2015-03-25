@@ -128,7 +128,6 @@ namespace AirVentsCadWpf.DataControls.Specification
              public static int ИнтервалМеждустрочный = 3;
              public static int КоличествоСтрокНаПервомЛистеА4 = 26;
              public static int КоличествоСтрокНаВторомЛистеА4 = 30;
-
          }
 
 
@@ -136,11 +135,13 @@ namespace AirVentsCadWpf.DataControls.Specification
             void InsertTableOne(IModelDoc2 swModel, IList<BomData> bomDataList)
         {
             var swDrawing = ((DrawingDoc)(swModel));
-            var myTable = swDrawing.InsertTableAnnotation(0.02, 0.292, 1, bomDataList.Count() + 1 + 6, 7);
+            var myTable = swDrawing.InsertTableAnnotation(0.02, 0.292, 1, bomDataList.Count() + 1 + 6 + 9, 7);
             if ((myTable == null)) return;
             myTable.Title = "Таблица видов";
-            myTable.BorderLineWeight = 2;
+            myTable.BorderLineWeight = 1;
             myTable.GridLineWeight = 1;
+
+            #region Шапка
             //myTable.Text[0, 0] = "Форм.";
             //myTable.Text[0, 1] = "Зона.";
             //myTable.Text[0, 2] = "Поз.";
@@ -148,6 +149,12 @@ namespace AirVentsCadWpf.DataControls.Specification
             //myTable.Text[0, 4] = "Найменування";
             //myTable.Text[0, 5] = "Кіл.";
             //myTable.Text[0, 6] = "Примітка";
+
+            //myTable.MergeCells(3, 1, 3, 3);
+            //myTable.SetCellTextFormat(0, 0, true, new TextFormatClass{ObliqueAngle = 90});
+            #endregion
+
+            #region Ширина колонок
             myTable.SetRowHeight(0, 0.015, 0);
             myTable.SetColumnWidth(0, 0.006, 0);
             myTable.SetColumnWidth(1, 0.006, 0);
@@ -156,41 +163,82 @@ namespace AirVentsCadWpf.DataControls.Specification
             myTable.SetColumnWidth(4, 0.063, 0);
             myTable.SetColumnWidth(5, 0.010, 0);
             myTable.SetColumnWidth(6, 0.022, 0);
+            #endregion
 
-            //myTable.MergeCells(3, 1, 3, 3);
-            //myTable.SetCellTextFormat(0, 0, true, new TextFormatClass{ObliqueAngle = 90});
-            
+            #region Документация
+
             myTable.Text[2, 4] = "Документация";
             myTable.Text[4, 4] = bomDataList.First(x => x.Раздел == "").Наименование;
-            myTable.SetRowHeight(1, 0.008, 0);
-            myTable.SetRowHeight(2, 0.008, 0);
-            myTable.SetRowHeight(3, 0.008, 0);
-            myTable.SetRowHeight(4, 0.008, 0);
-            myTable.SetRowHeight(5, 0.008, 0);
-            myTable.SetRowHeight(6, 0.008, 0);
 
-            const int position = 6;
+            var position = 5;
 
-            for (var i = 1; i < bomDataList.Count() + 1; i++)
+            for (var i = 1; i < position; i++)
             {
-                myTable.Text[position + i, 0] = bomDataList[i - 1].Формат;
-                myTable.Text[position + i, 2] = bomDataList[i - 1].Row;
-                myTable.Text[position + i, 3] = bomDataList[i - 1].Обозначение;
-                myTable.Text[position + i, 4] = bomDataList[i - 1].Наименование;
-                myTable.Text[position + i, 5] = bomDataList[i - 1].Количество;
-                myTable.Text[position + i, 6] = bomDataList[i - 1].Примечание;
-                myTable.SetRowHeight(position + i, bomDataList[i - 1].Наименование.Count() < 35 ? 0.008 : 0.016, 0);
-                if (i <= 1) continue;
-                //myTable.SetRowHeight(i, 0.008, 0);
+                myTable.SetRowHeight(i, 0.008, 0);
+            }
+            
+            #endregion
+
+            #region Сборочные единицы
+
+            var razdel = "Сборочные единицы";
+
+            var data = bomDataList.Where(x => x.Раздел == razdel).OrderBy(x=>x.Обозначение).ToList();
+
+            myTable.Text[position + 1, 4] = razdel;
+
+
+            for (var i = position; i < position + 1 + BomSettings.ИнтервалМеждустрочный; i++)
+            {
+                myTable.SetRowHeight(i, 0.008, 0);
+            }
+
+            position = position + 3;
+
+            for (var i = 0; i < data.Count(); i++)
+            {
+                myTable.Text[position + i, 0] = data[i].Формат;
+                myTable.Text[position + i, 2] = data[i].Row;
+                myTable.Text[position + i, 3] = data[i].Обозначение;
+                myTable.Text[position + i, 4] = data[i].Наименование;
+                myTable.Text[position + i, 5] = data[i].Количество;
+                myTable.Text[position + i, 6] = data[i].Примечание;
+                myTable.SetRowHeight(position + i, data[i].Наименование.Count() < 35 ? 0.008 : 0.016, 0);
+                if (i <= position) continue;
                 myTable.set_CellTextHorizontalJustification(position + i, 0, (int)swTextJustification_e.swTextJustificationRight);
+            }
 
-                //var wef = iTextFormat;
+            #endregion
 
-                //wef.ObliqueAngle = 90;
+            #region Стандартные изделия
 
-                //myTable.SetTextFormat(false, (TextFormat)iTextFormat);
+            position = position + data.Count();
 
-                //myTable.Text[i, 1] = (i).ToString();
+            razdel = "Стандартные изделия";
+
+            data = bomDataList.Where(x => x.Раздел == razdel).ToList();
+
+            myTable.Text[position + 1, 4] = razdel;
+
+
+            for (var i = position; i < position + 1 + BomSettings.ИнтервалМеждустрочный; i++)
+            {
+                myTable.SetRowHeight(i, 0.008, 0);
+            }
+
+            position = position + 3;
+
+            for (var i = 0; i < data.Count(); i++)
+            {
+                myTable.Text[position + i, 0] = data[i].Формат;
+                myTable.Text[position + i, 2] = data[i].Row;
+                myTable.Text[position + i, 3] = data[i].Обозначение;
+                myTable.Text[position + i, 4] = data[i].Наименование;
+                myTable.Text[position + i, 5] = data[i].Количество;
+                myTable.Text[position + i, 6] = data[i].Примечание;
+                myTable.SetRowHeight(position + i, data[i].Наименование.Count() < 35 ? 0.008 : 0.016, 0);
+                if (i <= position) continue;
+                myTable.set_CellTextHorizontalJustification(position + i, 0, (int)swTextJustification_e.swTextJustificationRight);
             }
 
             //for (var i = 1; i < bomDataList.Count() + 1; i++)
@@ -207,6 +255,8 @@ namespace AirVentsCadWpf.DataControls.Specification
             //    myTable.set_CellTextHorizontalJustification(i, 0, (int)swTextJustification_e.swTextJustificationRight);
             //    //myTable.Text[i, 1] = (i).ToString();
             //}
+
+            #endregion
         }
         
         public class BomData
