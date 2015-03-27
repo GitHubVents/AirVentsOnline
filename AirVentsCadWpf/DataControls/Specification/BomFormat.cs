@@ -11,28 +11,27 @@ namespace AirVentsCadWpf.DataControls.Specification
 {
     class BomFormat
     {
-
-        //TextFormatClass textFormatClass = new TextFormatClass();
-
-   //     private  ITextFormat iTextFormat = new TextFormatClass();
-
         public List<BomData> ListXmlBomData(string xmlPath)
         {
-            return Parse(xmlPath) ? BomDataList : null;
+            return GetDataFromXml(xmlPath) ? BomDataListFormatted(BomDataList) : null;
+        }
+        public List<List<BomData>> BomByPage()
+        {
+            return BomDataListsDivided;
         }
         
         internal List<BomData> BomDataList;
+        internal static List<BomData> BomListFormatted;
+        internal static List<List<BomData>> BomDataListsDivided;
 
-        bool Parse(string xmlPath)
+        bool GetDataFromXml(string xmlPath)
             {
                 if (!xmlPath.EndsWith("xml"))
                 {
                     return false;
                 }
 
-                var coordinates = XDocument.Load(xmlPath);//"C:\\Q-018657-01-0Bom.xml"
-
-                MessageBox.Show(coordinates.ToString());
+                var coordinates = XDocument.Load(xmlPath);//MessageBox.Show(coordinates.ToString());
 
                 BomDataList = new List<BomData>();
 
@@ -61,7 +60,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                             PathNameComponent = pathNameComponent == null ? "" : pathNameComponent.Value,
                             Row = row == null ? "" : row.Value,
                             ItemNum = itemNum == null ? "" : itemNum.Value,
-                            Раздел = раздел == null ? "" : раздел.Value,
+                            Раздел = раздел == null ? "part" : раздел.Value,
                             Обозначение = обозначение == null ? "" : обозначение.Value,
                             Наименование = наименование == null ? "" : наименование.Value,
                             Формат = формат == null ? "" : формат.Value,
@@ -70,8 +69,6 @@ namespace AirVentsCadWpf.DataControls.Specification
                             Примечание = примечание == null ? "" : примечание.Value,
                             Количество = количество == null ? "" : количество.Value
                         });
-
-                      
                     }
                 }
                 catch (Exception exception)
@@ -96,7 +93,6 @@ namespace AirVentsCadWpf.DataControls.Specification
                     var примечание = coordinate.Element("Примечание");
                     var количество = coordinate.Element("Количество");
 
-
                     BomDataList.Add(new BomData
                     {
                         Config = config == null ? "" : config.Value,
@@ -120,41 +116,178 @@ namespace AirVentsCadWpf.DataControls.Specification
         public void InsertBomTable()
         {
             var swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
-            InsertTableOne((IModelDoc2)swApp.IActiveDoc, BomDataList);
+            if (swApp == null) return;
+            if (swApp.IActiveDoc != null) AddSpecification1((IModelDoc2)swApp.IActiveDoc, BomListFormatted);
         }
 
-         public static class BomSettings
+        public static class BomSettings
          {
-             public static int ИнтервалМеждустрочный = 3;
-             public static int КоличествоСтрокНаПервомЛистеА4 = 26;
-             public static int КоличествоСтрокНаВторомЛистеА4 = 30;
+            public static int РезервСтрокНаЗаголовок = 3;
+            public static int КоличествоСтрокНаПервомЛистеА4 = 8;
+            public static int КоличествоСтрокНаВторомЛистеА4 = 15;
+
+            public static int КоличествоСтрокРаздела(List<BomData> sectionList)
+            {
+                return sectionList.Aggregate(0, (current, bomData) => bomData.Наименование.Count() < 35 ? current + 1 : current + 2) + РезервСтрокНаЗаголовок;
+            }
          }
 
+        public static List<List<BomData>> BomDataLists(IList<BomData> bomDataList)
+        {
+            var toTake = BomSettings.КоличествоСтрокНаПервомЛистеА4 -
+                bomDataList.Take(BomSettings.КоличествоСтрокНаПервомЛистеА4).Count(x => x.Наименование != null && x.Наименование.Count() > 34);
 
+            var list = new List<List<BomData>> { bomDataList.Take(toTake).ToList() };
+
+            m1:
+
+            bomDataList = bomDataList.Skip(toTake).ToList();
+
+            toTake = BomSettings.КоличествоСтрокНаВторомЛистеА4 -
+                bomDataList.Take(BomSettings.КоличествоСтрокНаВторомЛистеА4).Count(x => x.Наименование != null && x.Наименование.Count() > 34);
+
+            if (bomDataList.Count > 0)
+            {
+                list.Add(bomDataList.Take(toTake).ToList());
+                goto m1;
+            }
+            BomDataListsDivided = list;
+            return list;
+        }
+
+        public static List<BomData> BomDataListFormatted(IList<BomData> bomDataList)
+        {
+            var bomDataListFormatted = new List<BomData>
+            {
+                new BomData(),
+                new BomData {Заголовок = true, Наименование = "Документація"},
+                new BomData(),
+                new BomData {Обозначение = bomDataList.First(x => x.Раздел == "").Обозначение, Наименование = "Складальне креслення"}
+            };
+
+            var sectionName1 = new[] { "Складальні одиниці", "Сборочные единицы" };
+            var sectionList1 = bomDataList.Where(x => x.Раздел == sectionName1[1]).OrderBy(x => x.Обозначение).ToList();
+            if (sectionList1.Count > 0)
+            {
+                bomDataListFormatted.AddRange(new List<BomData>
+                {
+                    new BomData(),
+                    new BomData{Заголовок = true, Наименование = sectionName1[0]},
+                    new BomData()
+                });
+                bomDataListFormatted.AddRange(sectionList1);
+            }
+
+            var sectionName2 = new[] { "Деталі", "Детали" };
+            var sectionList2 = bomDataList.Where(x => x.Раздел == sectionName2[1]).OrderBy(x => x.Обозначение).ToList();
+            if (sectionList2.Count > 0)
+            {
+                bomDataListFormatted.AddRange(new List<BomData>
+                {
+                    new BomData(),
+                    new BomData{Заголовок = true, Наименование = "Деталі"},
+                    new BomData()
+                });
+                bomDataListFormatted.AddRange(sectionList2);
+            }
+
+            var sectionName3 = new[] { "Стандартні вироби", "Стандартные изделия" };
+            var sectionList3 = bomDataList.Where(x => x.Раздел == sectionName3[1]).OrderBy(x => x.Обозначение).ToList();
+            if (sectionList3.Count > 0)
+            {
+                bomDataListFormatted.AddRange(new List<BomData>
+                {
+                    new BomData(),
+                    new BomData{Заголовок = true, Наименование = "Стандартні вироби"},
+                    new BomData()
+                });
+                bomDataListFormatted.AddRange(sectionList3);
+            }
+
+            var sectionName4 = new[] { "Інші вироби", "Причие изделия" };
+            var sectionList4 = bomDataList.Where(x => x.Раздел == sectionName4[1]).OrderBy(x => x.Обозначение).ToList();
+            if (sectionList4.Count > 0)
+            {
+                bomDataListFormatted.AddRange(new List<BomData>
+                {
+                    new BomData(),
+                    new BomData{Заголовок = true, Наименование = "Інші вироби"},
+                    new BomData()
+                });
+                bomDataListFormatted.AddRange(sectionList4);
+            }
+
+            var sectionName5 = new[] { "Матеріали", "Причие изделия" };
+            var sectionList5 = bomDataList.Where(x => x.Раздел == sectionName5[1]).OrderBy(x => x.Обозначение).ToList();
+            if (sectionList5.Count > 0)
+            {
+                bomDataListFormatted.AddRange(new List<BomData>
+                {
+                    new BomData(),
+                    new BomData{Заголовок = true, Наименование = "Матеріали"},
+                    new BomData()
+                });
+                bomDataListFormatted.AddRange(sectionList5);
+            }
+
+            BomListFormatted = bomDataListFormatted;
+            return bomDataListFormatted;
+        }
+        
         private static
-            void InsertTableOne(IModelDoc2 swModel, IList<BomData> bomDataList)
+           void AddSpecification1(IModelDoc2 swModel, IList<BomData> bomDataList)
         {
             var swDrawing = ((DrawingDoc)(swModel));
-            var myTable = swDrawing.InsertTableAnnotation(0.02, 0.292, 1, bomDataList.Count() + 1 + 6 + 9, 7);
+            if (swDrawing == null) return;
+
+            string[] spSheetNames = { "SP1", "SP2", "SP3", "SP4", "SP5", "SP6", "SP7", "SP8", "SP9", "SP10", "GSP1", "GSP2" };
+
+            foreach (var t in spSheetNames.Where(swDrawing.ActivateSheet))
+            {
+                swModel.Extension.SelectByID2(t, "SHEET", 0, 0, 0, false, 0, null, 0);
+                swModel.Extension.DeleteSelection2(1);
+            }
+
+            BomDataLists(bomDataList);
+
+            InsertBomTable(BomDataListsDivided[0], swDrawing, spSheetNames[0], "SP-1.slddrt");//"GSP-1.slddrt"
+
+            for (var i = 1; i < BomDataListsDivided.Count ; i++)
+            {
+                InsertBomTable(BomDataListsDivided[i], swDrawing, spSheetNames[1], "SP-2.slddrt");        
+            }
+        }
+
+        private static void InsertBomTable(IList<BomData> bomDataList, IDrawingDoc swDrawing, string sheetName, string templateSheet)
+        {
+            var existSheet = swDrawing.NewSheet3(sheetName, 9, 12, 1, 10, true, templateSheet, 0.21, 0.297, "По умолчанию");
+            var nawSheetName = sheetName;
+            if (!existSheet)
+            {
+            m1:
+                var newNumber = Convert.ToInt32(nawSheetName.Replace(nawSheetName.Remove(2), "")) + 1;
+                nawSheetName = sheetName.Remove(2) + newNumber;
+                var exist = swDrawing.NewSheet3(nawSheetName, 9, 12, 1, 10, true, templateSheet, 0.21, 0.297, "По умолчанию");
+                if (!exist)
+                {
+                    goto m1;
+                }
+            }
+
+            swDrawing.ActivateSheet(nawSheetName);
+
+            var myTable = swDrawing.InsertTableAnnotation(0.02, 0.292, 1, bomDataList.Count+1, 7);
             if ((myTable == null)) return;
+            for (var i = 0; i < BomSettings.КоличествоСтрокНаПервомЛистеА4; i++)
+            {
+                myTable.SetRowHeight(i, 0.008, 0);
+            }
             myTable.Title = "Таблица видов";
             myTable.BorderLineWeight = 1;
             myTable.GridLineWeight = 1;
 
-            #region Шапка
-            //myTable.Text[0, 0] = "Форм.";
-            //myTable.Text[0, 1] = "Зона.";
-            //myTable.Text[0, 2] = "Поз.";
-            //myTable.Text[0, 3] = "Позначення";
-            //myTable.Text[0, 4] = "Найменування";
-            //myTable.Text[0, 5] = "Кіл.";
-            //myTable.Text[0, 6] = "Примітка";
-
-            //myTable.MergeCells(3, 1, 3, 3);
-            //myTable.SetCellTextFormat(0, 0, true, new TextFormatClass{ObliqueAngle = 90});
-            #endregion
-
             #region Ширина колонок
+
             myTable.SetRowHeight(0, 0.015, 0);
             myTable.SetColumnWidth(0, 0.006, 0);
             myTable.SetColumnWidth(1, 0.006, 0);
@@ -163,102 +296,35 @@ namespace AirVentsCadWpf.DataControls.Specification
             myTable.SetColumnWidth(4, 0.063, 0);
             myTable.SetColumnWidth(5, 0.010, 0);
             myTable.SetColumnWidth(6, 0.022, 0);
+
             #endregion
 
-            #region Документация
-
-            myTable.Text[2, 4] = "Документация";
-            myTable.Text[4, 4] = bomDataList.First(x => x.Раздел == "").Наименование;
-
-            var position = 5;
-
-            for (var i = 1; i < position; i++)
-            {
-                myTable.SetRowHeight(i, 0.008, 0);
-            }
+            const int position = 1;
             
-            #endregion
-
-            #region Сборочные единицы
-
-            var razdel = "Сборочные единицы";
-
-            var data = bomDataList.Where(x => x.Раздел == razdel).OrderBy(x=>x.Обозначение).ToList();
-
-            myTable.Text[position + 1, 4] = razdel;
-
-
-            for (var i = position; i < position + 1 + BomSettings.ИнтервалМеждустрочный; i++)
+            for (var i = 0; i < bomDataList.Count(); i++)
             {
-                myTable.SetRowHeight(i, 0.008, 0);
-            }
+                myTable.Text[position + i, 0] = bomDataList[i].Формат;
+                myTable.Text[position + i, 2] = bomDataList[i].Row;
+                myTable.Text[position + i, 3] = bomDataList[i].Обозначение;
+                myTable.Text[position + i, 4] = bomDataList[i].Наименование;
+                myTable.Text[position + i, 5] = bomDataList[i].Количество;
+                myTable.Text[position + i, 6] = bomDataList[i].Примечание;
+                var наименование = bomDataList[i].Наименование;
+                if (наименование == null)
+                {
+                    myTable.SetRowHeight(position + i, 0.008, 0);
+                }
+                else
+                {
+                    myTable.SetRowHeight(position + i, наименование.Count() < 35 ? 0.008 : 0.016, 0);
+                }
 
-            position = position + 3;
-
-            for (var i = 0; i < data.Count(); i++)
-            {
-                myTable.Text[position + i, 0] = data[i].Формат;
-                myTable.Text[position + i, 2] = data[i].Row;
-                myTable.Text[position + i, 3] = data[i].Обозначение;
-                myTable.Text[position + i, 4] = data[i].Наименование;
-                myTable.Text[position + i, 5] = data[i].Количество;
-                myTable.Text[position + i, 6] = data[i].Примечание;
-                myTable.SetRowHeight(position + i, data[i].Наименование.Count() < 35 ? 0.008 : 0.016, 0);
                 if (i <= position) continue;
-                myTable.set_CellTextHorizontalJustification(position + i, 0, (int)swTextJustification_e.swTextJustificationRight);
+                myTable.set_CellTextHorizontalJustification(position + i, 0,
+                    (int) swTextJustification_e.swTextJustificationRight);
             }
-
-            #endregion
-
-            #region Стандартные изделия
-
-            position = position + data.Count();
-
-            razdel = "Стандартные изделия";
-
-            data = bomDataList.Where(x => x.Раздел == razdel).ToList();
-
-            myTable.Text[position + 1, 4] = razdel;
-
-
-            for (var i = position; i < position + 1 + BomSettings.ИнтервалМеждустрочный; i++)
-            {
-                myTable.SetRowHeight(i, 0.008, 0);
-            }
-
-            position = position + 3;
-
-            for (var i = 0; i < data.Count(); i++)
-            {
-                myTable.Text[position + i, 0] = data[i].Формат;
-                myTable.Text[position + i, 2] = data[i].Row;
-                myTable.Text[position + i, 3] = data[i].Обозначение;
-                myTable.Text[position + i, 4] = data[i].Наименование;
-                myTable.Text[position + i, 5] = data[i].Количество;
-                myTable.Text[position + i, 6] = data[i].Примечание;
-                myTable.SetRowHeight(position + i, data[i].Наименование.Count() < 35 ? 0.008 : 0.016, 0);
-                if (i <= position) continue;
-                myTable.set_CellTextHorizontalJustification(position + i, 0, (int)swTextJustification_e.swTextJustificationRight);
-            }
-
-            //for (var i = 1; i < bomDataList.Count() + 1; i++)
-            //{
-            //    myTable.Text[i, 0] = bomDataList[i - 1].Формат;
-            //    myTable.Text[i, 2] = bomDataList[i - 1].Row;
-            //    myTable.Text[i, 3] = bomDataList[i - 1].Обозначение;
-            //    myTable.Text[i, 4] = bomDataList[i - 1].Наименование;
-            //    myTable.Text[i, 5] = bomDataList[i - 1].Количество;
-            //    myTable.Text[i, 6] = bomDataList[i - 1].Примечание;
-            //    myTable.SetRowHeight(i, bomDataList[i - 1].Наименование.Count() < 35 ? 0.008 : 0.016, 0);
-            //    if (i <= 1) continue;
-            //    //myTable.SetRowHeight(i, 0.008, 0);
-            //    myTable.set_CellTextHorizontalJustification(i, 0, (int)swTextJustification_e.swTextJustificationRight);
-            //    //myTable.Text[i, 1] = (i).ToString();
-            //}
-
-            #endregion
         }
-        
+
         public class BomData
         {
             public string Config { get; set; }
@@ -273,7 +339,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             public string КодМатериала { get; set; }
             public string Примечание { get; set; }
             public string Количество { get; set; }
+
+            public bool Заголовок { get; set; }
+            public bool ЗанимаетСтрок { get; set; }
         }
-      
     }
 }

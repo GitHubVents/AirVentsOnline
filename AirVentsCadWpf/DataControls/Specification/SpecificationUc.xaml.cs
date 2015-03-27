@@ -63,7 +63,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             PartsList.Visibility = Visibility.Hidden;
             XmlParts.Visibility = Visibility.Hidden;
 
-
             _работаСоСпецификацией = new СпецификацияДляВыгрузкиСборки
             {
                 ИмяХранилища = Settings.Default.PdmBaseName,
@@ -85,7 +84,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             if (найденныеФайлы == null) return;
             AsmsNames = найденныеФайлы.ConvertAll(FileNameWithoutExt);
 
-           // static AutoCompleteBehavior sdf;
+           // static AutoCompleteBehavior BomByPage;
         }
 
         void НайтиПолучитьСборкуЕеКонфигурацииПоИмени(string имяСборки)

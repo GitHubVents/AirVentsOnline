@@ -1,4 +1,6 @@
-﻿namespace AirVentsCadWpf.DataControls.Specification
+﻿using System.Windows;
+
+namespace AirVentsCadWpf.DataControls.Specification
 {
 
     /// <summary>
@@ -13,12 +15,23 @@
         public SpecificationBomUc()
         {
             InitializeComponent();
+
+            BomTablePrt2.Visibility = Visibility.Hidden;
         }
 
-        private void ВыгрузитьВXml_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ВыгрузитьВXml_Click(object sender, RoutedEventArgs e)
         {
             ТаблицаСпецификации.ItemsSource = _bomFormat.ListXmlBomData(@"C:\Program Files\SW-Complex\SP-Temp.xml");
             _bomFormat.InsertBomTable();
+
+            var i = 1;
+            foreach (var bomDatas in _bomFormat.BomByPage())
+            {
+                ТаблицаСпецификации.ItemsSource = bomDatas;
+                MessageBox.Show("Страница " + i);
+                i++;
+            }
+            
         }
      
 

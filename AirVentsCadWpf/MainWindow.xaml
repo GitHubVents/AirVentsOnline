@@ -21,7 +21,7 @@
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"
               Background="#FFF1F1F1">
             <Label x:Name="CurrentVersion" Content="AirVentsCAD v. 3.1.3" HorizontalAlignment="Left" Margin="275,24,0,23" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Initialized="CurrentVersion_Initialized"/>
-            <Image HorizontalAlignment="Left" Height="49" VerticalAlignment="Center" Width="200" Source="logo.png" Margin="0,24,0,17"/>
+            <Image HorizontalAlignment="Left" Height="32" VerticalAlignment="Center" Width="200" Source="logo.png" Margin="2,27,0,31"/>
         </Grid>
 
         <Grid HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" Background="#FF8DD3F1"/>
@@ -33,7 +33,7 @@
         </Grid>
         <Grid Name="DataControlsGrid" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Stretch" Margin="3,3,0,0"/>
         <Grid Name="MenuControlsGrid" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="0" VerticalAlignment="Stretch" Background="#FFF1F1F1" Margin="0,3,0,0"/>
-        <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="680,0,0,0">
+        <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="686,32,6,32">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="21"/>

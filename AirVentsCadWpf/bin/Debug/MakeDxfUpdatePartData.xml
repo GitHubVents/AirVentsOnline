@@ -29,6 +29,15 @@
             <param name="makeDxf">if set to <c>true</c> [make DXF].</param>
             <param name="makeEprt">if set to <c>true</c> [make eprt].</param>
         </member>
+        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateEprt(System.String,System.String@,System.Boolean@,System.Boolean)">
+            <summary>
+            Creates the eprt.
+            </summary>
+            <param name="filePath">The file path.</param>
+            <param name="eDrwFileName">Name of the e DRW file.</param>
+            <param name="isErrors">if set to <c>true</c> [is errors].</param>
+            <param name="makeEprt">if set to <c>true</c> [make eprt].</param>
+        </member>
         <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.RegistrationPdm(System.String)">
             <summary>
             Registrations in PDM.

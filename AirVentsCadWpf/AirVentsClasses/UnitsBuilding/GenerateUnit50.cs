@@ -5034,67 +5034,73 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
         static void GabaritsForPaintingCamera(IModelDoc2 swmodel)
         {
-
-            const long valueset = 1000; 
-            const int swDocPart = 1;
-            const int swDocAssembly = 2;
-
-            for (int i = 0;  i < swmodel.GetConfigurationCount();i++)
+            try
             {
-                i = i + 1;
-                var configname = swmodel.IGetConfigurationNames(ref i);
+                const long valueset = 1000;
+                const int swDocPart = 1;
+                const int swDocAssembly = 2;
 
-               // MessageBox.Show(configname, swmodel.GetConfigurationCount().ToString());
-
-                Configuration swConf = swmodel.GetConfigurationByName(configname);
-                if (swConf.IsDerived()) continue;
-                //swmodel.ShowConfiguration2(configname);
-                swmodel.EditRebuild3();
-
-                switch (swmodel.GetType())
+                for (int i = 0; i < swmodel.GetConfigurationCount(); i++)
                 {
-                    case swDocPart:
+                    i = i + 1;
+                    var configname = swmodel.IGetConfigurationNames(ref i);
+
+                    // MessageBox.Show(configname, swmodel.GetConfigurationCount().ToString());
+
+                    Configuration swConf = swmodel.GetConfigurationByName(configname);
+                    if (swConf.IsDerived()) continue;
+                    //swmodel.ShowConfiguration2(configname);
+                    swmodel.EditRebuild3();
+
+                    switch (swmodel.GetType())
                     {
-                    //    MessageBox.Show("swDocPart");
+                        case swDocPart:
+                            {
+                                //    MessageBox.Show("swDocPart");
 
-                        var part = (PartDoc) swmodel;
-                        var box = part.GetPartBox(true);
+                                var part = (PartDoc)swmodel;
+                                var box = part.GetPartBox(true);
 
-                        swmodel.AddCustomInfo3(configname, "Длина", 30, "");
-                        swmodel.AddCustomInfo3(configname, "Ширина", 30, "");
-                        swmodel.AddCustomInfo3(configname, "Высота", 30, "");
+                                swmodel.AddCustomInfo3(configname, "Длина", 30, "");
+                                swmodel.AddCustomInfo3(configname, "Ширина", 30, "");
+                                swmodel.AddCustomInfo3(configname, "Высота", 30, "");
 
-                        swmodel.CustomInfo2[configname, "Длина"] =
-                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(box[0] - box[3])*valueset)), 0));
-                        swmodel.CustomInfo2[configname, "Ширина"] =
-                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(box[1] - box[4])*valueset)), 0));
-                        swmodel.CustomInfo2[configname, "Высота"] =
-                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(box[2] - box[5])*valueset)), 0));
+                                swmodel.CustomInfo2[configname, "Длина"] =
+                                    Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(box[0] - box[3]) * valueset)), 0));
+                                swmodel.CustomInfo2[configname, "Ширина"] =
+                                    Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(box[1] - box[4]) * valueset)), 0));
+                                swmodel.CustomInfo2[configname, "Высота"] =
+                                    Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(box[2] - box[5]) * valueset)), 0));
 
+                            }
+                            break;
+                        case swDocAssembly:
+                            {
+                                //   MessageBox.Show("AssemblyDoc");
+
+                                var swAssy = (AssemblyDoc)swmodel;
+
+                                var boxAss = swAssy.GetBox((int)swBoundingBoxOptions_e.swBoundingBoxIncludeRefPlanes);
+
+                                swmodel.AddCustomInfo3(configname, "Длина", 30, "");
+                                swmodel.AddCustomInfo3(configname, "Ширина", 30, "");
+                                swmodel.AddCustomInfo3(configname, "Высота", 30, "");
+
+                                swmodel.CustomInfo2[configname, "Длина"] =
+                                    Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(boxAss[0] - boxAss[3]) * valueset)), 0));
+                                swmodel.CustomInfo2[configname, "Ширина"] =
+                                    Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(boxAss[1] - boxAss[4]) * valueset)), 0));
+                                swmodel.CustomInfo2[configname, "Высота"] =
+                                    Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(boxAss[2] - boxAss[5]) * valueset)), 0));
+                            }
+                            break;
                     }
-                        break;
-                    case swDocAssembly:
-                    {
-                     //   MessageBox.Show("AssemblyDoc");
-
-                        var swAssy = (AssemblyDoc) swmodel;
-
-                        var boxAss = swAssy.GetBox((int) swBoundingBoxOptions_e.swBoundingBoxIncludeRefPlanes);
-
-                        swmodel.AddCustomInfo3(configname, "Длина", 30, "");
-                        swmodel.AddCustomInfo3(configname, "Ширина", 30, "");
-                        swmodel.AddCustomInfo3(configname, "Высота", 30, "");
-
-                        swmodel.CustomInfo2[configname, "Длина"] =
-                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(boxAss[0] - boxAss[3])*valueset)), 0));
-                        swmodel.CustomInfo2[configname, "Ширина"] =
-                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(boxAss[1] - boxAss[4])*valueset)), 0));
-                        swmodel.CustomInfo2[configname, "Высота"] =
-                            Convert.ToString(Math.Round(Convert.ToDecimal((long) (Math.Abs(boxAss[2] - boxAss[5])*valueset)), 0));
-                    }
-                        break;
                 }
             }
+            catch (Exception )
+            {
+            }
+            
         }
 
 

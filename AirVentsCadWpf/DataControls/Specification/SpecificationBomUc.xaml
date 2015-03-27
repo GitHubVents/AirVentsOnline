@@ -85,8 +85,8 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <DataGrid x:Name="ТаблицаСпецификации" Margin="6,5,0,1" Grid.Row="4" MinWidth="450" MinHeight="125"/>
-        <GroupBox x:Name="СпецификацияТаблица" Header="Перечень деталей" Margin="3" Grid.Row="2">
+        <DataGrid x:Name="ТаблицаСпецификации" Margin="6,5,0,1" Grid.Row="4" MinWidth="450"  MaxWidth="1450" MinHeight="125"/>
+        <GroupBox x:Name="СпецификацияТаблица" Header="Перечень деталей" Margin="6,5,0,1" Grid.Row="2">
             <Grid Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -140,7 +140,7 @@
                 					MaxHeight="300"  MinHeight="2"
                 					SelectionMode="Single" ToolTip="Двойной щелчек для для добавления в список выбранной детали">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Обозначение" Width="150" MaxWidth="170" Binding="{Binding ОбозначениеDocMgr}"/>
+                                        <DataGridTextColumn x:Name="BomTablePrt2" Header="Обозначение" Width="150" MaxWidth="170" Binding="{Binding ОбозначениеDocMgr}"/>
                                         <DataGridTextColumn Header="Наименование" Width="130" MaxWidth="170" Binding="{Binding НаименованиеDocMgr}"/>
                                         <DataGridTextColumn Header="ERPCode" Width="Auto" Binding="{Binding ERPCode}"/>
                                         <DataGridTextColumn Header="Конфиг." Width="65"  Binding="{Binding Конфигурация}">
