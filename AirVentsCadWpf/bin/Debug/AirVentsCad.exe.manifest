@@ -48,14 +48,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AirVentsCad.exe" size="1635328">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AirVentsCad.exe" size="1635840">
       <assemblyIdentity name="AirVentsCad" version="1.0.1.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zdutrFItApH/0Fbo6yzIUna7xlbyYww6ut90ORXLr+Y=</dsig:DigestValue>
+        <dsig:DigestValue>R7ZMRfRuaOrLdAAqRPIJFd6Wgg/hIGb4bEmSipxTKDQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -91,7 +91,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>h/n94pGoYIDXexWgLBoLwOLLCAq3azJbLtB6P4LqpW0=</dsig:DigestValue>
+        <dsig:DigestValue>6ingKinwtTSQlzchohFZeQ6MrbMyZf0Po8yVealwLnE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

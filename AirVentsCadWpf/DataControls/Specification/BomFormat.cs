@@ -66,7 +66,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                             Формат = формат == null ? "" : формат.Value,
                             ErpCode = erpCode == null ? "" : erpCode.Value,
                             КодМатериала = кодМатериала == null ? "" : кодМатериала.Value,
-                            Примечание = примечание == null ? "" : примечание.Value,
+                            Примечание = примечание == null ? "SK" : примечание.Value,
                             Количество = количество == null ? "" : количество.Value
                         });
                     }
@@ -122,14 +122,15 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         public static class BomSettings
          {
-            public static int РезервСтрокНаЗаголовок = 3;
-            public static int КоличествоСтрокНаПервомЛистеА4 = 8;
-            public static int КоличествоСтрокНаВторомЛистеА4 = 15;
+            public static int КоличествоСтрокНаПервомЛистеА4 { get { return _количествоСтрокНаПервомЛистеА4; } set { _количествоСтрокНаПервомЛистеА4 = value; } }
+            public static int КоличествоСтрокНаВторомЛистеА4 { get { return _количествоСтрокНаВторомЛистеА4; } set { _количествоСтрокНаВторомЛистеА4 = value; } }
+            static int _количествоСтрокНаПервомЛистеА4 = 26;
+            static int _количествоСтрокНаВторомЛистеА4 = 30;
 
-            public static int КоличествоСтрокРаздела(List<BomData> sectionList)
-            {
-                return sectionList.Aggregate(0, (current, bomData) => bomData.Наименование.Count() < 35 ? current + 1 : current + 2) + РезервСтрокНаЗаголовок;
-            }
+            public static string Sp1 { get { return _sp1; } set { _sp1 = value; } }
+            private static string _sp1 = "SP-1.slddrt";
+            public static string Sp2 { get { return _sp2; } set { _sp2 = value; } }
+            private static string _sp2 = "SP-2.slddrt";
          }
 
         public static List<List<BomData>> BomDataLists(IList<BomData> bomDataList)
@@ -250,11 +251,11 @@ namespace AirVentsCadWpf.DataControls.Specification
 
             BomDataLists(bomDataList);
 
-            InsertBomTable(BomDataListsDivided[0], swDrawing, spSheetNames[0], "SP-1.slddrt");//"GSP-1.slddrt"
+            InsertBomTable(BomDataListsDivided[0], swDrawing, spSheetNames[0], BomSettings.Sp1);//"GSP-1.slddrt"
 
             for (var i = 1; i < BomDataListsDivided.Count ; i++)
             {
-                InsertBomTable(BomDataListsDivided[i], swDrawing, spSheetNames[1], "SP-2.slddrt");        
+                InsertBomTable(BomDataListsDivided[i], swDrawing, spSheetNames[1], BomSettings.Sp2);        
             }
         }
 
@@ -300,7 +301,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             #endregion
 
             const int position = 1;
-            
+           
             for (var i = 0; i < bomDataList.Count(); i++)
             {
                 myTable.Text[position + i, 0] = bomDataList[i].Формат;

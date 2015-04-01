@@ -41,9 +41,9 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <Image HorizontalAlignment="Left" Height="17" VerticalAlignment="Center" Width="21" Source="AHU Selection/topmenu_icon1.png" Grid.Column="3" Margin="0,4"/>
+            <Image HorizontalAlignment="Left" Height="17" VerticalAlignment="Center" Width="21" Source="AHU Selection/topmenu_icon2.png" Grid.Column="3" Margin="0,4"/>
             <Label Content="Главная" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Height="25" Width="54" MouseLeftButtonDown="Label_MouseLeftButtonDown_2" />
-            <Image HorizontalAlignment="Left" Height="17"  VerticalAlignment="Center" Width="21" Source="AHU Selection/topmenu_icon2.png" Grid.Column="1" Margin="0,4"/>
+            <Image HorizontalAlignment="Left" Height="17"  VerticalAlignment="Center" Width="21" Source="AHU Selection/topmenu_icon1.png" Grid.Column="1" Margin="0,4"/>
             <Label Content="Настройки" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="26,-1,0,0" Height="26" Width="69" Grid.Column="3" MouseLeftButtonDown="Label_MouseLeftButtonDown_1"/>
             <Image HorizontalAlignment="Left" Height="17" VerticalAlignment="Center" Width="21" Source="AHU Selection/topmenu_icon3.png" Grid.Column="4" Margin="14,4,0,4"/>
             <Label Content="Выход" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,-9,-1" Height="26" Width="69" Grid.Column="4" MouseLeftButtonDown="Label_MouseLeftButtonDown_3"/>

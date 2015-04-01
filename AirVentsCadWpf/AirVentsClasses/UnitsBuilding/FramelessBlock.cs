@@ -276,9 +276,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     swDoc.EditDelete();
                     swDoc.Extension.SelectByID2("Третья панель лево зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
                     swDoc.EditDelete();
-
-
-
+                    
                     swDoc.Extension.SelectByID2("DerivedCrvPattern6", "COMPPATTERN", 0, 0, 0, true, 0, null, 0);
                     swDoc.Extension.SelectByID2("DerivedCrvPattern7", "COMPPATTERN", 0, 0, 0, true, 0, null, 0);
                     swDoc.Extension.SelectByID2("DerivedCrvPattern7", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
@@ -515,7 +513,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #region  Сохранение
 
-            _swApp.IActivateDoc2(ModelName, false, 0);
+
+           // MessageBox.Show("Сохранение");
+
+            _swApp.IActivateDoc2(ModelName, true, 0);
 
             swDoc.Extension.SelectByID2("Расстояние5", "MATE", 0, 0, 0, false, 0, null, 0);
             swDoc.ActivateSelectedFeature();
@@ -523,9 +524,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             ((Dimension)(swDoc.Parameter("D1@Расстояние5"))).SystemValue = ((Convert.ToDouble(height) - 80) / 1000);
 
             swDoc = ((ModelDoc2)(_swApp.ActiveDoc));
-
+         //   MessageBox.Show("GabaritsForPaintingCamera");
             GabaritsForPaintingCamera(swDoc);
-
+           // MessageBox.Show("ForceRebuild3");
             swDoc.ForceRebuild3(true);
             swDoc.SaveAs2(framelessBlockNewPath, (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
             NewComponents.Add(new FileInfo(framelessBlockNewPath));

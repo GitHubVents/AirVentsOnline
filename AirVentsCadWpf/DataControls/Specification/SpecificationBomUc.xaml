@@ -182,6 +182,8 @@
                 </Grid>
             </Grid>
         </GroupBox>
+        <TextBox x:Name="Img" HorizontalAlignment="Left" Height="20" Margin="46,25,0,0" Grid.Row="6" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="65"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="127,23,0,0" Grid.Row="6" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
     </Grid>
 
 </UserControl>

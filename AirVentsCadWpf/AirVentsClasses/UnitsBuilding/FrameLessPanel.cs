@@ -1687,7 +1687,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             foreach (var newComponent in NewComponents)
             {
                // MessageBox.Show(newComponent.Name);
-                PartInfoToXml(newComponent.FullName);
+ //               PartInfoToXml(newComponent.FullName);
             }
             
 
