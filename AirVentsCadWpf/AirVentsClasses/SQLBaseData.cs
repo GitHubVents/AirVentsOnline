@@ -364,12 +364,6 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// <param name="panelThick">The panel thick.</param>
         /// <param name="panelMatThickOut">The panel mat thick out.</param>
         /// <param name="panelMatThickIn">The panel mat thick in.</param>
-        /// <param name="ralOut">The ral out.</param>
-        /// <param name="ralIn">The ral in.</param>
-        /// <param name="coatingTypeOut">The coating type out.</param>
-        /// <param name="coatingTypeIn">The coating type in.</param>
-        /// <param name="coatingClassOut">The coating class out.</param>
-        /// <param name="coatingClassIn">The coating class in.</param>
         /// <param name="mirror">The mirror.</param>
         /// <param name="step">The step.</param>
         /// <param name="stepInsertion">The step insertion.</param>
@@ -1140,6 +1134,7 @@ Order BY PanelTypeCode";
             }
             catch (Exception)
             {
+                materialsTable = null;
             }
             
             return materialsTable;
@@ -1563,7 +1558,7 @@ INNER JOIN AirVents.Profil
                     var sqlCommand = new SqlCommand("ADDUSERGROUP", con) {CommandType = CommandType.StoredProcedure};
                     sqlCommand.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userName;
                     sqlCommand.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = fullName;
-                    sqlCommand.Parameters.Add("@GroupName", SqlDbType.NVarChar).Value = groupname;
+                    //sqlCommand.Parameters.Add("@GroupName", SqlDbType.NVarChar).Value = groupname;
                     sqlCommand.ExecuteNonQuery();
                 }
                 catch (Exception)
@@ -1577,6 +1572,37 @@ INNER JOIN AirVents.Profil
             }
             return true;
         }
+
+        /// <summary>
+        /// Adds the user in SQL base.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="fullName">The full name.</param>
+        /// <returns></returns>
+        public bool AddUserInSqlBase(string userName, string fullName)
+        {
+            using (var con = new SqlConnection(Properties.Settings.Default.ConnectionToSQL))
+            {
+                try
+                {
+                    con.Open();
+                    var sqlCommand = new SqlCommand("AddUser", con) { CommandType = CommandType.StoredProcedure };
+                    sqlCommand.Parameters.Add("@Username", SqlDbType.NVarChar).Value = userName;
+                    sqlCommand.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = fullName;
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            return true;
+        }
+
 
         /// <summary>
         /// Удаление пользователя из группы SQL.

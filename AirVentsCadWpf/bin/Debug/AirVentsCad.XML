@@ -330,6 +330,14 @@
             <param name="groupname">Имя группы.</param>
             <returns>true - если успешно</returns>
         </member>
+        <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.AddUserInSqlBase(System.String,System.String)">
+            <summary>
+            Adds the user in SQL base.
+            </summary>
+            <param name="userName">Name of the user.</param>
+            <param name="fullName">The full name.</param>
+            <returns></returns>
+        </member>
         <member name="M:AirVentsCadWpf.AirVentsClasses.SqlBaseData.DeleteUserFromGroup(System.String,System.String)">
             <summary>
             Удаление пользователя из группы SQL.

@@ -27,9 +27,7 @@ namespace AirVentsCadWpf.AdminkaWindows
         public Adminka()
         {
             InitializeComponent();
-            Closing += (MainWindow_Closing);    
-
-
+            Closing += (MainWindow_Closing); 
         }
         
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -65,12 +63,16 @@ namespace AirVentsCadWpf.AdminkaWindows
             public string FullUserName { get; set; }
         }
 
+
+        private List<Users> lstAdUsers;
+
          void ListUsersDomain()
         {
 
             //string[] bn = {"otel", "zver"};
 
-            var lstAdUsers = new List<Users>();
+           // var
+                lstAdUsers = new List<Users>();
             try
             {
                 using (var context = new PrincipalContext(ContextType.Domain, Properties.Settings.Default.Domain))// "vents.local"
@@ -83,8 +85,12 @@ namespace AirVentsCadWpf.AdminkaWindows
                             var objSurveyUsers = new Users();//name   //samAccountName
                             if (directoryEntry != null)
                             {
+                                
+
                                 objSurveyUsers.AccountName = (String)directoryEntry.Properties["samAccountName"].Value;
                                 objSurveyUsers.FullUserName = (String)directoryEntry.Properties["displayName"].Value;
+                                //objSurveyUsers.FullUserName =  Convert.ToInt32( directoryEntry.Properties["userAccountControl"].Value).ToString();
+                                //objSurveyUsers.FullUserName = (String)directoryEntry.Properties["Mail"].Value;
                             }
                             lstAdUsers.Add(objSurveyUsers);
                             //comboBoxOfUsers.Items.Add((String)de.Properties["displayName"].Value);
@@ -250,13 +256,11 @@ namespace AirVentsCadWpf.AdminkaWindows
 
         DataGridRow GetRow(int index)
         {
-            DataGridRow row = (DataGridRow)UsersList.ItemContainerGenerator.ContainerFromIndex(index);
-            if (row == null)
-            {
-                UsersList.UpdateLayout();
-                UsersList.ScrollIntoView(UsersList.Items[index]);
-                row = (DataGridRow)UsersList.ItemContainerGenerator.ContainerFromIndex(index);
-            }
+            var row = (DataGridRow)UsersList.ItemContainerGenerator.ContainerFromIndex(index);
+            if (row != null) return row;
+            UsersList.UpdateLayout();
+            UsersList.ScrollIntoView(UsersList.Items[index]);
+            row = (DataGridRow)UsersList.ItemContainerGenerator.ContainerFromIndex(index);
             return row;
         }
 
@@ -315,6 +319,28 @@ namespace AirVentsCadWpf.AdminkaWindows
         private void UsersList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void ВыгрузитьПользователейВБазу_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstAdUsers != null)
+            {
+                foreach (var item in lstAdUsers)
+                {
+                    _sqlBase.AddUserInSqlBase(item.AccountName, item.FullUserName);        
+                }
+
+                
+            }
+            else
+            {
+                MessageBox.Show("PINOP");
+            }
+
+
+            
+
+            // var List
         }
     }
 }

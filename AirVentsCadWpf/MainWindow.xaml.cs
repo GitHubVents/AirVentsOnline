@@ -44,7 +44,7 @@ namespace AirVentsCadWpf
             DataControlsGrid.Children.Add(nextPage);
         }
 
-    //   private readonly GroupUserControl _groupUser = new GroupUserControl();
+      // private readonly GroupUserControl _groupUser = new GroupUserControl();
 
         private readonly SettingsW _settings = new SettingsW();
 
@@ -52,10 +52,9 @@ namespace AirVentsCadWpf
 
         private void Label_MouseLeftButtonDown_1(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-           // _groupUser.Visibility = Visibility.Visible;
+          //  _groupUser.Visibility = Visibility.Visible;
             _settings.Visibility = Visibility.Visible;
             _settings.Activate();
-
         }
 
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
@@ -99,9 +98,9 @@ namespace AirVentsCadWpf
 
         private void Label_MouseLeftButtonDown_3(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Properties.Settings.Default.UserName = "";
-            Properties.Settings.Default.Password = "";
-            Properties.Settings.Default.Reset();
+            Settings.Default.UserName = "";
+            Settings.Default.Password = "";
+            Settings.Default.Reset();
            // Properties.Settings.Save();
             Switcher.Switch(new AuthenticatedUc());
             Switcher.SwitchData(new UnitElement());
