@@ -621,7 +621,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             };
             string file;
             bool isErrors;
-            cutlistClass.CreateFlattPatternUpdateCutlistAndEdrawing(fileName, out file, out isErrors, false, false);
+            cutlistClass.CreateFlattPatternUpdateCutlistAndEdrawing(fileName, out file, out isErrors, false, false, false);
 
             //var thread = new Thread(RegistationEdrw);
             //thread.Start();
@@ -1191,9 +1191,11 @@ namespace AirVentsCadWpf.DataControls.Specification
             //if (list == null) return;
             foreach (var newComponent in list)
             {
-                modelSw.PartInfoToXml(newComponent.Путь);
+                if (!newComponent.Xml)
+                {
+                    modelSw.PartInfoToXml(newComponent.Путь);
+                }
             }
-
             Конфигурация_SelectionChanged(null, null);
 
         }

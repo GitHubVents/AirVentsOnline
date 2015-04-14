@@ -178,12 +178,6 @@
             <param name="panelThick">The panel thick.</param>
             <param name="panelMatThickOut">The panel mat thick out.</param>
             <param name="panelMatThickIn">The panel mat thick in.</param>
-            <param name="ralOut">The ral out.</param>
-            <param name="ralIn">The ral in.</param>
-            <param name="coatingTypeOut">The coating type out.</param>
-            <param name="coatingTypeIn">The coating type in.</param>
-            <param name="coatingClassOut">The coating class out.</param>
-            <param name="coatingClassIn">The coating class in.</param>
             <param name="mirror">The mirror.</param>
             <param name="step">The step.</param>
             <param name="stepInsertion">The step insertion.</param>

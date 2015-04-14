@@ -273,7 +273,8 @@
                                     <Label x:Name="AssemblyInfo" Content="Текущая сборка" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" LayoutUpdated="AssemblyInfo_LayoutUpdated" MinWidth="100"
                 						Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Padding="2" />
                                 </Grid>
-                                <DataGrid x:Name="BomTablePrt" ItemsSource="{Binding BomCells}"  Margin="3" Grid.Row="1" IsReadOnly="True" CanUserResizeRows="False" AutoGenerateColumns="False" SelectedIndex="0" Height="Auto" Width="Auto" 
+                                <DataGrid x:Name="BomTablePrt" ItemsSource="{Binding BomCells}"  Margin="3" Grid.Row="1" IsReadOnly="True
+                                          " CanUserResizeRows="False" AutoGenerateColumns="False" SelectedIndex="0" Height="Auto" Width="Auto" 
                 					CanUserReorderColumns="False" CanUserResizeColumns="True" CanUserSortColumns="True" SelectionUnit="FullRow" 
                 					MaxHeight="300"  MinHeight="2"
                 					SelectionMode="Single" ToolTip="Двойной щелчек для для добавления в список выбранной детали"

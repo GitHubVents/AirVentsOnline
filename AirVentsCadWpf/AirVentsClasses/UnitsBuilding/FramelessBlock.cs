@@ -513,6 +513,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #region  Сохранение
 
+            swDoc.Extension.SelectByID2("17-AV06-3C-L-3@" + ModelName.Replace(".SLDASM", ""), "COMPONENT", 0, 0, 0, false, 0, null, 0);
+            swDoc.EditDelete();
+            swDoc.Extension.SelectByID2("16-AV06-2H-1@" + ModelName.Replace(".SLDASM", ""), "COMPONENT", 0, 0, 0, false, 0, null, 0);
+            swDoc.EditDelete();
+
 
            // MessageBox.Show("Сохранение");
 

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.ServiceModel;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 //using AirVentsCadWpf.AirVentsCadService;
@@ -267,10 +265,9 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             // _dispatcherTimer.Start();
         }
 
-        private int Visibilyty {
-
-            get;
-            set;
+        private int Visibilyty
+        {
+            get;set;
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)

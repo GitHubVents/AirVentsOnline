@@ -19,7 +19,7 @@
             Initializes a new instance of the <see cref="T:MakeDxfUpdatePartData.MakeDxfExportPartDataClass"/> class.
             </summary>
         </member>
-        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(System.String,System.String@,System.Boolean@,System.Boolean,System.Boolean)">
+        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(System.String,System.String@,System.Boolean@,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Creates the flatt pattern update cutlist and edrawing.
             </summary>
@@ -28,6 +28,7 @@
             <param name="isErrors">if set to <c>true</c> [is errors].</param>
             <param name="makeDxf">if set to <c>true</c> [make DXF].</param>
             <param name="makeEprt">if set to <c>true</c> [make eprt].</param>
+            <param name="swVisible">if set to <c>true</c> [sw visible].</param>
         </member>
         <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateEprt(System.String,System.String@,System.Boolean@,System.Boolean)">
             <summary>

@@ -5010,7 +5010,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 };
                 bool isErrors;
                 string newEdrwFileName;
-                @class.CreateFlattPatternUpdateCutlistAndEdrawing(filePath, out newEdrwFileName, out isErrors, false, false);
+                @class.CreateFlattPatternUpdateCutlistAndEdrawing(filePath, out newEdrwFileName, out isErrors, false, false, true);
                 if (!isErrors)
                 {
                     LoggerInfo("Закончена обработка " + Path.GetFileName(filePath), "", "PartInfoToXml");
