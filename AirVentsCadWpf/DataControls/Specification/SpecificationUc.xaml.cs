@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Linq;
 using AirVentsCadWpf.AirVentsClasses;
 using AirVentsCadWpf.AirVentsClasses.UnitsBuilding;
 using AirVentsCadWpf.Properties;
@@ -181,7 +183,7 @@ namespace AirVentsCadWpf.DataControls.Specification
              {
                  const string xmlPath = @"\\srvkb\SolidWorks Admin\XML\";
 
-                  //   const string xmlPath = @"C:\Temp\";
+                 //const string xmlPath = @"C:\Temp\";
 
                  var myXml = new System.Xml.XmlTextWriter(xmlPath + имяСборки + ".xml", System.Text.Encoding.UTF8);
                  
@@ -1133,6 +1135,7 @@ namespace AirVentsCadWpf.DataControls.Specification
         class PartsListXml
         {
             public bool Xml { get; set; }
+            public int CurrentVersion { get; set; }
             public string Путь {  get; set; }
             public string Наименование { get { return Path.GetFileNameWithoutExtension(Путь); } }
         }
@@ -1156,17 +1159,37 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
             var partsListXml = new List<PartsListXml>();
 
-            foreach (var данныеДляВыгрузки in _работаСоСпецификацией.Спецификация(_путьКСборке, 10, Конфигурация.Text).Where(x => x.Путь.ToLower().EndsWith("prt")).Where(x => x.Раздел == "Детали" || x.Раздел == "").GroupBy(v => v.Путь))//.Where(g => g.Count() > 1))
+            foreach (var данныеДляВыгрузки in _работаСоСпецификацией.Спецификация(_путьКСборке, 10, Конфигурация.Text).Where(x => x.Путь.ToLower().EndsWith("prt")).Where(x => x.Раздел == "Детали" || x.Раздел == "").GroupBy(x => new { x.Путь, x.Версия }))
             {
                 partsListXml.Add(new PartsListXml
                 {
-                    Путь = данныеДляВыгрузки.Key,
-                    Xml = new FileInfo(@"\\srvkb\SolidWorks Admin\XML\" + Path.GetFileNameWithoutExtension(данныеДляВыгрузки.Key) + ".xml").Exists    //  //@"C:\Temp\"
+                    Путь = Convert.ToString(данныеДляВыгрузки.Key.Путь),
+                    CurrentVersion = Convert.ToInt32(данныеДляВыгрузки.Key.Версия),
+                    //listXml.Xml = ExistLastXml(listXml.Путь, listXml.CurrentVersion);
                 });
             }
 
+
+            foreach (var listXml in partsListXml)
+            {
+                listXml.Xml = ExistLastXml(listXml.Путь, listXml.CurrentVersion);
+            }
+         
             PartsList.ItemsSource = partsListXml.OrderBy(x => x.Xml).ThenBy(x => x.Наименование);
         }
+
+        static bool ExistLastXml(string partPath, int currentVersion)
+        {
+            var xmlPartPath =
+                new FileInfo(@"\\srvkb\SolidWorks Admin\XML\" + Path.GetFileNameWithoutExtension(partPath) + ".xml");
+
+            if (!xmlPartPath.Exists) return false;
+
+            var xmlPartVersion = Version(xmlPartPath.FullName);
+
+            return string.Equals(xmlPartVersion, currentVersion);
+        }
+
 
         private void PartsList_LoadingRow(object sender, DataGridRowEventArgs e)
         {
@@ -1180,6 +1203,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 e.Row.Background = _orangeColorBrush;
             }
+
         }
 
         private void XMLParts_Click(object sender, RoutedEventArgs e)
@@ -1191,6 +1215,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             //if (list == null) return;
             foreach (var newComponent in list)
             {
+                //modelSw.PartInfoToXml(newComponent.Путь);
+
+
                 if (!newComponent.Xml)
                 {
                     modelSw.PartInfoToXml(newComponent.Путь);
@@ -1287,12 +1314,101 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
             var item = (PartsListXml)PartsList.SelectedItem;
             MessageBox.Show(item.Путь);
+
+
         }
+
+
+        static int? Version(string xmlPath)
+        {
+            if (!xmlPath.EndsWith("xml"))
+            {
+                return null;
+            }
+            int? version = null;
+
+            var coordinates = XDocument.Load(xmlPath);
+
+            var enumerable = coordinates.Descendants("attribute")
+                                .Select(
+                                        element =>
+                                        new
+                                        {
+                                            Number = element.FirstAttribute.Value,
+                                            Values = element.Attribute("value")
+                                        });
+            foreach (var obj in enumerable)
+            {
+                if (obj.Number != "Версия") continue;
+                
+                version = Convert.ToInt32(obj.Values.Value);
+            }
+
+            return version;
+        }
+
+
+
+
+
+
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
             var item = (PartsListXml)PartsList.SelectedItem;
             Process.Start(@item.Путь);
+        }
+
+
+        private void PartsList_LayoutUpdated(object sender, EventArgs e)
+        {
+            if (PartsList.ItemsSource == null) return;
+            var list = PartsList.ItemsSource.OfType<PartsListXml>().ToList();
+            Total.Content = "Всего: " + list.Count();
+            Ready.Content = "Выгружено: " + list.Count(x => x.Xml);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           //var iner = Version(@"C:\Temp\02-01-01-1050-1060-50-Az.xml");
+           // MessageBox.Show(iner.ToString());
+            //Parse(@"C:\Temp\02-01-01-1050-1060-50-Az.xml");
+
+            var swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
+
+            var swModel = (ModelDoc2) swApp.ActiveDoc;
+
+            MessageBox.Show(swModel.GetTitle());
+
+            swModel.EditRebuild3();
+            var swPart = (PartDoc)swModel;
+            var arrNamesConfig = (string[])swModel.GetConfigurationNames();
+
+            Feature swFeature = swPart.FirstFeature();
+            const string strSearch = "FlatPattern";
+
+            while (swFeature != null)
+            {
+                var nameTypeFeature = swFeature.GetTypeName2();
+
+                if (nameTypeFeature == strSearch)
+                {
+                    Feature swSubFeature = swFeature.GetFirstSubFeature();
+                    while (swSubFeature != null)
+                    {
+                        var nameTypeSubFeature = swSubFeature.GetTypeName2();
+                        
+                        if (nameTypeSubFeature == "UiBend")
+                        {
+                            swSubFeature.SetSuppression2((int)swFeatureSuppressionAction_e.swUnSuppressFeature, (int)swInConfigurationOpts_e.swAllConfiguration,
+                                arrNamesConfig);
+                        }
+                        swSubFeature = swSubFeature.GetNextSubFeature();
+                    }
+                }
+                swFeature = swFeature.GetNextFeature();
+            }
+            swModel.EditRebuild3();
         }
     }
 }
