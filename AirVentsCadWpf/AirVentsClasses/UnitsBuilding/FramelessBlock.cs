@@ -59,15 +59,35 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 string.Format(" {0} ", Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)),
                 MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes) return;
 
-            _swApp.CloseDoc(Path.GetFileName(pDown));
-            _swApp.CloseDoc(Path.GetFileName(pFixed));
-            _swApp.CloseDoc(Path.GetFileName(pUp));
+
+            CloseSldAsm(pDown);
+            CloseSldAsm(pFixed);
+            CloseSldAsm(pUp);
+
+            #region to delete
+            //_swApp.CloseDoc(Path.GetFileName(pDown));
+            //_swApp.CloseDoc(Path.GetFileName(pFixed));
+            //_swApp.CloseDoc(Path.GetFileName(pUp));
+            #endregion
+
             foreach (var панель in съемныеПанели)
             {
-                _swApp.CloseDoc(Path.GetFileName(панель));    
+                CloseSldAsm(панель);
+                #region to delete
+                //_swApp.CloseDoc(Path.GetFileName(панель));    
+                #endregion
             }
             FramelessBlockStr(size, order, side, section, pDown, pFixed, pUp, съемныеПанели, height);
             Логгер.Информация("Блок згенерирован", "" , "FramelessBlock", "FramelessBlock");
+        }
+
+        private void CloseSldAsm(string pDown)
+        {
+            var fileName = Path.GetFileName(pDown);
+            var namePrt = fileName != null && fileName.ToLower().Contains(".sldasm")
+                ? Path.GetFileName(pDown)
+                : Path.GetFileName(pDown) + ".sldasm";
+            _swApp.CloseDoc(namePrt);
         }
 
 

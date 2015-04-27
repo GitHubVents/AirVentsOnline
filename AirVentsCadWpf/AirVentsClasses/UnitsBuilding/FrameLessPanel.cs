@@ -13,6 +13,8 @@ using SolidWorks.Interop.swconst;
 using VentsMaterials;
 
 
+// TODO Добавить при длине от 1200 мм в варианте с ножками третьи ножки посредине
+
 namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 {
     public partial class ModelSw
@@ -1696,7 +1698,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             foreach (var newComponent in NewComponents)
             {
                // MessageBox.Show(newComponent.Name);
-                PartInfoToXml(newComponent.FullName);
+              //  PartInfoToXml(newComponent.FullName);
             }
             
 

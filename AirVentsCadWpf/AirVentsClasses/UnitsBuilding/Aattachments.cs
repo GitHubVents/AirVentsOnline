@@ -906,7 +906,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             NewComponents.Add(new FileInfo(name + ".SLDDRW"));
             // _swApp.CloseDoc(Path.GetFileNameWithoutExtension(new FileInfo(name + ".SLDDRW").FullName) + " - DRW1");
             _swApp.CloseDoc(newDamperPath);
-            _swApp.ExitApp();
+            //_swApp.ExitApp();
             _swApp = null;
             CheckInOutPdm(newComponents, true, Settings.Default.TestPdmBaseName);
             return newDamperPath;
@@ -950,9 +950,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             {
                 return "";
             }
-
             
-
             string modelName;
             switch (type)
             {
@@ -1113,7 +1111,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             var addDimH = 5;
             if (modelName == "12-30")
             {
-                addDimH = 10;
+                addDimH = 10 - 5;
             }
 
             var w = Convert.ToDouble(width) / 1000;

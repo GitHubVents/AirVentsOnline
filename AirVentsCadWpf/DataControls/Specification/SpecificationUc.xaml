@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              mc:Ignorable="d" Background="#FFFFFEFE" >
-
-
     <UserControl.Resources>
         <Style TargetType="{x:Type DataGridCell}">
             <Style.Triggers>
@@ -440,7 +438,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="PartsList" ItemsSource="{Binding PartsListXml}" Grid.Column="0" HorizontalAlignment="Left" Margin="2,4,0,0" IsReadOnly="True"
+                <DataGrid x:Name="PartsList" VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                          ItemsSource="{Binding PartsListXml}" Grid.Column="0" HorizontalAlignment="Left" Margin="2,4,0,0" IsReadOnly="True"
         			Grid.Row="0"  SelectionMode="Single" CanUserResizeRows="False" RowDetailsVisibilityMode="Visible" 
         			AutoGenerateColumns="False" SelectedIndex="0" Height="Auto" Width="Auto" MaxHeight="250" LoadingRow="PartsList_LoadingRow" SelectionChanged="PartsList_SelectionChanged" LayoutUpdated="PartsList_LayoutUpdated">
                     <DataGrid.ContextMenu>
@@ -468,7 +467,7 @@
                 </Grid>
             </Grid>
         </GroupBox>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="956,16,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Background="{x:Null}" IsEnabled="False"/>
+        <Button Grid.Row="0" Content="Button" HorizontalAlignment="Left" Margin="956,16,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Background="{x:Null}" IsEnabled="False"/>
         <!--ItemsSource="{Binding AsmsNames}" SelectedItem="{Binding SelectedName, Mode=TwoWay}" -->
     </Grid>
 

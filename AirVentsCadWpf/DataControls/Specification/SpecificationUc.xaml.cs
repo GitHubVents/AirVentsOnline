@@ -1217,7 +1217,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 //modelSw.PartInfoToXml(newComponent.Путь);
 
-
                 if (!newComponent.Xml)
                 {
                     modelSw.PartInfoToXml(newComponent.Путь);
@@ -1225,11 +1224,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
             Конфигурация_SelectionChanged(null, null);
 
-        }
-
-        private void ПолучитьПереченьДеталей_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-           
         }
 
         private void Конфигурация_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -1245,19 +1239,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-      
-
         private void PartsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (PartsList.HasItems)
-            {
-                XmlParts.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                XmlParts.Visibility = Visibility.Hidden;
-            }
-                
+            XmlParts.Visibility = PartsList.HasItems ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void ПолучитьПереченьДеталей_Unchecked(object sender, RoutedEventArgs e)
@@ -1409,6 +1393,11 @@ namespace AirVentsCadWpf.DataControls.Specification
                 swFeature = swFeature.GetNextFeature();
             }
             swModel.EditRebuild3();
+        }
+
+        private void ПолучитьПереченьДеталей_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+          //  throw new NotImplementedException();
         }
     }
 }
