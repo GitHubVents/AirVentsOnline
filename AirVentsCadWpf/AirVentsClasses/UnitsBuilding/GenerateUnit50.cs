@@ -5057,7 +5057,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         case swDocPart:
                             {
                                 //    MessageBox.Show("swDocPart");
-
                                 var part = (PartDoc)swmodel;
                                 var box = part.GetPartBox(true);
 

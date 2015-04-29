@@ -4,13 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using AirVentsCadWpf.Properties;
 using AirVentsCadWpf.Логирование;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using VentsMaterials;
 
 
 // TODO Добавить при длине от 1200 мм в варианте с ножками третьи ножки посредине

@@ -11,7 +11,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 {
     public partial class ModelSw
     {
-
         #region Fields
 
         /// <summary>

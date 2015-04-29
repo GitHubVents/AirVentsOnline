@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml;
 using System.Xml.Linq;
 using AirVentsCadWpf.AirVentsClasses;
 using AirVentsCadWpf.AirVentsClasses.UnitsBuilding;
@@ -442,7 +441,11 @@ namespace AirVentsCadWpf.DataControls.Specification
 
             if (включаяПодсборки)
             {
-                foreach (var путьКСборке in _спецификация.Where(x => Path.GetExtension(x.Путь).ToLower() == ".sldasm").Where(x => x.Раздел == "" || x.Раздел == "Сборочные единицы").Select(x => x.Путь).Distinct())
+                foreach (var путьКСборке in _спецификация.Where(x =>
+                {
+                    var extension = Path.GetExtension(x.Путь);
+                    return extension != null && extension.ToLower() == ".sldasm";
+                }).Where(x => x.Раздел == "" || x.Раздел == "Сборочные единицы").Select(x => x.Путь).Distinct())
                 {
                     ВыгрузитьСборку(путьКСборке);
                 }
