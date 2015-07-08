@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace VentsCadLibrary
 {
@@ -74,10 +75,23 @@ namespace VentsCadLibrary
             }
         }
 
-        internal static void CheckInOutPdm(List<FileInfo> filesList, bool registration, string pdmBase)
+        public class VentsCadFiles
         {
+            public int PartIdSql { get; set; }
+
+            public int PartName { get; set; }
+
+            public int PartIdPdm { get; set; }
+
+            public FileInfo LocalPartFileInfo { get; set; }
+        }
+
+        internal void CheckInOutPdm(List<VentsCadFiles> filesList, bool registration, string pdmBase, out List<VentsCadFiles> newFilesList)
+        {
+            newFilesList = new List<VentsCadFiles>();
+
             foreach (var file in filesList)
-            {
+            {                
                 try
                 {
                     var vault1 = new EdmVault5();
@@ -86,7 +100,10 @@ namespace VentsCadLibrary
                     var attempts = 1;
                 m1:
                     Thread.Sleep(300);
-                    var edmFile5 = vault1.GetFileFromPath(file.FullName, out oFolder);
+                    var edmFile5 = vault1.GetFileFromPath(file.LocalPartFileInfo.FullName, out oFolder);
+
+                    MessageBox.Show(file.LocalPartFileInfo.FullName);
+
                     if (oFolder == null)
                     {
                         attempts++;
@@ -107,13 +124,19 @@ namespace VentsCadLibrary
                     if (registration)
                     {
                         edmFile5.UnlockFile(oFolder.ID, "");
-                    }
-
-                    LoggerInfo(string.Format("В базе PDM - {1}, зарегестрирован документ по пути {0}", file.FullName, pdmBase), "", "CheckInOutPdm");
+                    }                    
+                    LoggerInfo(string.Format("В базе PDM - {1}, зарегестрирован документ по пути {0}", file.LocalPartFileInfo.FullName, pdmBase), "", "CheckInOutPdm");
                 }
                 catch (Exception exception)
                 {
-                    LoggerError(string.Format("Во время регистрации документа по пути {0} возникла ошибка\nБаза - {1}. {2}", file.FullName, pdmBase, exception.Message), "", "CheckInOutPdm");
+                    LoggerError(string.Format("Во время регистрации документа по пути {0} возникла ошибка\nБаза - {1}. {2}", file.LocalPartFileInfo.FullName, pdmBase, exception.Message), "", "CheckInOutPdm");
+                }
+                finally
+                {
+                    string FileName;
+                    int? FileIdPdm;
+                    GetIdPdm(file.LocalPartFileInfo.FullName, out FileName, out FileIdPdm);
+                    MessageBox.Show(FileName, FileIdPdm.ToString());
                 }
             }
         }
@@ -139,9 +162,9 @@ namespace VentsCadLibrary
                 }
                 else
                 {
-                    CheckInOutPdm(new List<FileInfo> { new FileInfo(newEdrwFileName) }, true, VaultName);
-                    LoggerError("Закончена обработка детали " + Path.GetFileName(filePath) + " с ошибками", "",
-                        "PartInfoToXml");
+                    var List = new List<VentsCadFiles>();
+                    CheckInOutPdm(new List<VentsCadFiles> { new VentsCadFiles { LocalPartFileInfo = new FileInfo(newEdrwFileName) }  }, true, VaultName, out List);
+                    LoggerError("Закончена обработка детали " + Path.GetFileName(filePath) + " с ошибками", "", "PartInfoToXml");
                 }
             }
             catch (Exception exception)
@@ -184,7 +207,6 @@ namespace VentsCadLibrary
                                     Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(box[1] - box[4]) * valueset)), 0));
                                 swmodel.CustomInfo2[configname, "Высота"] =
                                     Convert.ToString(Math.Round(Convert.ToDecimal((long)(Math.Abs(box[2] - box[5]) * valueset)), 0));
-
                             }
                             break;
                         case swDocAssembly:
@@ -207,8 +229,29 @@ namespace VentsCadLibrary
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception){}
+        }
+
+        internal void GetIdPdm(string path, out string FileName, out int? FileIdPdm)
+        {
+            FileName = null;
+            FileIdPdm = null;
+            try
             {
+                //LoggerInfo(string.Format("Получение последней версии по пути {0}\nБаза - {1}", path, pdmBase), "", "GetLastVersionPdm");
+                var vault1 = new EdmVault5();
+                IEdmFolder5 oFolder;
+                vault1.LoginAuto(VaultName, 0);
+                var edmFile5 = vault1.GetFileFromPath(path, out oFolder);
+                if (oFolder == null) return;
+                edmFile5.GetFileCopy(0, 0, oFolder.ID, (int)EdmGetFlag.EdmGet_RefsVerLatest);
+
+                FileName = edmFile5.Name;
+                FileIdPdm = edmFile5.ID;
+            }
+            catch (Exception exception)
+            {
+                //LoggerError(string.Format("Во время получения последней версии по пути {0} возникла ошибка!\nБаза - {1}. {2}", path, pdmBase, exception.Message), exception.StackTrace, "GetLastVersionPdm");
             }
         }
     }
