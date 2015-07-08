@@ -22,7 +22,7 @@ namespace AirVentsCadWpf.DataControls
         {
             try
             {
-                VentsCadLibrary.VentsCadLibrary vcad = new VentsCadLibrary.VentsCadLibrary();
+                VentsCadLibrary.VentsCad vcad = new VentsCadLibrary.VentsCad();
                 var unit = "";
                 vcad.SpigotStr(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text, out unit);
                 MessageBox.Show(unit);
