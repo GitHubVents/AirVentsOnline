@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace VentsCadLibrary
 {
-    public partial class VentsCadLibrary
+    public partial class VentsCad
     {
         #region Logger
 
