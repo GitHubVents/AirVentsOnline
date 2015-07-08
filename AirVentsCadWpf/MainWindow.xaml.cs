@@ -6,7 +6,7 @@ using AirVentsCadWpf.DataControls;
 using AirVentsCadWpf.MenuControls;
 using System.Deployment.Application;
 using AirVentsCadWpf.Properties;
-using AirVentsCadWpf.Логирование;
+
 
 namespace AirVentsCadWpf
 {
@@ -16,28 +16,49 @@ namespace AirVentsCadWpf
     public partial class MainWindow
     {
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
-            Логгер.Информация("Программа запущена ", "", "InitializeComponent", "MainWindow");
-            InitializeComponent();
-            Switcher.PageSwitcher = this;
-            Switcher.Switch(new AuthenticatedUc());
+            try
+            {
+                InitializeComponent();
+                Switcher.PageSwitcher = this;
+                Switcher.Switch(new AuthenticatedUc());
 
-            CurrentState.Content = State;
+                CurrentState.Content = State;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
 
+        /// <summary>
+        /// Navigates the menu.
+        /// </summary>
+        /// <param name="nextPage">The next page.</param>
         public void NavigateMenu(UserControl nextPage)
         {
             MenuControlsGrid.Children.Clear();
             MenuControlsGrid.Children.Add(nextPage);
         }
 
+        /// <summary>
+        /// Navigates the data.
+        /// </summary>
+        /// <param name="nextPage">The next page.</param>
         public void NavigateData(UserControl nextPage)
         {
             DataControlsGrid.Children.Clear();
             DataControlsGrid.Children.Add(nextPage);
         }
 
+        /// <summary>
+        /// Navigates the button.
+        /// </summary>
+        /// <param name="nextPage">The next page.</param>
         public void NavigateButton(UserControl nextPage)
         {
             DataControlsGrid.Children.Clear();
@@ -57,7 +78,7 @@ namespace AirVentsCadWpf
             _settings.Activate();
         }
 
-        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //OwnedWindow ownedWindow = new OwnedWindow();
             //ownedWindow.Owner = this;
@@ -68,7 +89,7 @@ namespace AirVentsCadWpf
         }
 
 
-        private void Label_MouseLeftButtonDown_2(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        void Label_MouseLeftButtonDown_2(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             //  _nlogViewer.Visibility = Visibility.Visible;
         }
@@ -79,6 +100,12 @@ namespace AirVentsCadWpf
         //    get { return ApplicationDeployment.CurrentDeployment.CurrentVersion; }
         //}
 
+        /// <summary>
+        /// Gets the publish version.
+        /// </summary>
+        /// <value>
+        /// The publish version.
+        /// </value>
         public string PublishVersion
         {
             get

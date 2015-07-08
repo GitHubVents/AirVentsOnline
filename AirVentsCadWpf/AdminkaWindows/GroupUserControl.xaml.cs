@@ -71,7 +71,7 @@ namespace AirVentsCadWpf.AdminkaWindows
          
         private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           // LoadUsersInGroup(NewGroupName.Text); //NewGroupName.Text);
+           //LoadUsersInGroup(NewGroupName.Text); //NewGroupName.Text);
         }
         
         #region temp

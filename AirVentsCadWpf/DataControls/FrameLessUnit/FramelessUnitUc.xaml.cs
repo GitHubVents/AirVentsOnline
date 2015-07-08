@@ -10,11 +10,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-//using AirVentsCadWpf.AirVentsCadService;
+using System.Xml.Linq;
 using AirVentsCadWpf.AirVentsClasses;
 using AirVentsCadWpf.Properties;
 using AirVentsCadWpf.Логирование;
-using JetBrains.Annotations;
 using VentsMaterials;
 using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
 
@@ -31,9 +30,6 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
 
         bool _isDeveloper = false;
 
-        private readonly DispatcherTimer _dispatcherTimer;
-       
-        
         /// <summary>
         /// Initializes a new instance of the <see cref="FramelessUnitUc"/> class.
         /// </summary>
@@ -42,6 +38,15 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             InitializeComponent();
 
             ToSQL.Conn = Settings.Default.ConnectionToSQL;
+
+            #region Профили промежуточные
+
+            ШиринаПрофиля1.MaxLength = 3;
+            ШиринаПрофиля2.MaxLength = 3;
+            ШиринаПрофиля3.MaxLength = 3;
+            ШиринаПрофиля4.MaxLength = 3;
+
+            #endregion
 
             Усиления.ItemsSource = new List<ComboBoxItem>
             {
@@ -53,9 +58,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней\nСъемной(ых)", Content = "НВЗС"}
             };
 
-            DataGrid1.Visibility = Visibility.Collapsed;
-          //  DataGrid1.ItemsSource = new List<Panels> { new Panels() }.ToList();
+            
+           // ТипУстановкиПромежуточныеВставки.Visibility = Visibility.Collapsed;
 
+            DataGrid1.Visibility = Visibility.Collapsed;
 
             var images =
                 new List<KeyValuePair<string, string>>
@@ -66,16 +72,14 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 };
 
             DataGrid1.ItemsSource = images;
-            //ТипУстановкиПромежуточныеВставки.ItemsSource = new List<ComboBoxItem>
-            //{
-            //    new ComboBoxItem {ToolTip = "Отсутствует", Content = "-"},
-            //    new ComboBoxItem {ToolTip = "Нижней", Content = "Усиления по бокам"},
-            //    new ComboBoxItem {ToolTip = "Нижней\nВерхней", Content = "НВ"},
-            //    new ComboBoxItem {ToolTip = "Нижней\nЗадней", Content = "НЗ"},
-            //    new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней", Content = "НВЗ"},
-            //    new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней\nСъемной(ых)", Content = "НВЗС"}
-            //};
 
+            ТипУстановкиПромежуточныеВставки.ItemsSource = new List<ComboBoxItem>
+            {
+                new ComboBoxItem {ToolTip = "0", Content = "Без усиливающих панелей"},
+                new ComboBoxItem {ToolTip = "1", Content = "Две усиливающие панели"},
+                new ComboBoxItem {ToolTip = "2", Content = "Первая усиливающая панель"},
+                new ComboBoxItem {ToolTip = "3", Content = "Вторая усиливающая панель"}
+            };
 
             ТипПанели.ItemsSource = new List<ComboBoxItem>
             {
@@ -257,7 +261,6 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
 
             Левая.IsChecked = true;
 
-
             _dispatcherTimer = new DispatcherTimer();
             _dispatcherTimer.Tick += (dispatcherTimer_Tick);
             _dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
@@ -265,27 +268,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             // _dispatcherTimer.Start();
         }
 
-        private int Visibilyty
-        {
-            get;set;
-        }
-
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            //Visibilyty = Visibilyty + 1;
-            //_thisControl.Opacity = Convert.ToDouble(Visibilyty/100);
-            //if (Visibilyty == 100)
-            //{
-            //    _dispatcherTimer.Stop();
-            //    MessageBox.Show("Stop");
-            //}
-        }
-
         void SizeOfUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SizeOfUnit == null || SizeOfUnit.SelectedItem == null) return;
-
-            // var item = ((DataRowView)SizeOfUnit.SelectedItem)["Type"].ToString();
+            
             var id = Convert.ToInt32(((DataRowView) SizeOfUnit.SelectedItem)["SizeID"].ToString());
             var sqlBaseData = new SqlBaseData();
             var standartUnitSizes = sqlBaseData.StandartSize(id, 6);
@@ -296,9 +282,6 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             }
             WidthU.Text = standartUnitSizes[0];
             HeightU.Text = standartUnitSizes[1];
-
-           
-
         }
 
         void nonstandard_Checked(object sender, RoutedEventArgs e)
@@ -322,17 +305,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             HeightU.IsEnabled = false;
         }
 
-
-        public class Panels
-        {
-            public string Name { get; set; }
-            public string Value = @"AHU Selection\br_icon_teaser_cad_sr_pos_150(1).ico";
-            //  public Image Picture {get {return new Image().Source = new BitmapImage(new Uri(@"C:\"), UriKind.Absolute))}}
-        }
+        #region BUILDING
 
         void BUILDING_Click(object sender, RoutedEventArgs e)
         {
-
             if (ШиринаСъемнойПанели2.Visibility == Visibility.Visible)
             {
                 if (ШиринаСъемнойПанели2.Text == "")
@@ -347,10 +323,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 }
                 if (Convert.ToInt32(ШиринаСъемнойПанели2.Text) < 100)
                 {
-                    MessageBox.Show("Ширина 2-й съемной панели не может быть меньше 100 мм!"); return;
+                    MessageBox.Show("Ширина 2-й съемной панели не может быть меньше 100 мм!");
+                    return;
                 }
             }
-
 
             if (ШиринаСъемнойПанели3.Visibility == Visibility.Visible)
             {
@@ -424,10 +400,13 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                             Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
                             Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
                         },
-                        расположениеВставок: ProfilsConfig());
+                        расположениеВставок: ProfilsConfig(),
+                        типУсиливающей: "");
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.ToString());
+
                     Логгер.Ошибка(
                     ex.Message,
                     ex.StackTrace,
@@ -435,6 +414,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     "FramelessUnitUc");
                 }
 
+                #region Панель нижняя под монтажные ножки
 
                 try
                 {
@@ -445,7 +425,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         height: Convert.ToString(width),
                         materialP1: materialP1,
                         materialP2: materialP2,
-                        скотч: ПрименениеСкотча.Text,// == "Со скотчем",
+                        скотч: ПрименениеСкотча.Text, // == "Со скотчем",
                         усиление: PanelDownChk.IsChecked == true,
                         config: configDown,
                         расположениеПанелей: PanelsConfig(),
@@ -456,7 +436,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                             Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
                             Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
                         },
-                        расположениеВставок: ProfilsConfig());
+                        расположениеВставок: ProfilsConfig(),
+                        типУсиливающей: "");
                 }
                 catch (Exception ex)
                 {
@@ -466,54 +447,81 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     ex.TargetSite.ToString(),
                     "FramelessUnitUc");
                 }
-                
+
+                #endregion
+
                 var panelRemovable = new []{""};
+                string panelRemovable1 = null;
+                string panelRemovable2 = null;
+                string panelRemovable3 = null;
 
                 try
                 {
                     //"Съемная";
-                    var panelRemovable1 = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипСъемнойПанели1.SelectedValue.ToString(), ТипСъемнойПанели1.Text },
-                        width: Convert.ToString(ШиринаСъемнойПанели1.Text),
-                        height: Convert.ToString(height - 40),
-                        materialP1: materialP1,
-                        materialP2: materialP2,
-                        скотч: ПрименениеСкотча.Text,
-                        усиление: УсилениеСъемнойПанели1.IsChecked == true,
-                        config: "00",
-                        расположениеПанелей: "",
-                        покрытие: new[]
+                    try
+                    {
+                        panelRemovable1 = modelSw.PanelsFramelessStr(
+                            typeOfPanel: new[] {ТипСъемнойПанели1.SelectedValue.ToString(), ТипСъемнойПанели1.Text},
+                            width: Convert.ToString(ШиринаСъемнойПанели1.Text),
+                            height: Convert.ToString(height - 40),
+                            materialP1: materialP1,
+                            materialP2: materialP2,
+                            скотч: ПрименениеСкотча.Text,
+                            усиление: УсилениеСъемнойПанели1.IsChecked == true,
+                            config: "00",
+                            расположениеПанелей: "",
+                            покрытие: new[]
+                            {
+                                Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0",
+                                Ral1.Text != noBrush ? CoatingClass1.Text : "0",
+                                Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0",
+                                Ral2.Text != noBrush ? CoatingClass2.Text : "0",
+                                Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : noBrush,
+                                Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : noBrush
+                            },
+                            расположениеВставок: ProfilsConfig(),
+                            типУсиливающей: "");
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString());
+                    }
+
+                    try
+                    {
+                       panelRemovable2 = modelSw.PanelsFramelessStr(
+                       typeOfPanel: new[] { ТипСъемнойПанели2.SelectedValue.ToString(), ТипСъемнойПанели2.Text },
+                       width: Convert.ToString(ШиринаСъемнойПанели2.Text), height: Convert.ToString(height - 40),
+                       materialP1: materialP1,
+                       materialP2: materialP2,
+                       скотч: ПрименениеСкотча.Text,
+                       усиление: УсилениеСъемнойПанели2.IsChecked == true,
+                       config: "00",
+                       расположениеПанелей: "",
+                       покрытие: new[]
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
                             Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
                             Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
                         },
-                        расположениеВставок: ProfilsConfig());
+                       расположениеВставок: ProfilsConfig(),
+                       типУсиливающей: "");
+                    
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString());
+                    }
 
-                    var panelRemovable2 = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипСъемнойПанели2.SelectedValue.ToString(), ТипСъемнойПанели2.Text },
-                        width: Convert.ToString(ШиринаСъемнойПанели2.Text), height: Convert.ToString(height - 40),
-                        materialP1: materialP1,
-                        materialP2: materialP2,
-                        скотч: ПрименениеСкотча.Text,
-                        усиление: УсилениеСъемнойПанели2.IsChecked == true,
-                        config: "00",
-                        расположениеПанелей: "",
-                        покрытие: new[]
-                        {
-                            Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
-                            Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
-                        },
-                        расположениеВставок: ProfilsConfig());
-
-                    var panelRemovable3 = modelSw.PanelsFramelessStr(
+                    try
+                    {
+                        panelRemovable3 = modelSw.PanelsFramelessStr(
                         typeOfPanel: new[] { ТипСъемнойПанели3.SelectedValue.ToString(), ТипСъемнойПанели3.Text },
                         width: Convert.ToString(ШиринаСъемнойПанели3.Text),
                         height: Convert.ToString(height - 40),
-                        materialP1: materialP1, materialP2: materialP2,
+                        materialP1: materialP1,
+                        materialP2: materialP2,
                         скотч: ПрименениеСкотча.Text,
                         усиление: УсилениеСъемнойПанели3.IsChecked == true,
                         config: "00",
@@ -525,20 +533,103 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                             Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
                             Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
                         },
-                        расположениеВставок: ProfilsConfig());
+                        расположениеВставок: ProfilsConfig(),
+                        типУсиливающей: "");
+                    
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(exception.ToString());
+                    }
+
+                    
+                    #region Усиливющие панели
+
+                    string panelReinforcing1 = null;
+                    string panelReinforcing2 = null;
+                    
+                    if (ТипУсилПанели1.Visibility == Visibility.Visible)
+                    {
+                        try
+                        {
+                            var typeOfPanel = ТипУсилПанели1.SelectedItem as ComboBoxItem;
+
+                            panelReinforcing1 = modelSw.PanelsFramelessStr(
+                            typeOfPanel: new[] { ТипНесъемнойПанели.SelectedValue.ToString(), ТипНесъемнойПанели.Text, ТипУсилПанели1.Text },
+                            width: Convert.ToString(130),
+                            height: Convert.ToString(height - 40),
+                            materialP1: materialP1,
+                            materialP2: materialP2,
+                            скотч: ПрименениеСкотча.Text,
+                            усиление: false,
+                            config: "00",
+                            расположениеПанелей: "",
+                            покрытие: new[]
+                        {
+                            Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
+                            Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
+                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
+                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                        },
+                            расположениеВставок: ProfilsConfig() + "_1",
+                            типУсиливающей: typeOfPanel.Tag.ToString());
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.ToString());
+                        }
+                    }
+
+                    if (ТипУсилПанели2.Visibility == Visibility.Visible)
+                    {
+                        try
+                        {
+                            var typeOfPanel = ТипУсилПанели2.SelectedItem as ComboBoxItem;
+
+                            panelReinforcing2 = modelSw.PanelsFramelessStr(
+                            typeOfPanel: new[] { ТипНесъемнойПанели.SelectedValue.ToString(), ТипНесъемнойПанели.Text, ТипУсилПанели1.Text },
+                            width: Convert.ToString(130),
+                            height: Convert.ToString(height - 40),
+                            materialP1: materialP1,
+                            materialP2: materialP2,
+                            скотч: ПрименениеСкотча.Text,
+                            усиление: false,
+                            config: "00",
+                            расположениеПанелей: "",
+                            покрытие: new[]
+                            {
+                                Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0",
+                                Ral1.Text != noBrush ? CoatingClass1.Text : "0",
+                                Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0",
+                                Ral2.Text != noBrush ? CoatingClass2.Text : "0",
+                                Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : noBrush,
+                                Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : noBrush
+                            },
+                            расположениеВставок: ProfilsConfig() + "_2",
+                            типУсиливающей: typeOfPanel.Tag.ToString());
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.ToString());
+                        }
+                    }
+
+                    #endregion
 
                     panelRemovable = new[]
                     {
                         panelRemovable1,
                         panelRemovable2,
                         panelRemovable3,
-                        ПрименениеСкотча.Text
+                        ПрименениеСкотча.Text,
+                        panelReinforcing1,
+                        panelReinforcing2
                     };
-
-
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.ToString());
+
                     Логгер.Ошибка(
                         logText: ex.Message,
                         код: ex.StackTrace,
@@ -566,10 +657,14 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                             Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
                             Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
                         },
-                        расположениеВставок: ProfilsConfig());
+                        расположениеВставок: ProfilsConfig(),
+                        типУсиливающей: null); 
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.ToString());
+
+
                     Логгер.Ошибка(
                         ex.Message,
                         ex.StackTrace,
@@ -578,9 +673,34 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 }
 
                 #endregion
+                
+                if (ТипПроф1.Visibility != Visibility.Visible)
+                {
+                    ТипПроф1.Text = "-";
+                }
 
-                //Parts.ItemsSource = modelSw.AddingPanels;
-                //MessageBox.Show("Что видно?");
+                if (ТипПроф2.Visibility != Visibility.Visible)
+                {
+                    ТипПроф2.Text = "-";
+                }
+
+                if (ТипПроф3.Visibility != Visibility.Visible)
+                {
+                    ТипПроф3.Text = "-";
+                }
+
+                if (ТипПроф4.Visibility != Visibility.Visible)
+                {
+                    ТипПроф4.Text = "-";
+                }
+
+                var profils = new[]
+                {
+                    ТипПроф1.Text == "-" ? "-" : modelSw.Profil(Convert.ToDouble(HeightU.Text) - 80, ТипПроф1.Text),
+                    ТипПроф2.Text == "-" ? "-" : modelSw.Profil(Convert.ToDouble(HeightU.Text) - 80, ТипПроф2.Text),
+                    ТипПроф3.Text == "-" ? "-" : modelSw.Profil(Convert.ToDouble(HeightU.Text) - 80, ТипПроф3.Text),
+                    ТипПроф4.Text == "-" ? "-" : modelSw.Profil(Convert.ToDouble(HeightU.Text) - 80, ТипПроф4.Text)
+                };
 
                 modelSw.FramelessBlock(
                     size: ((DataRowView) SizeOfUnit.SelectedItem)["Type"].ToString(),
@@ -591,10 +711,13 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     pFixed: panelFixed,
                     pUp: panelUp,
                     съемныеПанели: panelRemovable,
+                    промежуточныеСтойки: profils,
                     height: Convert.ToString(height));
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
+
                 Логгер.Ошибка(
                     logText: ex.Message,
                     код: ex.StackTrace,
@@ -645,6 +768,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
         {
             StartBuildingBlock(e);
         }
+        
+        #endregion
+
+        #region Построить панель
 
         void ПостроитьПанель_Click(object sender, RoutedEventArgs e)
         {
@@ -722,41 +849,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             }
         }
 
-        string PanelsConfig()
-        {
-            return String.Format("{0}{1}{2}{3}{4}{5}",
-                Отступ1.Visibility == Visibility.Visible ? Отступ1.Text : "",
-                ШиринаПанели1.Visibility == Visibility.Visible ? ";" + ШиринаПанели1.Text : "",
-                Отступ2.Visibility == Visibility.Visible ? ";" + Отступ2.Text : "",
-                ШиринаПанели2.Visibility == Visibility.Visible ? ";" + ШиринаПанели2.Text : "",
-                Отступ3.Visibility == Visibility.Visible ? ";" + Отступ3.Text : "",
-                ШиринаПанели3.Visibility == Visibility.Visible ? ";" + ШиринаПанели3.Text : "");
-        }
-
-        string ProfilsConfig()
-        {
-
-            //return String.Format("{0}{1}{2}{3}{4}{5}",
-            //    Отступ1.Visibility == Visibility.Visible ? Отступ1.Text : "",
-            //    ШиринаПанели1.Visibility == Visibility.Visible ? ";" + ШиринаПанели1.Text : "",
-            //    Отступ2.Visibility == Visibility.Visible ? ";" + Отступ2.Text : "",
-            //    ШиринаПанели2.Visibility == Visibility.Visible ? ";" + ШиринаПанели2.Text : "",
-            //    Отступ3.Visibility == Visibility.Visible ? ";" + Отступ3.Text : "",
-            //    ШиринаПанели3.Visibility == Visibility.Visible ? ";" + ШиринаПанели3.Text : "");
-
-            return String.Format("{0}{1}{2}",
-                Отступ1.Visibility == Visibility.Visible ? Отступ1.Text : "",
-                Отступ2.Visibility == Visibility.Visible ? ";" + Отступ2.Text : "",
-                Отступ3.Visibility == Visibility.Visible ? ";" + Отступ3.Text : "");
-
-        }
-
         void ПотроитьПанель(KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 ПостроитьПанель_Click(this, new RoutedEventArgs());
-            } 
+            }
         }
 
         void ШиринаПанели_KeyDown(object sender, KeyEventArgs e)
@@ -769,7 +867,49 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             ПотроитьПанель(e);
         }
 
+        #endregion
+
+        #region Строки для передачи параметров в метод построения панелей (Съемные панели и конфигурации)
+
+        string PanelsConfig()
+        {
+            return String.Format("{0}{1}{2}{3}{4}{5}",
+                Отступ1.Visibility == Visibility.Visible ? Отступ1.Text : "",
+                ШиринаПанели1.Visibility == Visibility.Visible ? ";" + ШиринаПанели1.Text : "",
+                Отступ2.Visibility == Visibility.Visible ? ";" + Отступ2.Text : "",
+                ШиринаПанели2.Visibility == Visibility.Visible ? ";" + ШиринаПанели2.Text : "",
+                Отступ3.Visibility == Visibility.Visible ? ";" + Отступ3.Text : "",
+                ШиринаПанели3.Visibility == Visibility.Visible ? ";" + ШиринаПанели3.Text : "");
+        }
+
+        string ProfilsConfig()
+        {   
+            // todo ШиринаУсилПанели1 ШиринаПрофиля1
+            return String.Format
+                (
+                "{0};{1};{2};{3};{4};{5}",
+                ТипПроф1.Text + "_" + ШиринаПрофиля1.Text,
+                ТипПроф2.Text + "_" + ШиринаПрофиля2.Text,
+                ТипПроф3.Text + "_" + ШиринаПрофиля3.Text,
+                ТипПроф4.Text + "_" + ШиринаПрофиля4.Text,
+                ТипУсилПанели1.Text + "_" + ШиринаПрофиля1.Text,
+                ТипУсилПанели2.Text + "_" + ШиринаПрофиля1.Text
+                );
+        }
+
+        void ПостроитьПанель1_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(PanelsConfig());
+        }
+
+        #endregion
+        
         void КолвоПанелейS(object sender, SelectionChangedEventArgs e)
+        {
+            КолВоПанелей();
+        }
+
+        void КолвоПанелей_LayoutUpdated(object sender, EventArgs e)
         {
             КолВоПанелей();
         }
@@ -838,63 +978,105 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             }
         }
 
-        void RiznPanel(TextBox ширинаПанели, TextBox панель1, TextBox панель2, TextBox панель3)
-        {
-            //if (ширинаПанели == null || панель1 == null || панель2 == null || панель3 == null) return;
-            
+        void RiznPanel(TextBox общаяДлина, TextBox панель1, TextBox панель2, TextBox панель3,
+             TextBox профиль1, TextBox профиль2, TextBox профиль3, TextBox профиль4)
+        {            
             панель1.SelectionChanged += ШиринаПанели1_SelectionChanged;
             панель2.SelectionChanged += ШиринаПанели2_SelectionChanged;
             панель3.SelectionChanged += ШиринаПанели3_SelectionChanged;
             
-            var посадочнаяШиринаПанели = ширинаПанели.Text != "" ? Convert.ToInt32(ширинаПанели.Text) : 0;
+            var посадочнаяШиринаПанели = общаяДлина.Text != "" ? Convert.ToInt32(общаяДлина.Text) : 0;
             var посадочнаяШиринаПанели1 = панель1.Text != "" ? Convert.ToInt32(панель1.Text) : 0;
             var посадочнаяШиринаПанели2 = панель2.Text != "" ? Convert.ToInt32(панель2.Text) : 0;
-            
+          
+            #region Профили
+
+            int prof1;
+            int.TryParse(профиль1.Text, out prof1);
+            int prof2;
+            int.TryParse(профиль2.Text, out prof2);
+            int prof3;
+            int.TryParse(профиль3.Text, out prof3);
+            int prof4;
+            int.TryParse(профиль4.Text, out prof4);
+
+            var sumOfProfilsLenght = prof1 + prof2 + prof3 + prof4;
+                
+            #endregion
+
             switch (КолвоПанелей.Text)
             {
                 case "1":
-                    панель1.Text = ширинаПанели.Text;
+                    панель1.Text = Convert.ToString(посадочнаяШиринаПанели - sumOfProfilsLenght);
                     панель1.SelectionChanged -= ШиринаПанели1_SelectionChanged;
                     break;
                 case "2":
-                    панель2.Text = Convert.ToString(посадочнаяШиринаПанели - посадочнаяШиринаПанели1);
+                    панель2.Text = Convert.ToString(посадочнаяШиринаПанели - посадочнаяШиринаПанели1 - sumOfProfilsLenght);
                     панель2.SelectionChanged -= ШиринаПанели2_SelectionChanged;
                     break;
                 case "3":
-                    панель3.Text = Convert.ToString(посадочнаяШиринаПанели - посадочнаяШиринаПанели1 - посадочнаяШиринаПанели2);
+                    панель3.Text = Convert.ToString(посадочнаяШиринаПанели - посадочнаяШиринаПанели1 - посадочнаяШиринаПанели2 - sumOfProfilsLenght);
                     панель3.SelectionChanged -= ШиринаПанели3_SelectionChanged;
                     break;
             }
         }
 
-        void ПостроитьПанель1_Click(object sender, RoutedEventArgs e)
+        void Sum()
         {
-            MessageBox.Show(PanelsConfig());
+            RiznPanel(ШиринаПанели, ШиринаПанели1, ШиринаПанели2, ШиринаПанели3, ШиринаПрофиля1, ШиринаПрофиля2, ШиринаПрофиля3, ШиринаПрофиля4);
         }
         
         void ШиринаПанели_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            RiznPanel(ШиринаПанели, ШиринаПанели1, ШиринаПанели2, ШиринаПанели3);
+            Sum();
         }
-
         void ШиринаПанели1_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (!ШиринаПанели1.IsEnabled) return;
-            RiznPanel(ШиринаПанели, ШиринаПанели1, ШиринаПанели2, ШиринаПанели3);
+            ШиринаСъемнойПанели1.Text = ШиринаПанели1.Text;
+            Sum();
         }
 
         void ШиринаПанели2_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ШиринаСъемнойПанели2.Text = ШиринаПанели2.Text;
             if (!ШиринаПанели2.IsEnabled) return;
-            RiznPanel(ШиринаПанели, ШиринаПанели1, ШиринаПанели2, ШиринаПанели3);
+            Sum();
         }
 
         void ШиринаПанели3_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ШиринаСъемнойПанели3.Text = ШиринаПанели3.Text;
             if (!ШиринаПанели3.IsEnabled) return;
-            RiznPanel(ШиринаПанели, ШиринаПанели1, ШиринаПанели2, ШиринаПанели3);
+            Sum();
+        }
+
+        void ШиринаПрофиля1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Sum();
+            int width;
+            int.TryParse(ШиринаПрофиля1.Text, out width);
+            Отступ1.Text = Convert.ToString(46 + width);
+        }
+
+        void ШиринаПрофиля2_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Sum();
+            int width;
+            int.TryParse(ШиринаПрофиля2.Text, out width);
+            Отступ2.Text = Convert.ToString(132 + width);
+        }
+
+        void ШиринаПрофиля3_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Sum();
+            int width;
+            int.TryParse(ШиринаПрофиля3.Text, out width);
+            Отступ3.Text = Convert.ToString(132 + width);
+        }
+
+        void ШиринаПрофиля4_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Sum();
         }
 
         void RemovablePanels_Initialized(object sender, EventArgs e)
@@ -902,10 +1084,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             ШиринаПанели1.IsEnabled = false;
         }
 
-        void КолвоПанелей_LayoutUpdated(object sender, EventArgs e)
-        {
-            КолВоПанелей();
-        }
+        #region Картинка установки
 
         void ТипУстановки_LayoutUpdated(object sender, EventArgs e)
         {
@@ -938,7 +1117,108 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             //var flipTrans = new ScaleTransform {ScaleX = -1};
             //PicturePanel.RenderTransform = flipTrans;
         }
-        
+
+        // Перенос текстбоксов с размерами на рисунок
+        void Grid_Loaded_2(object sender, RoutedEventArgs e)
+        {
+            // Длина
+            if (Lenght.Parent != null)
+            {
+                var parent = (Panel)Lenght.Parent;
+                parent.Children.Remove(Lenght);
+            }
+            MyPanel.Children.Add(Lenght);
+            Grid.SetRow(Lenght, 8);
+
+            // Панель 1
+            if (ШиринаСъемнойПанели1.Parent != null)
+            {
+                var parent = (Panel)ШиринаСъемнойПанели1.Parent;
+                parent.Children.Remove(ШиринаСъемнойПанели1);
+            }
+            MyPanel.Children.Add(ШиринаСъемнойПанели1);
+            Grid.SetRow(ШиринаСъемнойПанели1, 0);
+
+
+            // Панель 2
+            if (ШиринаСъемнойПанели2.Parent != null)
+            {
+                var parent = (Panel)ШиринаСъемнойПанели2.Parent;
+                parent.Children.Remove(ШиринаСъемнойПанели2);
+            }
+            MyPanel.Children.Add(ШиринаСъемнойПанели2);
+            Grid.SetRow(ШиринаСъемнойПанели2, 0);
+
+            // Панель 3
+            if (ШиринаСъемнойПанели3.Parent != null)
+            {
+                var parent = (Panel)ШиринаСъемнойПанели3.Parent;
+                parent.Children.Remove(ШиринаСъемнойПанели3);
+            }
+            MyPanel.Children.Add(ШиринаСъемнойПанели3);
+            Grid.SetRow(ШиринаСъемнойПанели3, 0);
+
+            // Профиль 2
+            if (ТипПроф2.Parent != null)
+            {
+                var parent = (Panel)ТипПроф2.Parent;
+                parent.Children.Remove(ТипПроф2);
+            }
+            MyPanel.Children.Add(ТипПроф2);
+            Grid.SetRow(ТипПроф2, 0);
+
+            // Профиль 3
+            if (ТипПроф3.Parent != null)
+            {
+                var parent = (Panel)ТипПроф3.Parent;
+                parent.Children.Remove(ТипПроф3);
+            }
+            MyPanel.Children.Add(ТипПроф3);
+            Grid.SetRow(ТипПроф3, 0);
+
+            // Тип Усил Панели1 
+            if (ТипУсилПанели1.Parent != null)
+            {
+                var parent = (Panel)ТипУсилПанели1.Parent;
+                parent.Children.Remove(ТипУсилПанели1);
+            }
+            MyPanel.Children.Add(ТипУсилПанели1);
+            Grid.SetRow(ТипУсилПанели1, 5);
+
+            // Профиль 1
+            if (ТипПроф1.Parent != null)
+            {
+                var parent = (Panel)ТипПроф1.Parent;
+                parent.Children.Remove(ТипПроф1);
+            }
+            MyPanel.Children.Add(ТипПроф1);
+            Grid.SetRow(ТипПроф1, 0);
+            
+            // Тип Усил Панели2 
+            if (ТипУсилПанели2.Parent != null)
+            {
+                var parent = (Panel)ТипУсилПанели2.Parent;
+                parent.Children.Remove(ТипУсилПанели2);
+            }
+            MyPanel.Children.Add(ТипУсилПанели2);
+            Grid.SetRow(ТипУсилПанели2, 5);
+
+            // Профиль 4
+            if (ТипПроф4.Parent != null)
+            {
+                var parent = (Panel)ТипПроф4.Parent;
+                parent.Children.Remove(ТипПроф4);
+            }
+            MyPanel.Children.Add(ТипПроф4);
+            Grid.SetRow(ТипПроф4, 0);
+
+            ТипПроф4.Visibility = Visibility.Collapsed;
+            ТипПроф1.Visibility = Visibility.Collapsed;
+
+        }
+
+        #endregion
+
         void КришаТип_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ТипВерхнейПанели.Text = КришаТип.SelectedValue.ToString();
@@ -954,17 +1234,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             if (ТипУстановки == null) return;
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
-
-            //var item = (ComboBoxItem)ТипУстановки.SelectedItem;
-            //var handled = item.ToolTip.ToString() != "01" & regex.IsMatch(e.Text);
-            //e.Handled = handled;
         }
 
         void ШиринаСъемнойПанели2_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
-            //ШиринаПанели2.Text = ШиринаСъемнойПанели2.Text;
         }
 
         void Lenght_SelectionChanged(object sender, RoutedEventArgs e)
@@ -1012,33 +1287,111 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     ШиринаСъемнойПанели2.Visibility = Visibility.Collapsed;
                     ШиринаСъемнойПанели3.Visibility = Visibility.Collapsed;
 
+                    ТипПроф2.SelectedIndex = 0;
+                    ТипПроф3.SelectedIndex = 0;
+                    
+                    ТипПроф2.Visibility = Visibility.Collapsed;
+                    ТипПроф3.Visibility = Visibility.Collapsed;
+
                     break;
+
                 case "02":
                     КолвоПанелей.Text = "2";
                     ШиринаСъемнойПанели1.IsEnabled = true;
                     Grid.SetColumn(Lenght, 6);
-                    Grid.SetColumn(ШиринаСъемнойПанели1, 5);
+                    Grid.SetColumn(ШиринаСъемнойПанели1, 4);
+                    
+                    Grid.SetColumn(ТипПроф2, 5);
+
                     Grid.SetColumn(ШиринаСъемнойПанели2, 7);
                     Grid.SetColumn(ШиринаСъемнойПанели3, 9);
                     ШиринаСъемнойПанели1.Visibility = Visibility.Visible;
                     ШиринаСъемнойПанели2.Visibility = Visibility.Visible;
                     ШиринаСъемнойПанели3.Visibility = Visibility.Collapsed;
+                    
+                    ТипПроф3.SelectedIndex = 0;
+                    ТипПроф2.Visibility = Visibility.Visible;
+                    ТипПроф3.Visibility = Visibility.Collapsed;
 
                     break;
+
                 case "03":
                     КолвоПанелей.Text = "3";
                     ШиринаСъемнойПанели1.IsEnabled = true;
                     ШиринаСъемнойПанели2.IsEnabled = true;
                     Grid.SetColumn(Lenght, 5);
                     Grid.SetColumn(ШиринаСъемнойПанели1, 3);
+                    Grid.SetColumn(ТипПроф2, 4);
                     Grid.SetColumn(ШиринаСъемнойПанели2, 5);
+                    Grid.SetColumn(ТипПроф3, 7);
                     Grid.SetColumn(ШиринаСъемнойПанели3, 8);
                     ШиринаСъемнойПанели1.Visibility = Visibility.Visible;
                     ШиринаСъемнойПанели2.Visibility = Visibility.Visible;
                     ШиринаСъемнойПанели3.Visibility = Visibility.Visible;
                     
+                    ТипПроф2.Visibility = Visibility.Visible;
+                    ТипПроф3.Visibility = Visibility.Visible;
+
                     break;
             }
+        }
+
+        void ТипУстановкиПромежуточныеВставки_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ТипУстановкиПромежуточныеВставки == null) return;
+            var item = (ComboBoxItem)ТипУстановкиПромежуточныеВставки.SelectedItem;
+
+            switch (item.ToolTip.ToString())
+            {
+                case "0":
+
+                    ТипУсилПанели1.Visibility = Visibility.Collapsed;
+                    ТипУсилПанели2.Visibility = Visibility.Collapsed;
+
+                    ТипУсилПанели1.Text = "-";
+                    ТипУсилПанели2.Text = "-";
+
+                    break;
+
+                case "1":
+                    
+                    ТипУсилПанели1.Visibility = Visibility.Visible;
+                    ТипУсилПанели2.Visibility = Visibility.Visible;
+                    ТипУсилПанели1.SelectedIndex = 0;
+                    ТипУсилПанели2.SelectedIndex = 0;
+
+                    Grid.SetColumn(ТипУсилПанели1, 2);
+                    Grid.SetColumn(ТипУсилПанели2, 9);
+
+                    break;
+
+                case "2":
+                    
+                    ТипУсилПанели1.Visibility = Visibility.Visible;
+                    ТипУсилПанели2.Visibility = Visibility.Collapsed;
+                    ТипУсилПанели1.SelectedIndex = 0;
+                    ТипУсилПанели2.Text = "-";
+
+                    Grid.SetColumn(ТипУсилПанели1, 2);
+                    Grid.SetColumn(ТипУсилПанели2, 9);
+
+                    break;
+
+                case "3":
+
+                    ТипУсилПанели1.Visibility = Visibility.Collapsed;
+                    ТипУсилПанели2.Visibility = Visibility.Visible;
+                    ТипУсилПанели1.Text = "-";
+                    ТипУсилПанели2.SelectedIndex = 0;
+
+                    Grid.SetColumn(ТипУсилПанели1, 2);
+                    Grid.SetColumn(ТипУсилПанели2, 9);
+
+                    break;
+            }
+
+            ШиринаПрофиля1.Text = ТипУсилПанели1.Visibility == Visibility.Visible ? "130" : "";
+            ШиринаПрофиля4.Text = ТипУсилПанели2.Visibility == Visibility.Visible ? "130" : "";
         }
 
         void ШиринаСъемнойПанели1_SelectionChanged(object sender, RoutedEventArgs e)
@@ -1067,6 +1420,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 УсилениеСъемнойПанели2Chk.Visibility = Visibility.Visible;
                 УсилениеСъемнойПанели3Chk.Visibility = Visibility.Visible;
 
+                ПанелиУстановки.Visibility = Visibility.Visible;
+
                 Parts.Visibility = Visibility.Visible;
             }
             else
@@ -1081,47 +1436,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 УсилениеСъемнойПанели3Chk.Visibility = Visibility.Collapsed;
             }
         }
-
-        void Grid_Loaded_2(object sender, RoutedEventArgs e)
-        {
-            // Длина
-            if (Lenght.Parent != null)
-            {
-                var parent = (Panel)Lenght.Parent;
-                parent.Children.Remove(Lenght);
-            }
-            MyPanel.Children.Add(Lenght);
-            Grid.SetRow(Lenght, 8);
-
-            // Панель 1
-            if (ШиринаСъемнойПанели1.Parent != null)
-            {
-                var parent = (Panel)ШиринаСъемнойПанели1.Parent;
-                parent.Children.Remove(ШиринаСъемнойПанели1);
-            }
-            MyPanel.Children.Add(ШиринаСъемнойПанели1);
-            Grid.SetRow(ШиринаСъемнойПанели1, 1);
-
-
-            // Панель 2
-            if (ШиринаСъемнойПанели2.Parent != null)
-            {
-                var parent = (Panel)ШиринаСъемнойПанели2.Parent;
-                parent.Children.Remove(ШиринаСъемнойПанели2);
-            }
-            MyPanel.Children.Add(ШиринаСъемнойПанели2);
-            Grid.SetRow(ШиринаСъемнойПанели2, 1);
-
-            // Панель 3
-            if (ШиринаСъемнойПанели3.Parent != null)
-            {
-                var parent = (Panel)ШиринаСъемнойПанели3.Parent;
-                parent.Children.Remove(ШиринаСъемнойПанели3);
-            }
-            MyPanel.Children.Add(ШиринаСъемнойПанели3);
-            Grid.SetRow(ШиринаСъемнойПанели3, 1);
-        }
-
+        
         void Усиления_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var item = (ComboBoxItem)Усиления.SelectedItem;
@@ -1164,36 +1479,24 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     break;
             }
         }
+        
+        private void ШиринаСъемнойПанели3_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            ШиринаСъемнойПанели3.Foreground = ШиринаСъемнойПанели3.Text.Contains("-") ? Brushes.Red : Brushes.Black;
+        }
+
+        #region Покраска
 
         private void Ral1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Ral1.ToolTip = Ral1.SelectedValue;
-
-           
         }
 
         private void Ral2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Ral2.ToolTip = Ral2.SelectedValue;
-
         }
 
-        private void Grid_Loaded_3(object sender, RoutedEventArgs e)
-        {
-            //var doubleAnimation = new DoubleAnimation
-            //{
-            //    From = 0.1,
-            //    To = 1,
-            //    Duration = new Duration(TimeSpan.FromSeconds(1))
-            //};
-            //BeginAnimation(OpacityProperty, doubleAnimation);
-        }
-
-        private void ШиринаСъемнойПанели3_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            ШиринаСъемнойПанели3.Foreground = ШиринаСъемнойПанели3.Text.Contains("-") ? Brushes.Red : Brushes.Black;
-        }
-        
         private void Ral1_LayoutUpdated(object sender, EventArgs e)
         {
             if (Ral1.Text == "Без покрытия")
@@ -1223,6 +1526,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             }
         }
 
+        #endregion
+
+        #region Материал
+
         private void MaterialP1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (MaterialP1.SelectedIndex == 0)
@@ -1250,5 +1557,74 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 ТолщинаВннутренней.Visibility = Visibility.Visible;
             }
         }
+
+        #endregion
+
+        #region Visibilyty
+
+        private int Visibilyty { get; set; }
+        private readonly DispatcherTimer _dispatcherTimer;
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            //Visibilyty = Visibilyty + 1;
+            //_thisControl.Opacity = Convert.ToDouble(Visibilyty/100);
+            //if (Visibilyty == 100)
+            //{
+            //    _dispatcherTimer.Stop();
+            //    MessageBox.Show("Stop");
+            //}
+        }
+
+        private void Grid_Loaded_3(object sender, RoutedEventArgs e)
+        {
+            //var doubleAnimation = new DoubleAnimation
+            //{
+            //    From = 0.1,
+            //    To = 1,
+            //    Duration = new Duration(TimeSpan.FromSeconds(1))
+            //};
+            //BeginAnimation(OpacityProperty, doubleAnimation);
+        }
+
+
+        #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var modelSw = new ModelSw();
+            modelSw.Profil(Convert.ToDouble(HeightU.Text) - 40, "03");
+        }
+
+        private void ТипУсилПанели1_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ТипУсилПанели1 == null) return;
+
+            if (ТипУсилПанели1.Visibility == Visibility.Visible)
+            {
+                ТипПроф1.Visibility = Visibility.Visible;
+                Grid.SetColumn(ТипПроф1, 2);
+            }
+            else
+            {
+                ТипПроф1.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ТипУсилПанели2_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (ТипУсилПанели2 == null) return;
+
+            if (ТипУсилПанели2.Visibility == Visibility.Visible)
+            {
+                ТипПроф4.Visibility = Visibility.Visible;
+                Grid.SetColumn(ТипПроф4, 9);
+            }
+            else
+            {
+                ТипПроф4.Visibility = Visibility.Collapsed;
+            }
+        }
+
+       
     }
 }

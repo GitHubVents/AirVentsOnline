@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Text.RegularExpressions;
@@ -6,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AirVentsCadWpf.AirVentsClasses;
+using AirVentsCadWpf.Properties;
+using VentsMaterials;
 using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
 
 namespace AirVentsCadWpf.DataControls
@@ -15,14 +18,24 @@ namespace AirVentsCadWpf.DataControls
     /// </summary>
     public partial class Unit50Uc
     {
+
+        readonly SqlBaseData _sqlBaseData = new SqlBaseData();
+        readonly SetMaterials _setMaterials = new SetMaterials();
+        readonly ToSQL _toSql = new ToSQL();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Unit50Uc"/> class.
         /// </summary>
         public Unit50Uc()
         {
             InitializeComponent();
+            
+            ToSQL.Conn = Settings.Default.ConnectionToSQL;
 
-          //  GridTypeOfUnit50.Children.Add(new UnitElement());
+            InnerPartGrid.Visibility = Visibility.Collapsed;
+
+
+            //GridTypeOfUnit50.Children.Add(new UnitElement());
             var sqlBaseData = new SqlBaseData();
             var airVentsStandardSize = sqlBaseData.AirVentsStandardSize();
             SizeOfUnit.ItemsSource = ((IListSource)airVentsStandardSize).GetList();
@@ -47,6 +60,68 @@ namespace AirVentsCadWpf.DataControls
 
             #endregion
 
+            TypeOfPanel50.ItemsSource = ((IListSource)_sqlBaseData.PanelsTable()).GetList();
+            TypeOfPanel50.DisplayMemberPath = "PanelTypeName";
+            TypeOfPanel50.SelectedValuePath = "PanelTypeCode";
+            TypeOfPanel50.SelectedIndex = 0;
+
+            MaterialP1.ItemsSource = ((IListSource)_sqlBaseData.MaterialsTable()).GetList();
+            MaterialP1.DisplayMemberPath = "MaterialsName";
+            MaterialP1.SelectedValuePath = "LevelID";
+            MaterialP1.SelectedIndex = 0;
+
+            MaterialP2.ItemsSource = ((IListSource)_sqlBaseData.MaterialsTable()).GetList();
+            MaterialP2.DisplayMemberPath = "MaterialsName";
+            MaterialP2.SelectedValuePath = "LevelID";
+            MaterialP2.SelectedIndex = 0;
+
+
+            Ral1.ItemsSource = ((IListSource)_toSql.RalTable()).GetList();
+            Ral1.DisplayMemberPath = "RAL";
+            Ral1.SelectedValuePath = "Hex";
+            Ral1.SelectedIndex = 0;
+
+            Ral2.ItemsSource = ((IListSource)_toSql.RalTable()).GetList();
+            Ral2.DisplayMemberPath = "RAL";
+            Ral2.SelectedValuePath = "Hex";
+            Ral2.SelectedIndex = 0;
+
+            Ral1.Visibility = Visibility.Hidden;
+            Ral2.Visibility = Visibility.Hidden;
+
+            ТолщинаВнешней.ItemsSource = new List<ComboBoxItem>
+            {
+                new ComboBoxItem {Content = "0.5"},
+                new ComboBoxItem {Content = "0.6"},
+                new ComboBoxItem {Content = "0.8"},
+                new ComboBoxItem {Content = "1.0"},
+                new ComboBoxItem {Content = "1.2"}
+            };
+            ТолщинаВнешней.SelectedIndex = 2;
+
+            ТолщинаВннутренней.ItemsSource = new List<ComboBoxItem>
+            {
+                new ComboBoxItem {Content = "0.5"},
+                new ComboBoxItem {Content = "0.6"},
+                new ComboBoxItem {Content = "0.8"},
+                new ComboBoxItem {Content = "1.0"},
+                new ComboBoxItem {Content = "1.2"}
+            };
+            ТолщинаВннутренней.SelectedIndex = 2;
+
+            CoatingType1.ItemsSource = ((IListSource)_setMaterials.CoatingTypeDt()).GetList();
+            CoatingType1.DisplayMemberPath = "Name";
+            CoatingType1.SelectedValuePath = "Code";
+            CoatingType1.SelectedIndex = 0;
+
+            CoatingType2.ItemsSource = ((IListSource)_setMaterials.CoatingTypeDt()).GetList();
+            CoatingType2.DisplayMemberPath = "Name";
+            CoatingType2.SelectedValuePath = "Code";
+            CoatingType2.SelectedIndex = 0;
+
+            CoatingClass1.ItemsSource = _setMaterials.CoatingListClass();
+            CoatingClass2.ItemsSource = _setMaterials.CoatingListClass();
+
             PanelGrid.Visibility = Visibility.Collapsed;
             InnerGrid.Visibility = Visibility.Collapsed;
             GridMontageFrame.Visibility = Visibility.Collapsed;
@@ -56,8 +131,7 @@ namespace AirVentsCadWpf.DataControls
             WidthRoof.Visibility = Visibility.Collapsed;
             HeightLabel1.Visibility = Visibility.Collapsed;
             LenghtRoof.Visibility = Visibility.Collapsed;
-
-
+            
             #region TypeOfUnit50
 
             ModelOfInnerLabel.Visibility = Visibility.Collapsed;
@@ -76,10 +150,37 @@ namespace AirVentsCadWpf.DataControls
             
             #endregion;
 
-           
+            #region MontageFrame50 Initialize
+
+            LenghtBaseFrame.Visibility = Visibility.Collapsed;
+            WidthBaseFrame.Visibility = Visibility.Collapsed;
+
+            MaterialMontageFrame.ItemsSource = ((IListSource)_sqlBaseData.MaterialsForMontageFrame()).GetList();
+            MaterialMontageFrame.DisplayMemberPath = "MaterialsName";
+            MaterialMontageFrame.SelectedValuePath = "LevelID";//  "CodeMaterial";
+            MaterialMontageFrame.SelectedIndex = 0;
+
+            FrameOffset.MaxLength = 5;
+            FrameOffset.IsReadOnly = true;
+
+            RalFrame1.ItemsSource = ((IListSource)_toSql.RalTable()).GetList();
+            RalFrame1.DisplayMemberPath = "RAL";
+            RalFrame1.SelectedValuePath = "Hex";
+            RalFrame1.SelectedIndex = 0;
+
+            RalFrame1.Visibility = Visibility.Hidden;
+
+            CoatingTypeFrame1.ItemsSource = ((IListSource)_setMaterials.CoatingTypeDt()).GetList();
+            CoatingTypeFrame1.DisplayMemberPath = "Name";
+            CoatingTypeFrame1.SelectedValuePath = "Code";
+            CoatingTypeFrame1.SelectedIndex = 0;
+
+            CoatingClassFrame1.ItemsSource = _setMaterials.CoatingListClass();
+
+            #endregion
         }
 
-        private void SizeOfUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void SizeOfUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
@@ -104,7 +205,6 @@ namespace AirVentsCadWpf.DataControls
                 if (HeightU != null) HeightU.Text = "";
             }
 
-
             //if (SizeOfUnit == null)
             //{
             //    return;
@@ -122,7 +222,7 @@ namespace AirVentsCadWpf.DataControls
             //HeightU.Text = standartUnitSizes[1];
         }
 
-        private void nonstandard_Checked(object sender, RoutedEventArgs e)
+        void nonstandard_Checked(object sender, RoutedEventArgs e)
         {
             WidthU.IsReadOnly = false;
             HeightU.IsReadOnly = false;
@@ -132,78 +232,196 @@ namespace AirVentsCadWpf.DataControls
             HeightU.Visibility = Visibility.Visible;
         }
        
-        private void nonstandard_Unchecked(object sender, RoutedEventArgs e)
+        void nonstandard_Unchecked(object sender, RoutedEventArgs e)
         {
             WidthU.IsReadOnly = true;
             HeightU.IsReadOnly = true;
         }
 
-        private void BUILDING_Click(object sender, RoutedEventArgs e)
+        void BUILDING_Click(object sender, RoutedEventArgs e)
         {
             var sw = new ModelSw();
-
             try
             {
                 if (FrameOffset.Text == "")
                 {
-                        FrameOffset.Text = Convert.ToString(Convert.ToDouble(Lenght.Text)/2);
+                    try
+                    {
+                        FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                    }
+                    catch (Exception)
+                    {
+                        FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                    }
                 }
-
-                var paneltype = new[] { null, TypeOfPanel50.Text };
-                var m1 = MaterialP1.Text;
-                var m2 = MaterialP2.Text;
-                if (Panel50.IsChecked != true)
+                var frame =
+                    sw.MontageFrameS(
+                    WidthBaseFrame.Text,
+                    LenghtBaseFrame.Text,
+                    Thikness.Text,
+                    TypeOfFrame.Text,
+                    FrameOffset.Text,
+                    MaterialMontageFrame.SelectedValue.ToString(),
+                    new[]
                 {
-                     paneltype[1] = "";
-                     m1 = "";
-                     m2 = "";
-                }
+                    RalFrame1.Text, CoatingTypeFrame1.Text, CoatingClassFrame1.Text,
+                    RalFrame1.SelectedValue != null ? RalFrame1.SelectedValue.ToString():""
+                });
 
-                var mfthikness = Thikness.Text;
-                var typeofframe = TypeOfFrame.Text;
-                var frameoffcet = FrameOffset.Text;
-                if (MontageFrame50.IsChecked != true)
+                FrameOffset.Text = "";
+                
+                //
+
+                var mat1Code = "";
+                var mat2Code = "";
+
+                var viewRowMat1 = (DataRowView)MaterialP1.SelectedItem;
+                var row1 = viewRowMat1.Row;
+                if (row1 != null)
+                    mat1Code = row1.Field<string>("CodeMaterial");
+                var viewRowMat2 = (DataRowView)MaterialP2.SelectedItem;
+                var row2 = viewRowMat2.Row;
+                if (row2 != null)
+                    mat2Code = row2.Field<string>("CodeMaterial");
+
+                #region Панели
+
+                var materialP1 = new[] { MaterialP1.SelectedValue.ToString(), ТолщинаВнешней.Text, MaterialP1.Text, mat1Code };
+                var materialP2 = new[] { MaterialP2.SelectedValue.ToString(), ТолщинаВннутренней.Text, MaterialP2.Text, mat2Code };
+
+                string panelWxL = null;
+                string panelHxL = null;
+                string panelHxL04 = null;
+
+                if (Panel50.IsChecked == true)
                 {
-                    mfthikness = "";
+
+                    try
+                    {
+                        //Верх - Низ
+                        try
+                        {
+                            panelWxL =
+                                sw.Panels50BuildStr(
+                                    typeOfPanel:
+                                        new[]
+                                        {
+                                            _sqlBaseData.PanelsTable().Rows[0][2].ToString(),
+                                            _sqlBaseData.PanelsTable().Rows[0][1].ToString()
+                                        },
+                                    // { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },
+                                    width: Convert.ToString(Convert.ToInt32(Lenght.Text) - 100),
+                                    height: Convert.ToString(Convert.ToInt32(WidthU.Text) - 100),
+                                    materialP1: materialP1,
+                                    materialP2: materialP2,
+                                    покрытие: new[]
+                                    {
+                                        Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
+                                        Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
+                                        Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
+                                        Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
+                                    },
+                                    onlyPath: true);
+                        }
+                        catch (Exception)
+                        {
+                        }
+
+                        //Несъемная
+                        try
+                        {
+                            panelHxL =
+                                sw.Panels50BuildStr(
+                                    typeOfPanel:
+                                        new[]
+                                        {
+                                            _sqlBaseData.PanelsTable().Rows[0][2].ToString(),
+                                            _sqlBaseData.PanelsTable().Rows[0][1].ToString()
+                                        },
+                                    // { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },
+                                    width: Convert.ToString(Convert.ToInt32(Lenght.Text) - 100),
+                                    height: Convert.ToString(Convert.ToInt32(HeightU.Text) - 100),
+                                    materialP1: materialP1,
+                                    materialP2: materialP2,
+                                    покрытие: new[]
+                                    {
+                                        Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
+                                        Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
+                                        Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
+                                        Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
+                                    },
+                                    onlyPath: true);
+                        }
+                        catch (Exception)
+                        {
+                        }
+
+                        //Cъемная
+                        try
+                        {
+                            panelHxL04 =
+                                sw.Panels50BuildStr(
+                                    typeOfPanel: new[] {TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text},
+                                    width: Convert.ToString(Convert.ToInt32(Lenght.Text) - 100),
+                                    height: Convert.ToString(Convert.ToInt32(HeightU.Text) - 100),
+                                    materialP1: materialP1,
+                                    materialP2: materialP2,
+                                    покрытие: new[]
+                                    {
+                                        Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
+                                        Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
+                                        Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
+                                        Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
+                                    },
+                                    onlyPath: true);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
 
+                #endregion
+
+                var panels = new[]
+                {
+                    panelWxL , panelHxL, panelHxL04
+                };
+                
                 var roofType = TypeOfRoof.Text;
                 if (RoofOfUnit50.IsChecked != true)
                 {
                     roofType = "";
                 }
-               // MessageBox.Show(roofType);
+
+                // MessageBox.Show(roofType);
+
                 var size = SizeOfUnit.Text;
                 if (Nonstandard.IsChecked == true)
                 {
                    // size = size + "N";
                 }
-               // Dispatcher.Invoke(() =>
-                sw.UnitAsmbly(((DataRowView)SizeOfUnit.SelectedItem)["Type"].ToString(), OrderTextBox.Text, SideService.Text, WidthU.Text, HeightU.Text,
-                        Lenght.Text, mfthikness, typeofframe,
-                        frameoffcet, paneltype, m1, m2, roofType, "Section " + SectionTextBox.Text);
 
-                //sw.AssemblyUnits(size, typeofframe, SideService.Text,
-                //    sw.UnitAsmblyStr(size, TypeOfUnit.Text, SideService.Text, WidthU.Text, HeightU.Text,
-                //    Lenght.Text, mfthikness, typeofframe, frameoffcet, paneltype, m1, m2, roofType),
-                //    sw.UnitAsmblyStr(size, TypeOfUnit.Text, SideService.Text, WidthU.Text, HeightU.Text,
-                //    "1500", mfthikness, typeofframe, frameoffcet, paneltype, m1, m2, roofType));
-                // );TypeOfUnit.ToolTip.ToString()
-            }
+                sw.UnitAsmbly(((DataRowView)SizeOfUnit.SelectedItem)["Type"].ToString(), OrderTextBox.Text, SideService.Text,
+                    WidthU.Text, HeightU.Text,
+                        Lenght.Text, frame, panels, roofType, "Section " + SectionTextBox.Text);}
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
-                //  sw.Logger.Log(LogLevel.Error, string.Format("Ошибка во время генерации блока {0}, время - {1}", DateTime.Now), exception);
+                //sw.Logger.Log(LogLevel.Error, string.Format("Ошибка во время генерации блока {0}, время - {1}", DateTime.Now), exception);
             }
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void HeightU_KeyDown(object sender, KeyEventArgs e)
+        void HeightU_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -211,7 +429,7 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void WidthU_KeyDown(object sender, KeyEventArgs e)
+        void WidthU_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -219,7 +437,7 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void TypeOfFrame_Copy_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void TypeOfFrame_Copy_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var typeOfFrameCopyValue =
                TypeOfFrame.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
@@ -239,76 +457,16 @@ namespace AirVentsCadWpf.DataControls
                 FrameOffset.Visibility = Visibility.Visible;
             }
         }
-
-        private void Thikness_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Thikness == null || MaterialMontageFrame == null)
-            {
-                return;
-            }
-            switch (Thikness.SelectedValue.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", ""))
-            {
-                case "2":
-                    MaterialMontageFrame.SelectedIndex = 0;
-                    break;
-                case "3":
-                case "4":
-                    MaterialMontageFrame.SelectedIndex = 1;
-                    break;
-            }
-        }
-
-        private void FrameOffset_KeyDown(object sender, KeyEventArgs e)
+        
+        void FrameOffset_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 BUILDING_Click(this, new RoutedEventArgs());
             }
         }
-
-        private void NonstandardMontageFrame_Initialized(object sender, EventArgs e)
-        {
-            NonstandardMontageFrame.Unchecked += NonstandardMontageFrameOnUnchecked;
-            NonstandardMontageFrame.Checked += NonstandardMontageFrameOnChecked;
-        }
-
-        private void NonstandardMontageFrameOnChecked(object sender, RoutedEventArgs routedEventArgs)
-        {
-            if (Thikness == null || MaterialMontageFrame == null)
-            {
-                return;
-            }
-            switch (Thikness.SelectedValue.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", ""))
-            {
-                case "2":
-                    MaterialMontageFrame.SelectedIndex = 1;
-                    break;
-                case "3":
-                case "4":
-                    MaterialMontageFrame.SelectedIndex = 0;
-                    break;
-            }
-        }
-
-        private void NonstandardMontageFrameOnUnchecked(object sender, RoutedEventArgs routedEventArgs)
-        {
-            if (Thikness == null || MaterialMontageFrame == null)
-            {
-                return;
-            }
-            switch (Thikness.SelectedValue.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", ""))
-            {
-                case "2":
-                    MaterialMontageFrame.SelectedIndex = 0;
-                    break;
-                case "3":
-                case "4":
-                    MaterialMontageFrame.SelectedIndex = 1;
-                    break;
-            }
-        }
-
-        private void TypeOfUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+        void TypeOfUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(TypeOfUnit != null & ModelOfInnerLabel != null & AddTypeLabel != null)) return;
             switch (TypeOfUnit.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", ""))
@@ -332,7 +490,7 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void Lenght_KeyDown(object sender, KeyEventArgs e)
+        void Lenght_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -340,7 +498,7 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void LenghtRoof_KeyDown(object sender, KeyEventArgs e)
+        void LenghtRoof_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -348,54 +506,135 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void WidthRoof_KeyDown(object sender, KeyEventArgs e)
+        void WidthRoof_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 BUILDING_Click(this, new RoutedEventArgs());
             }
         }
-       
 
-        private void RoofOfUnit50_Checked(object sender, RoutedEventArgs e)
+        void RoofOfUnit50_Checked(object sender, RoutedEventArgs e)
         {
             GridRoof.Visibility = Visibility.Visible;
         }
 
-        private void RoofOfUnit50_Unchecked(object sender, RoutedEventArgs e)
+        void RoofOfUnit50_Unchecked(object sender, RoutedEventArgs e)
         {
             GridRoof.Visibility = Visibility.Collapsed;
         }
 
-        private void InnerOfUnit50_Checked(object sender, RoutedEventArgs e)
+        void InnerOfUnit50_Checked(object sender, RoutedEventArgs e)
         {
             InnerGrid.Visibility = Visibility.Visible;
         }
 
-        private void InnerOfUnit50_Unchecked(object sender, RoutedEventArgs e)
+        void InnerOfUnit50_Unchecked(object sender, RoutedEventArgs e)
         {
             InnerGrid.Visibility = Visibility.Collapsed;
         }
 
-        private void Panel50_Checked(object sender, RoutedEventArgs e)
+        void Panel50_Checked(object sender, RoutedEventArgs e)
         {
             PanelGrid.Visibility = Visibility.Visible;
         }
 
-        private void Panel50_Unchecked(object sender, RoutedEventArgs e)
+        void Panel50_Unchecked(object sender, RoutedEventArgs e)
         {
             PanelGrid.Visibility = Visibility.Collapsed;
         }
 
-        private void MontageFrame50_Checked(object sender, RoutedEventArgs e)
+        void MontageFrame50_Checked(object sender, RoutedEventArgs e)
         {
             GridMontageFrame.Visibility = Visibility.Visible;
         }
 
-        private void MontageFrame50_Unchecked(object sender, RoutedEventArgs e)
+        void MontageFrame50_Unchecked(object sender, RoutedEventArgs e)
         {
             GridMontageFrame.Visibility = Visibility.Collapsed;
         }
 
+        void Ral1_LayoutUpdated(object sender, EventArgs e)
+        {
+            if (Ral1.Text == "Без покрытия")
+            {
+                CoatingType1.Visibility = Visibility.Collapsed;
+                CoatingClass1.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                CoatingType1.Visibility = Visibility.Visible;
+                CoatingClass1.Visibility = Visibility.Visible;
+            }
+        }
+
+        void Ral2_LayoutUpdated(object sender, EventArgs e)
+        {
+            if (Ral2.Text == "Без покрытия")
+            {
+                CoatingType2.Visibility = Visibility.Hidden;
+                CoatingClass2.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                CoatingType2.Visibility = Visibility.Visible;
+                CoatingClass2.Visibility = Visibility.Visible;
+            }
+        }
+
+        void MaterialP1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MaterialP1 == null) return;
+            if (MaterialP1.SelectedIndex == 0)
+            {
+                ТолщинаВнешнейLbl.Visibility = Visibility.Hidden;
+                ТолщинаВнешней.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ТолщинаВнешнейLbl.Visibility = Visibility.Visible;
+                ТолщинаВнешней.Visibility = Visibility.Visible;
+            }
+        }
+
+        void MaterialP2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MaterialP2 == null) return;
+            if (MaterialP2.SelectedIndex == 0)
+            {
+                ТолщинаВннутреннейLbl.Visibility = Visibility.Hidden;
+                ТолщинаВннутренней.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ТолщинаВннутреннейLbl.Visibility = Visibility.Visible;
+                ТолщинаВннутренней.Visibility = Visibility.Visible;
+            }
+        }
+
+        void Ral1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RalFrame1 == null) return;
+            if (RalFrame1.SelectedIndex == 0)
+            {
+                CoatingTypeFrame1.Visibility = Visibility.Hidden;
+                CoatingClassFrame1.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                CoatingTypeFrame1.Visibility = Visibility.Visible;
+                CoatingClassFrame1.Visibility = Visibility.Visible;
+            }
+        }
+
+        void WidthU_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (WidthBaseFrame != null) WidthBaseFrame.Text = WidthU.Text;
+        }
+
+        void Lenght_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (LenghtBaseFrame != null) LenghtBaseFrame.Text = Lenght.Text;
+        }
     }
 }

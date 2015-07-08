@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using AirVentsCadWpf.Properties;
 using EdmLib;
@@ -61,19 +60,21 @@ namespace AirVentsCadWpf.AdminkaWindows
             {
                 case "Tets_debag":
                     Settings.Default.SourceFolder = edmVentsVault.RootFolderPath;
-                   MessageBox.Show(edmTestVault.RootFolderPath);
+                    MessageBox.Show(edmTestVault.RootFolderPath);
                     Settings.Default.DestinationFolder = edmTestVault.RootFolderPath + "\\Vents-PDM";//Path.Combine(edmTestVault.RootFolderPath,"Vents-PDM");
                     Settings.Default.Save();
                     MessageBox.Show(Settings.Default.DestinationFolder);
 
                     Settings.Default.TestPdmBaseName = @"Tets_debag";
                     break;
+
                 case "Vents-PDM":
                     Settings.Default.PdmBaseName = VaultsComboBox.Text;
                     Settings.Default.TestPdmBaseName = VaultsComboBox.Text;
                     Settings.Default.SourceFolder = edmVault5.RootFolderPath; 
                     Settings.Default.DestinationFolder = edmVault5.RootFolderPath;
                     break;
+
                 default:
                     Settings.Default.PdmBaseName = VaultsComboBox.Text;
                     Settings.Default.TestPdmBaseName = VaultsComboBox.Text;
@@ -85,10 +86,10 @@ namespace AirVentsCadWpf.AdminkaWindows
             switch (SQLBase.Text)
             {
                 case "Тестовая":
-                    Settings.Default.ConnectionToSQL = Settings.Default.TestSqlConnection;
+                    Settings.Default.ConnectionToSQL = App.SqlTestConnectionString;// Settings.Default.TestSqlConnection;
                     break;
                 default:
-                    Settings.Default.ConnectionToSQL = Settings.Default.WorkingSqlConnection;
+                    Settings.Default.ConnectionToSQL = App.SqlConnectionString;// Settings.Default.WorkingSqlConnection;
                     break;   
             }
             
@@ -138,7 +139,6 @@ namespace AirVentsCadWpf.AdminkaWindows
                 VaultsComboBox.Items.Clear();
                 VaultsComboBox.Items.Add("Не найдено доступных хранилищ");
             }
-            
         }
 
         private void ФайлЛоггера_Click(object sender, RoutedEventArgs e)
@@ -160,6 +160,4 @@ namespace AirVentsCadWpf.AdminkaWindows
             Visibility = Visibility.Collapsed;
         }
     }
-
-        
 }

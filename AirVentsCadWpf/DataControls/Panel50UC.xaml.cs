@@ -98,13 +98,9 @@ namespace AirVentsCadWpf.DataControls
         void BUILDING_Click(object sender, RoutedEventArgs e)
         {
             var sw = new ModelSw();
-
-           // var typeOfPanel0 = (ComboBoxItem) TypeOfPanel50.SelectedItem;
-
-
+            
             var mat1Code = "";
             var mat2Code = "";
-
 
             var viewRowMat1 = (DataRowView)MaterialP1.SelectedItem;
             var row1 = viewRowMat1.Row;
@@ -117,8 +113,8 @@ namespace AirVentsCadWpf.DataControls
 
             var materialP1 = new[] { MaterialP1.SelectedValue.ToString(), ТолщинаВнешней.Text, MaterialP1.Text, mat1Code };
             var materialP2 = new[] { MaterialP2.SelectedValue.ToString(), ТолщинаВннутренней.Text, MaterialP2.Text, mat2Code };
-
-           // MessageBox.Show(Ral1.SelectedValue + " " + CoatingType1.Text, CoatingClass1.Text);
+            
+            //MessageBox.Show(Ral1.SelectedValue + " " + CoatingType1.Text, CoatingClass1.Text);
 
             sw.Panels50Build(
                 typeOfPanel: new[] { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },

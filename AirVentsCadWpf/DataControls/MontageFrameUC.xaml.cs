@@ -57,7 +57,6 @@ namespace AirVentsCadWpf.DataControls
             CoatingType1.SelectedIndex = 0;
 
             CoatingClass1.ItemsSource = _setMaterials.CoatingListClass();
-
         }
 
         void BUILDING_Click(object sender, RoutedEventArgs e)

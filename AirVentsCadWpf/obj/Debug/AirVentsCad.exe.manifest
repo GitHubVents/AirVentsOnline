@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="AirVentsCad.exe" version="1.0.1.145" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
+  <asmv1:assemblyIdentity name="AirVentsCad.exe" version="1.0.1.181" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
   <description asmv2:iconFile="AHU Selection\br_icon_teaser_cad_sr_pos_150(1).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -48,26 +48,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AirVentsCad.exe" size="1643520">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AirVentsCad.exe" size="1632160">
       <assemblyIdentity name="AirVentsCad" version="1.0.1.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>t7GmJDmiSl1ySLSQGiYmKwMZulMeYCT/RZe6L5hRly8=</dsig:DigestValue>
+        <dsig:DigestValue>C34NGMmIG8nWRf+LUjUCLgVUcpLPylBzAcE6Ech0laQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BomPartList.dll" size="65024">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BomPartList.dll" size="61440">
       <assemblyIdentity name="BomPartList" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>EyVAkIrhYy+x0bpWzrY0LxV2teI8/dZr71wbCFxUqEY=</dsig:DigestValue>
+        <dsig:DigestValue>X1HIr0TAaW65EMDVrKG15QdYzRabg9LEabjF2RDCITc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -79,43 +79,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>+E+cVFUSCvI3HjfIb7DZvspE/EQF60vifaPK9fq4l3k=</dsig:DigestValue>
+        <dsig:DigestValue>s43a/o3G72X4krr8y6KoWv9w1IPjPqXXek5uikJqKg8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MakeDxfUpdatePartData.dll" size="102912">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MakeDxfUpdatePartData.dll" size="102400">
       <assemblyIdentity name="MakeDxfUpdatePartData" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8nXQCFyick/6aQKlmT3QbaClymJaXOTyI8VZEJ/nb6c=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NLog.dll" size="415744">
-      <assemblyIdentity name="NLog" version="3.1.0.0" publicKeyToken="5120E14C03D0593C" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bIVDfrM6MDsjnC4Ck8R3FI7oboQBOurMTau5wcbcqN8=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NlogViewer.dll" size="13824">
-      <assemblyIdentity name="NlogViewer" version="0.5.3.0" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zCAo1J1qqIs3lTTyFTBv5cNDg4LAqjTiXCPb/hJQofQ=</dsig:DigestValue>
+        <dsig:DigestValue>45rZbd+PWAWl2XnY6ap4FN8YBa9sRQYZtGyRLzbgVEs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -151,7 +127,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>tVK4bqDN8VlARHB/W9xjMpGnjEMCN6+8XNprNBiXbZk=</dsig:DigestValue>
+        <dsig:DigestValue>dcbx6fAhChFBaDavmxGSUkeipMe5sv9B+Ekb1OjPqMw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -200,13 +176,13 @@
       <dsig:DigestValue>X8k/z1rd5tOfpvNj0XJYDbtmYNPvTng0IElCHsBc6UU=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="AirVentsCad.exe.config" size="7195">
+  <file name="AirVentsCad.exe.config" size="7101">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>IVZy72NlxyvNNqg8o1QfgfPgdAKZpX93M/29MAM2vYQ=</dsig:DigestValue>
+      <dsig:DigestValue>h/k+4PaT1CMfGc9m9Zr94rycd1vLRwF+cJWPkOjGzlY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Libraries\VentsPDM-dll.dll" size="11776">
@@ -224,7 +200,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>7GrHvOicR81jtcsvSbxSNuvEDXKNtwAgcB6zagFhccA=</dsig:DigestValue>
+      <dsig:DigestValue>pxaNbdXFLRruHmalvwxIEBfgrjg9GWgEK/DO2TdYTtg=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

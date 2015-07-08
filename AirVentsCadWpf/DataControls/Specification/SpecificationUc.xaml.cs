@@ -17,7 +17,6 @@ using AirVentsCadWpf.AirVentsClasses.UnitsBuilding;
 using AirVentsCadWpf.Properties;
 using BomPartList.Спецификации;
 using EdmLib;
-using NLog;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 
@@ -71,9 +70,8 @@ namespace AirVentsCadWpf.DataControls.Specification
                 ПарольПользователя = Settings.Default.Password,
             };
 
-            var thread = new Thread(LoadAsmsList);
-         //   thread.Start();
-
+            //СпецификацияДляВыгрузкиСборки.ConnectionString = Settings.Default.ConnectionToSQL;
+            //MessageBox.Show(СпецификацияДляВыгрузкиСборки.ConnectionString);
         }
 
         
@@ -90,73 +88,47 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         void НайтиПолучитьСборкуЕеКонфигурацииПоИмени(string имяСборки)
         {
-            //  имяСборки = "ВНС-904.40.300";
-
-            _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(имяСборки);
-
-            if (_путьКСборке != "")
+            //имяСборки = "ВНС-904.40.300";
+            try
             {
-                Конфигурации.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
-            }
-            else
-            {
-                MessageBox.Show("Сборка не найдена!");
-            }
+                _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(имяСборки);
 
-            _спецификация = _работаСоСпецификацией.Спецификация(_путьКСборке, 10, "00");
-            ТаблицаСпецификации.ItemsSource = _спецификация;
+                if (_путьКСборке != "")
+                {
+                    Конфигурации.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
+                }
+                else
+                {
+                    MessageBox.Show("Сборка не найдена!");
+                }
+
+                _спецификация = _работаСоСпецификацией.Спецификация(_путьКСборке, 10, "00");
+                ТаблицаСпецификации.ItemsSource = _спецификация;
+
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
 
         #endregion
 
-        #region Logger
-
-        static readonly NLog.Logger Logger = LogManager.GetLogger("SpecificationUc");
-
-        static void LoggerDebug(string logText)
-        {
-            Logger.Log(LogLevel.Debug, logText);
-        }
-
-        static void LoggerError(string logText)
-        {
-            Logger.Log(LogLevel.Error, logText);
-        }
-
-        static void LoggerFatal(string logText)
-        {
-            Logger.Log(LogLevel.Fatal, logText);
-        }
-
-        static void LoggerInfo(string logText)
-        {
-            Logger.Log(LogLevel.Info, logText);
-        }
-
-        static void LoggerTrace(string logText)
-        {
-            Logger.Log(LogLevel.Trace, logText);
-        }
-
-        static void LoggerWarn(string logText)
-        {
-            Logger.Log(LogLevel.Warn, logText);
-        }
-
-        static void LoggerOff(string logText)
-        {
-            Logger.Log(LogLevel.Off, logText);
-        }
-
-        #endregion
 
         #region ВыгрузитьВXml
         
         void ВыгрузитьВXml_Click(object sender, RoutedEventArgs e)
         {
-            LoggerInfo(string.Format("Запуск выгрузки в XML"));
-            НайтиПолучитьСборкуЕеКонфигурацииПоИмени(AutoCompleteTextBox1.Text);
-            ВыгрузкаСборкиВxml(Convert.ToBoolean(IncludeAsms.IsChecked));
+            try
+            {
+                //LoggerInfo(string.Format("Запуск выгрузки в XML"));
+                НайтиПолучитьСборкуЕеКонфигурацииПоИмени(AutoCompleteTextBox1.Text);
+                ВыгрузкаСборкиВxml(Convert.ToBoolean(IncludeAsms.IsChecked));
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
         
         void ИмяСборки_KeyDown(object sender, KeyEventArgs e)
@@ -437,7 +409,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                 return;
             }
             
-            LoggerInfo(string.Format("Начало выгрузки в XML установки {0}{1}", имяСборки, включаяВсеПодсборки));
+//            LoggerInfo(string.Format("Начало выгрузки в XML установки {0}{1}", имяСборки, включаяВсеПодсборки));
 
             if (включаяПодсборки)
             {
@@ -455,7 +427,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                 ВыгрузитьСборку(_путьКСборке);
             }
 
-            LoggerInfo(string.Format("Выгрузка в XML установки {0}{1} завершена", имяСборки, включаяВсеПодсборки));
+  //          LoggerInfo(string.Format("Выгрузка в XML установки {0}{1} завершена", имяСборки, включаяВсеПодсборки));
             MessageBox.Show(string.Format("Выгрузка сборки {0}{1} выполнена.", имяСборки, включаяВсеПодсборки));
 
         }
@@ -700,7 +672,7 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
             try
             {
-                LoggerInfo(string.Format("Создание папки по пути {0} для сохранения", path));
+                // LoggerInfo(string.Format("Создание папки по пути {0} для сохранения", path));
                 var vault1 = new EdmVault5();
                 if (!vault1.IsLoggedIn)
                 {
@@ -732,15 +704,15 @@ namespace AirVentsCadWpf.DataControls.Specification
                 //var parentFolder = vault2.GetFolderFromPath(directoryInfo.Parent.FullName);
                 //parentFolder.AddFolder(0, directoryInfo.Name);
                 
-                LoggerInfo(string.Format("Получение папки по пути {0} в папке {1} завершено. {1}", fileDirectory, fileFolder.Name));
+                //   LoggerInfo(string.Format("Получение папки по пути {0} в папке {1} завершено. {1}", fileDirectory, fileFolder.Name));
                 
                     //parentFolder.AddFolder(0, directoryInfo.Name);
-                 LoggerInfo(string.Format("Создание файла по пути {0} в папке {2} завершено. {1}", path, result, fileFolder.Name));
+                //     LoggerInfo(string.Format("Создание файла по пути {0} в папке {2} завершено. {1}", path, result, fileFolder.Name));
                 //}
             }
             catch (Exception exception)
             {
-                LoggerError(string.Format("Не удалось создать файл по пути {0}. Ошибка {1}", path, exception.StackTrace));
+               // LoggerError(string.Format("Не удалось создать файл по пути {0}. Ошибка {1}", path, exception.StackTrace));
             }
         }
 
@@ -779,7 +751,7 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         static bool IsSheetMetalPart(IPartDoc swPart)
         {
-            LoggerInfo("Проверка на листовую деталь IsSheetMetalPart()");
+//            LoggerInfo("Проверка на листовую деталь IsSheetMetalPart()");
             try
             {
                 var vBodies = swPart.GetBodies2((int)swBodyType_e.swSolidBody, false);
@@ -790,12 +762,12 @@ namespace AirVentsCadWpf.DataControls.Specification
                     {
                         var isSheetMetal = vBody.IsSheetMetal();
                         if (!isSheetMetal) continue;
-                        LoggerInfo("Проверка завершена");
+//                        LoggerInfo("Проверка завершена");
                         return true;
                     }
                     catch (Exception exception)
                     {
-                        LoggerError(exception.StackTrace);
+                       //LoggerError(exception.StackTrace);
                         return false;
                     }
                 }
@@ -805,7 +777,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
             catch (Exception)
             {
-                LoggerInfo("Проверка завершена. Деталь не из листового материала.");
+   //             LoggerInfo("Проверка завершена. Деталь не из листового материала.");
                 // var swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
                 // swApp.ExitApp();
                 return false;
@@ -867,9 +839,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 Button_Click_3(this, new RoutedEventArgs());
             }
-
-
-
          ////   MessageBox.Show(AutoCompleteTextBox1.Text);
          //   if (AutoCompleteTextBox1.Text.Length > 8)
          //   {
@@ -901,8 +870,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             
             //  AutoCompleteTextBox1.Text = AutoCompleteTextBox1.Text + "";
             //  AutoCompleteTextBox1.TextChanged += AutoCompleteTextBox1_TextChanged;
-
-
         }
 
         void AutoCompleteTextBox1_DropDownOpening(object sender, RoutedPropertyChangingEventArgs<bool> e)
@@ -917,26 +884,20 @@ namespace AirVentsCadWpf.DataControls.Specification
             //ВыгрузитьВXml.IsEnabled = false;
           //  MessageBox.Show("AutoCompleteTextBox1_SelectionChanged");
             ВыгрузитьВXml.IsEnabled = AsmsNames.Contains(AutoCompleteTextBox1.Text);
-
-            
-          
         }
 
-        private void AutoCompleteTextBox1_TextChanged(object sender, RoutedEventArgs e)
+        void AutoCompleteTextBox1_TextChanged(object sender, RoutedEventArgs e)
         {
            // AutoCompleteTextBox1.DropDownClosed;
-
-            
         }
 
-        private void Button_Click_4(object sender, RoutedEventArgs e)
+        void Button_Click_4(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(System.Environment.UserName);
             MessageBox.Show(System.Net.Dns.GetHostName());
-
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
+        void Button_Click_5(object sender, RoutedEventArgs e)
         {
             AirVents_AddOrder();
             //MessageBox.Show("Hello world " + "\n userName -" + System.Environment.userName + "\n HostName -" + System.Net.Dns.GetHostName());
@@ -1054,8 +1015,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             //boolstatus = swDoc.Extension.SelectByID2("Детальный элемент86@Sheet1", "ANNOTATIONTABLES", 0.42799491570140613, 0.28291848892280747, 0, false, 0, null, 0);
             //boolstatus = swDoc.Extension.SelectByID2("Детальный элемент86@Sheet1", "ANNOTATIONTABLES", 0.43157101326023029, 0.28403601940994005, 0, false, 0, null, 0);
 //            swModel.ClearSelection2(true);
-
-          
         }
 
         private static void InsertTable(IModelDoc2 swModel, out TableAnnotation myTable)
@@ -1070,7 +1029,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             myTable.Text[0, 1] = "Рис.";
             myTable.SetColumnWidth(1, 0.02, 0);
             //myTable.InsertRow();
-
         }
 
         private static void InsertTableРис(IModelDoc2 swModel, string[] обозначения)
@@ -1097,8 +1055,6 @@ namespace AirVentsCadWpf.DataControls.Specification
                 }
                 myTable.Text[i, 1] = (i).ToString();
             }
-            
-
         }
 
         private void AutoCompleteTextBox1_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
@@ -1134,7 +1090,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             //}
         }
 
-
         class PartsListXml
         {
             public bool Xml { get; set; }
@@ -1143,7 +1098,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             public string Наименование { get { return Path.GetFileNameWithoutExtension(Путь); } }
         }
        
-
         private void ВыгрузитьВXml_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (ВыгрузитьВXml.IsEnabled)
@@ -1172,7 +1126,6 @@ namespace AirVentsCadWpf.DataControls.Specification
                 });
             }
 
-
             foreach (var listXml in partsListXml)
             {
                 listXml.Xml = ExistLastXml(listXml.Путь, listXml.CurrentVersion);
@@ -1192,7 +1145,6 @@ namespace AirVentsCadWpf.DataControls.Specification
 
             return string.Equals(xmlPartVersion, currentVersion);
         }
-
 
         private void PartsList_LoadingRow(object sender, DataGridRowEventArgs e)
         {
@@ -1269,31 +1221,39 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         private void ПолучитьПереченьДеталей_Checked(object sender, RoutedEventArgs e)
         {
-            _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(AutoCompleteTextBox1.Text);
+            try
+            {
+                _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(AutoCompleteTextBox1.Text);
 
-            if (_путьКСборке != "")
-            {
-                Конфигурация.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
-                Конфигурация.IsEnabled = true;
-                Конфигурация.SelectedIndex = 0;
+                if (_путьКСборке != "")
+                {
+                    Конфигурация.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
+                    Конфигурация.IsEnabled = true;
+                    Конфигурация.SelectedIndex = 0;
 
-                ПереченьДеталей.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                MessageBox.Show("Сборка не найдена!");
-            }
+                    ПереченьДеталей.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    MessageBox.Show("Сборка не найдена!");
+                }
 
-            if (PartsList.HasItems)
-            {
-                XmlParts.Visibility = Visibility.Visible;
-                PartsList.Visibility = Visibility.Visible;
+                if (PartsList.HasItems)
+                {
+                    XmlParts.Visibility = Visibility.Visible;
+                    PartsList.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    XmlParts.Visibility = Visibility.Hidden;
+                    PartsList.Visibility = Visibility.Hidden;
+                }
             }
-            else
+            catch (Exception exception)
             {
-                XmlParts.Visibility = Visibility.Hidden;
-                PartsList.Visibility = Visibility.Hidden;
+                MessageBox.Show(exception.ToString());
             }
+            
         }
 
 
@@ -1301,8 +1261,6 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
             var item = (PartsListXml)PartsList.SelectedItem;
             MessageBox.Show(item.Путь);
-
-
         }
 
 

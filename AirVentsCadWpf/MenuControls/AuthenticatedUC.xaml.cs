@@ -3,7 +3,6 @@ using System.Windows;
 using System.DirectoryServices;
 using System.Windows.Input;
 using AirVentsCadWpf.DataControls;
-using AirVentsCadWpf.Логирование;
 
 
 namespace AirVentsCadWpf.MenuControls
@@ -18,9 +17,17 @@ namespace AirVentsCadWpf.MenuControls
         /// </summary>
         public AuthenticatedUc()
         {
-            InitializeComponent();
-            UserName.Text = Properties.Settings.Default.UserName;
-            Password.Password = Properties.Settings.Default.Password;
+            try
+            {
+                InitializeComponent();
+                UserName.Text = Properties.Settings.Default.UserName;
+                Password.Password = Properties.Settings.Default.Password;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+            
         }
 
         /// <summary>
@@ -64,16 +71,16 @@ namespace AirVentsCadWpf.MenuControls
             bool authenticateUser;
             try
             {
-                Логгер.Информация("Аутентификация пользователя " + userName + " p:" + password, "", "AuthenticateUser", "AuthenticatedUC");
+                //Логгер.Информация("Аутентификация пользователя " + userName + " p:" + password, "", "AuthenticateUser", "AuthenticatedUC");
                 var directoryEntry = new DirectoryEntry("LDAP://" + domainName, userName, password);
                 var directorySearcher = new DirectorySearcher(directoryEntry);
                 directorySearcher.FindOne();
-                Логгер.Информация("Аутентификация пользователя прошла успешно", "", "AuthenticateUser", "AuthenticatedUC");
+                //Логгер.Информация("Аутентификация пользователя прошла успешно", "", "AuthenticateUser", "AuthenticatedUC");
                 authenticateUser = true;
             }
             catch (Exception exception)
             {
-                Логгер.Ошибка("Ошибка:" + exception.StackTrace, exception.ToString(), "AuthenticateUser", "AuthenticatedUC");
+                //Логгер.Ошибка("Ошибка:" + exception.StackTrace, exception.ToString(), "AuthenticateUser", "AuthenticatedUC");
                 authenticateUser = false;
             }
             return authenticateUser;

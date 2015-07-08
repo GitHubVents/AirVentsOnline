@@ -11,7 +11,7 @@ using AirVentsCadWpf.Properties;
 using BomPartList;
 using EdmLib;
 using MakeDxfUpdatePartData;
-using NLog;
+
 using VentsMaterials;
 using VentsPDM_dll;
 using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
@@ -24,46 +24,6 @@ namespace AirVentsCadWpf.DataControls
     /// </summary>
     public partial class PartsListUc
     {
-        #region Logger
-
-        static readonly NLog.Logger Logger = LogManager.GetLogger("PartsListUc(Выгрузка XML)");
-
-        static void LoggerDebug(string logText)
-        {
-            Logger.Log(LogLevel.Debug, logText);
-        }
-
-        static void LoggerError(string logText)
-        {
-            Logger.Log(LogLevel.Error, logText);
-        }
-
-        static void LoggerFatal(string logText)
-        {
-            Logger.Log(LogLevel.Fatal, logText);
-        }
-
-        static void LoggerInfo(string logText)
-        {
-            Logger.Log(LogLevel.Info, logText);
-        }
-
-        static void LoggerTrace(string logText)
-        {
-            Logger.Log(LogLevel.Trace, logText);
-        }
-
-        static void LoggerWarn(string logText)
-        {
-            Logger.Log(LogLevel.Warn, logText);
-        }
-
-        static void LoggerOff(string logText)
-        {
-            Logger.Log(LogLevel.Off, logText);
-        }
-
-        #endregion
 
         #region Fields and Constructor
         
@@ -103,8 +63,8 @@ namespace AirVentsCadWpf.DataControls
             
             OpenAsm.Visibility = Visibility.Collapsed;
             Конфигурации.Visibility = Visibility.Collapsed;
-        //    ВыгрузитьСпецификацию.Visibility = Visibility.Collapsed;
-    //        ВыгрузитьСписокДеталей.Visibility = Visibility.Collapsed; 
+            //ВыгрузитьСпецификацию.Visibility = Visibility.Collapsed;
+            //ВыгрузитьСписокДеталей.Visibility = Visibility.Collapsed; 
 
             PartPropsConfig.Visibility = Visibility.Collapsed;
             PartPropsCopy.Visibility = Visibility.Collapsed;
@@ -197,7 +157,7 @@ namespace AirVentsCadWpf.DataControls
             }
             catch (Exception exception)
             {
-                LoggerError(string.Format("При попытке выгрузки в XML установки c именем {0} возникла ошибка {1}", ИмяСборки.Text, exception.StackTrace));
+               // LoggerError(string.Format("При попытке выгрузки в XML установки c именем {0} возникла ошибка {1}", ИмяСборки.Text, exception.StackTrace));
                 MessageBox.Show("В базе отсутствует сборка с указаным именем");
                 return false;
             }
@@ -477,7 +437,6 @@ namespace AirVentsCadWpf.DataControls
             SelectedPart.ItemsSource = ChangeListMaterial(row.ОбозначениеDocMgr, row.Конфигурация, material.MatName, _bomPartsList.Where(x => x.Обозначение == row.ОбозначениеDocMgr).ToList()).ToList();
 
             FilterBomTable();
-
         }
 
         #endregion
@@ -578,7 +537,7 @@ namespace AirVentsCadWpf.DataControls
         {
             if (!GetAsmByName())
             {
-                LoggerError(string.Format("В базе отсутствует установка c именем {0}", ИмяСборки.Text));
+                //LoggerError(string.Format("В базе отсутствует установка c именем {0}", ИмяСборки.Text));
                 return;
             }
                 GetAssemblyConfigurations();
@@ -625,7 +584,7 @@ namespace AirVentsCadWpf.DataControls
             
             ВыгрузитьСписокДеталей_Click(sender, e);
 
-            LoggerInfo(string.Format("Начало выгрузки в XML установки {0}{1}", ИмяСборки.Text, isAllParts));
+           // LoggerInfo(string.Format("Начало выгрузки в XML установки {0}{1}", ИмяСборки.Text, isAllParts));
             
             if (new FileInfo(_assemblyPath).Exists == false) return;
 
@@ -676,13 +635,13 @@ namespace AirVentsCadWpf.DataControls
                     ExportDataToXml1C(Path.GetFileNameWithoutExtension(_assemblyPath), _asmConfigurations);  
                 }
 
-                LoggerInfo(string.Format("Выгрузка в XML установки {0}{1} завершена", ИмяСборки.Text, isAllParts));
+               // LoggerInfo(string.Format("Выгрузка в XML установки {0}{1} завершена", ИмяСборки.Text, isAllParts));
                 MessageBox.Show("SpecificationUc для сборки "+ Path.GetFileNameWithoutExtension(_assemblyPath) + " успешно выгружена");
             }
 
             catch (Exception exception)
             {
-                LoggerError(string.Format("Ошибка что выгрузка в XML установки {0}  {1}", ИмяСборки.Text, exception.StackTrace));
+               // LoggerError(string.Format("Ошибка что выгрузка в XML установки {0}  {1}", ИмяСборки.Text, exception.StackTrace));
 
                 MessageBox.Show(exception.Message);
             }
@@ -694,7 +653,7 @@ namespace AirVentsCadWpf.DataControls
 
         void ExportDataToXml1C(string asmName, IEnumerable<string> configsList)
         {
-            LoggerInfo(string.Format("Формирование XML для установки {0}", asmName));
+          //  LoggerInfo(string.Format("Формирование XML для установки {0}", asmName));
 
             try
             {
@@ -944,11 +903,11 @@ namespace AirVentsCadWpf.DataControls
             }
             catch (Exception exception)
             {
-               LoggerError(string.Format("При формировании XML для установки возникла ошибка {0}", exception.StackTrace));
+             //  LoggerError(string.Format("При формировании XML для установки возникла ошибка {0}", exception.StackTrace));
                MessageBox.Show(exception.Message);
             }
             
-            LoggerInfo(string.Format("Завершено формирование XML для установки {0}", asmName));
+           // LoggerInfo(string.Format("Завершено формирование XML для установки {0}", asmName));
         }
 
         void ExportToXml(string asmName)
@@ -1286,9 +1245,6 @@ namespace AirVentsCadWpf.DataControls
         {
             BeginUpdate_Click(sender, e);
         }
-
-
-
 
     }
 }

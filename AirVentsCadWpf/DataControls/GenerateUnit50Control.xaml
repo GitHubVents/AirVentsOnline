@@ -27,10 +27,10 @@
             <Label Content="мм" HorizontalAlignment="Center" Margin="130,33,829,7" VerticalAlignment="Center"/>
         </Grid>
         <!--Конец-->
-        
+
         <!--Панель-->
         <Grid HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Stretch" Background="#FFF3E7E7"/>
-        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-482,142,482,20" Grid.RowSpan="5">
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,10,0,5" Grid.RowSpan="2">
             <Grid HorizontalAlignment="Left"  Margin="0,0,0,20" VerticalAlignment="Bottom" Width="450">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80"/>
@@ -51,8 +51,8 @@
                     <ListBoxItem Content="AV45" />
                     <ListBoxItem Content="AV65" />
                 </ComboBox>
-               
-                
+
+
                 <CheckBox x:Name="Nonstandard" Content="Нестандарт" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="nonstandard_Checked" Unchecked="nonstandard_Unchecked"/>
                 <Grid VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -185,7 +185,7 @@
                     <ComboBoxItem Content="Model1" ToolTip="03"/>
                     <ComboBoxItem Content="Model1" ToolTip="03"/>
                 </ComboBox>
-                
+
                 <Label x:Name="AddTypeLabel" Content="Высота" HorizontalAlignment="Right" Margin="0,4,3,4" VerticalAlignment="Center" Height="26" Width="56" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 <TextBox x:Name="AddType" HorizontalAlignment="Center" Height="26" Margin="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="45" RenderTransformOrigin="0.8,2.92" TabIndex="32" TextAlignment="Center" Grid.Column="5" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>

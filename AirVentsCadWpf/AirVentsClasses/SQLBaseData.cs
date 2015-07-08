@@ -1061,7 +1061,6 @@ namespace AirVentsCadWpf.AirVentsClasses
         //        sqlCommand.Parameters.AddWithValue(parameter, value);
         //    }
         //}
-        
 
         /// <summary>
         /// Panelses the table.
@@ -1107,9 +1106,6 @@ Order BY PanelTypeCode";
             //panelsTable.Columns[0].ColumnName = "Группа";
             return panelsTable;
         }
-
-        
-
 
         /// <summary>
         /// Materialses the table.

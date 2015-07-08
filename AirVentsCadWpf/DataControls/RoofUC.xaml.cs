@@ -19,10 +19,10 @@ namespace AirVentsCadWpf.DataControls
         {
             InitializeComponent();
         }
+        
+        //private static readonly Logger Logger = LogManager.GetLogger("RoofUC");
 
-     //   private static readonly Logger Logger = LogManager.GetLogger("RoofUC");
-
-        private void BuildRoof_Click(object sender, RoutedEventArgs e)
+        void BuildRoof_Click(object sender, RoutedEventArgs e)
         {
            // MessageBox.Show(TypeOfRoof.Text);
             try
@@ -38,13 +38,13 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        private void WidthRoof_KeyDown(object sender, KeyEventArgs e)
+        void WidthRoof_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -52,7 +52,7 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void LenghtRoof_KeyDown(object sender, KeyEventArgs e)
+        void LenghtRoof_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -60,15 +60,13 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void Grid_Loaded_1(object sender, RoutedEventArgs e)
+        void Grid_Loaded_1(object sender, RoutedEventArgs e)
         {
             //var sw = new ModelSw();
             //sw.CreateDistDirectory(string.Format(@"{0}\{1}", @Properties.Settings.Default.DestinationFolder, sw.RoofDestinationFolder));
         }
 
-       
-
-        private void TypeOfRoof_LayoutUpdated(object sender, EventArgs e)
+        void TypeOfRoof_LayoutUpdated(object sender, EventArgs e)
         {
             const string picturePath = @"\DataControls\Pictures\Крыша\";
             var pictureName = "15-01-800-1100.JPG";

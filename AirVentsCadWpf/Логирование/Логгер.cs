@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Windows;
 using AirVentsCadWpf.Properties;
-using NLog;
+
 
 namespace AirVentsCadWpf.Логирование
 {
@@ -12,44 +11,19 @@ namespace AirVentsCadWpf.Логирование
    {
        #region Логгер
 
-       static readonly Logger Logger = LogManager.GetLogger("AirVentsCad");
-
         public static void Отладка(string logText, string код, string функция, string className)
         {
             Лог.Debug(logText, код, функция, className);
-            Logger.Log(LogLevel.Debug, logText);
         }
 
         public static void Ошибка(string logText, string код, string функция, string className)
         {
             Лог.Error(logText, код, функция, className);
-            Logger.Log(LogLevel.Error, logText);
         }
 
         public static void Информация(string logText, string код, string функция, string className)
         {
             Лог.Info(logText, код, функция, className);
-            Logger.Log(LogLevel.Info, logText);
-        }
-
-        static void LoggerFatal(string logText)
-        {
-            Logger.Log(LogLevel.Fatal, logText);
-        }
-       
-        static void LoggerTrace(string logText)
-        {
-            Logger.Log(LogLevel.Trace, logText);
-        }
-
-        static void LoggerWarn(string logText)
-        {
-            Logger.Log(LogLevel.Warn, logText);
-        }
-
-        static void LoggerOff(string logText)
-        {
-            Logger.Log(LogLevel.Off, logText);
         }
 
         static class Лог
@@ -61,10 +35,10 @@ namespace AirVentsCadWpf.Логирование
             //----------------------------------------------------------
             public static void Write(string text)
             {
-                using (var streamWriter = new StreamWriter("C:\\log.txt", true))  //Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + 
-                {
-                    streamWriter.Write(text);
-                }
+                //using (var streamWriter = new StreamWriter("C:\\log.txt", true))  //Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + 
+                //{
+                //    streamWriter.Write(text);
+                //}
             }
 
             //---------------------------------------------------------
@@ -72,38 +46,38 @@ namespace AirVentsCadWpf.Логирование
             //---------------------------------------------------------
             public static void WriteLine(string message)
             {
-                using (var streamWriter = new StreamWriter("C:\\log.txt", true))
-                {
-                    streamWriter.WriteLine("{0,-23} {1}", DateTime.Now + ":", message);
-                }
+                //using (var streamWriter = new StreamWriter("C:\\log.txt", true))
+                //{
+                //    streamWriter.WriteLine("{0,-23} {1}", DateTime.Now + ":", message);
+                //}
             }
 
 
             public static void Debug(string message, string код, string функция, string className)
             {
-                using (var streamWriter = new StreamWriter("C:\\log.txt", true))
-                {
-                    streamWriter.WriteLine("{0,-20}  {2,-7} {3,-20} {1}", DateTime.Now + ":", message, "Error", className);
-                }
+                //using (var streamWriter = new StreamWriter("C:\\log.txt", true))
+                //{
+                //    streamWriter.WriteLine("{0,-20}  {2,-7} {3,-20} {1}", DateTime.Now + ":", message, "Error", className);
+                //}
                 WriteToBase(message, "Debug", код, className, функция);
             }
 
 
             public static void Error(string message, string код, string функция, string className)
             {
-                using (var streamWriter = new StreamWriter("C:\\log.txt", true))
-                {
-                    streamWriter.WriteLine("{0,-20}  {2,-7} {3,-20} {1}", DateTime.Now + ":", message, "Error", className);
-                }
+                //using (var streamWriter = new StreamWriter("C:\\log.txt", true))
+                //{
+                //    streamWriter.WriteLine("{0,-20}  {2,-7} {3,-20} {1}", DateTime.Now + ":", message, "Error", className);
+                //}
                 WriteToBase(message, "Error", код, className, функция);
             }
 
             public static void Info(string message, string код, string функция, string className)
             {
-                using (var streamWriter = new StreamWriter("C:\\log.txt", true))
-                {
-                    streamWriter.WriteLine("{0,-20}  {2,-7} {3,-20} {1}", DateTime.Now + ":", message, "Info", className);
-                }
+                //using (var streamWriter = new StreamWriter("C:\\log.txt", true))
+                //{
+                //    streamWriter.WriteLine("{0,-20}  {2,-7} {3,-20} {1}", DateTime.Now + ":", message, "Info", className);
+                //}
                 WriteToBase(message, "Info", код, className, функция);
             }
 
@@ -125,8 +99,7 @@ namespace AirVentsCadWpf.Логирование
                         sqlParameter.AddWithValue("@ErrorTime", DateTime.Now);
                         sqlParameter.AddWithValue("@ErrorState", тип);
                         sqlParameter.AddWithValue("@ErrorFunction", функция);
-
-
+                        
                         //var returnParameter = sqlCommand.Parameters.Add("@ProjectNumber", SqlDbType.Int);
                         //returnParameter.Direction = ParameterDirection.ReturnValue;
 
@@ -153,8 +126,6 @@ namespace AirVentsCadWpf.Логирование
                 }
             }
         }
-
-
 
         #endregion
    }

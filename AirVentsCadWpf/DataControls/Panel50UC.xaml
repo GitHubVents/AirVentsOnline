@@ -92,7 +92,8 @@
                     <ComboBox x:Name="CoatingType2" Height="23"  HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="0" IsReadOnly="True" Grid.Column="5" VerticalContentAlignment="Center" Margin="2" TabIndex="2" Padding="5,3,2,3" Grid.Row="1" Width="80"/>
                     <ComboBox x:Name="CoatingClass2" Height="23"  HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="0" IsReadOnly="True" Grid.Column="6" VerticalContentAlignment="Center" Margin="2" TabIndex="2" Padding="5,3,2,3" Grid.Row="1" Width="35"/>
                 </Grid>
-                <Button x:Name="Build" Content="Построить" HorizontalAlignment="Right" Height="25" Margin="2" VerticalAlignment="Bottom" Width="100" Click="BUILDING_Click" Background="{x:Null}"
+                <Button x:Name="Build" Content="Построить" HorizontalAlignment="Right" Height="25" Margin="2" VerticalAlignment="Bottom" Width="100" 
+                        Click="BUILDING_Click" Background="{x:Null}"
                         Grid.Row="0" Grid.Column="6"/>
             </Grid>
             <Image x:Name="PicturePanel" HorizontalAlignment="Stretch" MinHeight="150" MaxHeight="250" Margin="2"  MinWidth="150" MaxWidth="250"

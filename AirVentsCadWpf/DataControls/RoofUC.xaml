@@ -29,10 +29,12 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="Тип" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
                 <ComboBox x:Name="TypeOfRoof" TabIndex="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" SelectedIndex="0" IsReadOnly="True" Grid.Column="1"  Height="24" LayoutUpdated="TypeOfRoof_LayoutUpdated">
-                    <ListBoxItem Content="1" ToolTip="Одинарная"/>
-                    <ListBoxItem Content="2" ToolTip="Двойная по ширине"/>
-                    <ListBoxItem Content="3" ToolTip="Одинарная с креплением М8"/>
-                    <ListBoxItem Content="4" ToolTip="Одинарная с креплением М8 + 170"/>
+                    <ComboBoxItem Content="1" ToolTip="Одинарная"/>
+                    <ComboBoxItem Content="2" ToolTip="Двойная по ширине"/>
+                    <ComboBoxItem Content="3" ToolTip="Одинарная с креплением М8"/>
+                    <ComboBoxItem Content="4" ToolTip="Одинарная с креплением М8 + 170"/>
+                    <ComboBoxItem Content="5" ToolTip="Одинарная с вылетом 140"/>
+                    <ComboBoxItem Content="6" ToolTip="Двойная по ширине с вылетом 140"/>
                 </ComboBox>
                 <Grid VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
@@ -51,8 +53,9 @@
         </Grid>
         <Grid HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Stretch"/>
         <Grid HorizontalAlignment="Stretch" Grid.Row="7" VerticalAlignment="Stretch"/>
-        <Button x:Name="BuildRoof" TabIndex="5" Content="Построить" HorizontalAlignment="Left" Height="30" Margin="304,0,0,19" VerticalAlignment="Bottom" Width="100"  Background="{x:Null}" Click="BuildRoof_Click" />
-        <Image x:Name="PictureRoof" HorizontalAlignment="Left" Height="208" Margin="29,10,0,0" VerticalAlignment="Top" Width="396" Grid.Row="2" Grid.RowSpan="5"/>
+        <Button Grid.Row="0" x:Name="BuildRoof" TabIndex="5" Content="Построить" HorizontalAlignment="Left" Height="30" Margin="304,0,0,19" 
+                VerticalAlignment="Bottom" Width="100"  Background="{x:Null}" Click="BuildRoof_Click" />
+        <Image x:Name="PictureRoof" HorizontalAlignment="Left" Height="208" Margin="33,10,0,0" VerticalAlignment="Top" Width="396" Grid.Row="2" Grid.RowSpan="5"/>
     </Grid>
 
 

@@ -14,6 +14,7 @@ namespace AirVentsCadWpf.AirVentsClasses
     /// </summary>
     public class PartProperty
     {
+
         #region Поля 
 
         /// <summary>
@@ -35,7 +36,6 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// The message
         /// </summary>
         public string Message;
-
         
         /// <summary>
         /// 
@@ -49,8 +49,6 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// The assembly path.
         /// </value>
         public string AssemblyPath { get; set; }
-
-
         
         /// <summary>
         /// Boms the list.

@@ -178,13 +178,13 @@ namespace AirVentsCadWpf.DataControls
             HeightU.Visibility = Visibility.Visible;
         }
        
-        private void nonstandard_Unchecked(object sender, RoutedEventArgs e)
+        void nonstandard_Unchecked(object sender, RoutedEventArgs e)
         {
             WidthU.IsReadOnly = true;
             HeightU.IsReadOnly = true;
         }
          
-        private void BUILDING_Click(object sender, RoutedEventArgs e)
+         void BUILDING_Click(object sender, RoutedEventArgs e)
         {
             var sw = new ModelSw();
 
@@ -214,10 +214,10 @@ namespace AirVentsCadWpf.DataControls
                 }
                 else
                 {
-                    p1 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel1.Text, Convert.ToString(height - 100), m1, m2, null);
-                    p2 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel2.Text, Convert.ToString(height - 100), m1, m2, null);
-                    p3 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel3.Text, Convert.ToString(height - 100), m1, m2, null);
-                    p4 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel4.Text, Convert.ToString(height - 100), m1, m2, null);
+                    p1 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel1.Text, Convert.ToString(height - 100), m1, m2, null, true);
+                    p2 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel2.Text, Convert.ToString(height - 100), m1, m2, null, true);
+                    p3 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel3.Text, Convert.ToString(height - 100), m1, m2, null, true);
+                    p4 = sw.Panels50BuildStr(new[] { null, TypeOfPanel1.Text }, Panel4.Text, Convert.ToString(height - 100), m1, m2, null, true);
                 }
 
                 #endregion

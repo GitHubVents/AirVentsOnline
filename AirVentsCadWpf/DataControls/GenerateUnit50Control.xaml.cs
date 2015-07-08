@@ -386,12 +386,12 @@ namespace AirVentsCadWpf.DataControls
                                                 }
 
 
-                                                Dispatcher.Invoke(
-                                                    () =>
-                                                        sw.UnitAsmbly(SizeOfUnit.Text, "00", "",WidthU.Text, HeightU.Text,
-                                                            Lenght.Text, Thikness.Text, TypeOfFrame.Text,
-                                                            FrameOffset.Text, new[] { null, TypeOfPanel50.Text }, MaterialP1.Text, MaterialP2.Text, "", ""));
-                                                //  Parallel.Invoke(() => sw.UnitAsmbly(SizeOfUnit.Text, "00", WidthU.Text, HeightU.Text, Lenght.Text, Thikness.Text, TypeOfFrame.Text, FrameOffset.Text));
+                                                //Dispatcher.Invoke(
+                                                //    () =>
+                                                //        sw.UnitAsmbly(SizeOfUnit.Text, "00", "",WidthU.Text, HeightU.Text,
+                                                //            Lenght.Text, Thikness.Text, TypeOfFrame.Text,
+                                                //            FrameOffset.Text, new[] { null, TypeOfPanel50.Text }, MaterialP1.Text, MaterialP2.Text, "", ""));
+                                                ////  Parallel.Invoke(() => sw.UnitAsmbly(SizeOfUnit.Text, "00", WidthU.Text, HeightU.Text, Lenght.Text, Thikness.Text, TypeOfFrame.Text, FrameOffset.Text));
                                                 //sw.UnitAsmbly(SizeOfUnit.Text, "00", WidthU.Text, HeightU.Text,
                                                 //    Lenght.Text, Thikness.Text, TypeOfFrame.Text, FrameOffset.Text);
                                             }

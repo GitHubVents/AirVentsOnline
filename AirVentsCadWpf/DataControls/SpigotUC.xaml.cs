@@ -22,8 +22,12 @@ namespace AirVentsCadWpf.DataControls
         {
             try
             {
-                var sw = new ModelSw();
-                sw.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text);
+                VentsCadLibrary.VentsCadLibrary vcad = new VentsCadLibrary.VentsCadLibrary();
+                var unit = "";
+                vcad.SpigotStr(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text, out unit);
+                MessageBox.Show(unit);
+                //var sw = new ModelSw();
+                //sw.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text);
             }
             catch (Exception ex)
             {
@@ -57,6 +61,12 @@ namespace AirVentsCadWpf.DataControls
         {
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var sw = new ModelSw();
+            sw.Mamba();
         }
     }
 }

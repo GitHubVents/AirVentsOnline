@@ -59,7 +59,8 @@
                 <TextBox x:Name="LenghtBaseFrame" HorizontalAlignment="Center"  PreviewTextInput="NumberValidationTextBox"  VerticalAlignment="Center" Grid.Column="7" HorizontalContentAlignment="Center" Margin="0" MinWidth="40" KeyDown="LenghtBaseFrame_KeyDown" TabIndex="5"/>
                 <Label x:Name="WidthBaseFramelabel" Content="Ширина" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Grid.Column="4" HorizontalContentAlignment="Center" MinWidth="40"/>
                 <TextBox x:Name="WidthBaseFrame" HorizontalAlignment="Center" PreviewTextInput="NumberValidationTextBox" VerticalAlignment="Center" Grid.Column="5" HorizontalContentAlignment="Center" Margin="0" MinWidth="40" KeyDown="WidthBaseFrame_KeyDown" TabIndex="4"/>
-                <Button x:Name="Build" Content="Построить" HorizontalAlignment="Right" Height="25" Margin="5" VerticalAlignment="Bottom" Width="80" Click="BUILDING_Click" Background="{x:Null}" Grid.Column="8" Padding="6,1"/>
+                <Button x:Name="Build" Content="Построить" HorizontalAlignment="Right" Height="25" Margin="5" VerticalAlignment="Bottom" Width="80"
+                        Click="BUILDING_Click" Background="{x:Null}" Grid.Column="8" Padding="6,1"/>
             </Grid>
             <Image x:Name="PictureMf" HorizontalAlignment="Stretch" MinHeight="100" MaxHeight="200" Margin="2" VerticalAlignment="Stretch" MinWidth="200" MaxWidth="300" Grid.Column="1"
                    Grid.Row="0" Grid.RowSpan="3"/>

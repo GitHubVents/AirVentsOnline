@@ -41,8 +41,7 @@ namespace AirVentsCadWpf.DataControls
         private void Register_Click(object sender, RoutedEventArgs e)
         {
             var sw = new Bom();// Unit50Sw();//C:\Tets_debag\Vents-PDM\Проекты\Blauberg\02 - Панели\02-01-654-849-50-Az-Az-MW.SLDASM
-            
-          //  sw.RegistrationPdm(@"C:\Tets_debag\Vents-PDM\Проекты\Blauberg\02 - Панели\02-01-654-849-50-Az-Az-MW.SLDASM", true, Properties.Settings.Default.TestPdmBaseName);
+            //  sw.RegistrationPdm(@"C:\Tets_debag\Vents-PDM\Проекты\Blauberg\02 - Панели\02-01-654-849-50-Az-Az-MW.SLDASM", true, Properties.Settings.Default.TestPdmBaseName);
         }
 
         private void GetLast_Click(object sender, RoutedEventArgs e)
@@ -54,14 +53,14 @@ namespace AirVentsCadWpf.DataControls
         private void Register1_Click(object sender, RoutedEventArgs e)
         {
             var sw = new ModelSw();
-          //  sw.GetLastVersionPdm1(@"D:\Vents-PDM\Библиотека проектирования\DriveWorks\02 - Panels\02-01.SLDASM", 1);
+            //sw.GetLastVersionPdm1(@"D:\Vents-PDM\Библиотека проектирования\DriveWorks\02 - Panels\02-01.SLDASM", 1);
             
         }
 
         private void Register2_Click(object sender, RoutedEventArgs e)
         {
-             var sw = new ModelSw();
-          //   sw.GetLastVersionPdmAsm(@"C:\Tets_debag\Vents-PDM\Проекты\Blauberg\11 - Регулятор расхода воздуха\11-20-954-654.SLDASM");
+            var sw = new ModelSw();
+            //sw.GetLastVersionPdmAsm(@"C:\Tets_debag\Vents-PDM\Проекты\Blauberg\11 - Регулятор расхода воздуха\11-20-954-654.SLDASM");
         }
 
         private void WidthDamper_KeyDown(object sender, KeyEventArgs e)

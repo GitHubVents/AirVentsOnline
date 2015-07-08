@@ -240,8 +240,6 @@ C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\AirVen
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\AirVentsCad.application
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\AirVentsCad.exe
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\AirVentsCad.pdb
-C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\NLog.dll
-C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\NlogViewer.dll
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\System.Windows.Controls.Input.Toolkit.dll
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\System.Windows.Controls.Layout.Toolkit.dll
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\VentsMaterials.dll
@@ -253,7 +251,6 @@ C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\BomPar
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\BomPartList.xml
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\MakeDxfUpdatePartData.pdb
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\MakeDxfUpdatePartData.xml
-C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\NLog.xml
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AirVentsCadWpf.csprojResolveAssemblyReference.cache
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AdminkaWindows\Adminka.baml
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AdminkaWindows\SettingsW.baml
