@@ -3,6 +3,7 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 using VentsCadLibrary.Properties;
 
 namespace VentsCadLibrary
@@ -31,7 +32,9 @@ namespace VentsCadLibrary
             newFile = null;
             if (!IsConvertToInt(new[] { width, height })) return;            
 
-            string modelName;
+            
+
+            string modelName = null;
 
             switch (type)
             {
@@ -40,15 +43,14 @@ namespace VentsCadLibrary
                     break;
                 case "30":
                     modelName = "12-30";
-                    break;
-                default:
-                    modelName = "12-00";
-                    break;
+                    break;                
             }
+
+            if (string.IsNullOrEmpty(modelName)) return;
 
             var newSpigotName = modelName + "-" + width + "-" + height;
             var newSpigotPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder,
-                SpigotDestinationFolder, newSpigotName);
+                SpigotDestinationFolder, newSpigotName);                        
 
             if (File.Exists(newSpigotPath + ".SLDDRW"))
             {
@@ -62,17 +64,21 @@ namespace VentsCadLibrary
             Dimension myDimension;
             var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", Settings.Default.SourceFolder,
                 SpigotFolder, drawing);
-            var modelSpigotAsm = String.Format(@"{0}{1}\{2}.SLDASM", Settings.Default.SourceFolder,
-                SpigotFolder, "12-00");
-
+            
             var pdmFolder = Settings.Default.SourceFolder;
 
-            GetLastVersionAsmPdm(modelSpigotDrw, Settings.Default.PdmBaseName);
-            
-            if (!InitializeSw(true)) return;            
+            GetLastVersionAsmPdm(modelSpigotDrw, Settings.Default.PdmBaseName);            
+
+            if (!InitializeSw(true)) return;
+
+            MessageBox.Show(modelSpigotDrw);
+
             var swDrwSpigot = _swApp.OpenDoc6(modelSpigotDrw, (int)swDocumentTypes_e.swDocDRAWING,
-                (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
-            _swApp.Visible = true;
+                (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "", 0, 0);
+            
+            if (swDrwSpigot == null) return;
+
+            MessageBox.Show("3");
 
             ModelDoc2 swDoc = _swApp.ActivateDoc2("12-00", false, 0);
             var swAsm = (AssemblyDoc)swDoc;
