@@ -25,30 +25,6 @@ namespace VentsCadLibrary.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Vents-PDM")]
-        public string DestinationFolder {
-            get {
-                return ((string)(this["DestinationFolder"]));
-            }
-            set {
-                this["DestinationFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Vents-PDM")]
-        public string SourceFolder {
-            get {
-                return ((string)(this["SourceFolder"]));
-            }
-            set {
-                this["SourceFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Vents-PDM")]
         public string PdmBaseName {
             get {
@@ -74,7 +50,31 @@ namespace VentsCadLibrary.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Vents-PDM")]
+        [global::System.Configuration.DefaultSettingValueAttribute("E:\\Tets_debag\\Vents-PDM")]
+        public string DestinationFolder {
+            get {
+                return ((string)(this["DestinationFolder"]));
+            }
+            set {
+                this["DestinationFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("E:\\Vents-PDM")]
+        public string SourceFolder {
+            get {
+                return ((string)(this["SourceFolder"]));
+            }
+            set {
+                this["SourceFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Tets_debag")]
         public string TestPdmBaseName {
             get {
                 return ((string)(this["TestPdmBaseName"]));
