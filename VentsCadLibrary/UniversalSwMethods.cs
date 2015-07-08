@@ -11,7 +11,7 @@ using VentsCadLibrary.Properties;
 
 namespace VentsCadLibrary
 {
-    public partial class VentsCadLibrary
+    public partial class VentsCad
     {
         static bool IsConvertToInt(IEnumerable<string> newStringParams)
         {
