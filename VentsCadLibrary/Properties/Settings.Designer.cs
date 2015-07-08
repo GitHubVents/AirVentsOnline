@@ -25,18 +25,6 @@ namespace VentsCadLibrary.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Vents-PDM")]
-        public string PdmBaseName {
-            get {
-                return ((string)(this["PdmBaseName"]));
-            }
-            set {
-                this["PdmBaseName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=srvkb;Initial Catalog=SWPlusDB;Persist Security Info=True;User ID=sa;" +
             "Password=PDMadmin;MultipleActiveResultSets=True")]
         public string ConnectionToSQL {
@@ -69,18 +57,6 @@ namespace VentsCadLibrary.Properties {
             }
             set {
                 this["SourceFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Tets_debag")]
-        public string TestPdmBaseName {
-            get {
-                return ((string)(this["TestPdmBaseName"]));
-            }
-            set {
-                this["TestPdmBaseName"] = value;
             }
         }
     }

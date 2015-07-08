@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using EdmLib;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,24 @@ namespace VentsCadLibrary
 {
     public partial class VentsCad
     {
+        public string VaultName { get; set; }
+
+        public string DestVaultName { get; set; }
+
+        string LocalPath(string Vault)
+        {
+            try
+            {
+                var vault1 = new EdmVault5();
+                vault1.LoginAuto(Vault, 0);
+                return vault1.RootFolder.LocalPath;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }            
+        }
+
         SldWorks _swApp;
 
         public List<FileInfo> NewComponents = new List<FileInfo>();
@@ -20,6 +39,7 @@ namespace VentsCadLibrary
         ///  Папка с исходной моделью "Вибровставки". 
         /// </summary>
         public string SpigotFolder = @"\Библиотека проектирования\DriveWorks\12 - Spigot";
+
         /// <summary>
         ///  Папка для сохранения компонентов "Вибровставки". 
         /// </summary>
@@ -30,9 +50,7 @@ namespace VentsCadLibrary
         public void SpigotStr(string type, string width, string height, out string newFile)
         {
             newFile = null;
-            if (!IsConvertToInt(new[] { width, height })) return;            
-
-            
+            if (!IsConvertToInt(new[] { width, height })) return;    
 
             string modelName = null;
 
@@ -50,7 +68,8 @@ namespace VentsCadLibrary
 
             var newSpigotName = modelName + "-" + width + "-" + height;
             var newSpigotPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder,
-                SpigotDestinationFolder, newSpigotName);                        
+                SpigotDestinationFolder, newSpigotName);
+            
 
             if (File.Exists(newSpigotPath + ".SLDDRW"))
             {
@@ -67,7 +86,7 @@ namespace VentsCadLibrary
             
             var pdmFolder = Settings.Default.SourceFolder;
 
-            GetLastVersionAsmPdm(modelSpigotDrw, Settings.Default.PdmBaseName);            
+            GetLastVersionAsmPdm(modelSpigotDrw, VaultName);            
 
             if (!InitializeSw(true)) return;
 
@@ -353,10 +372,10 @@ namespace VentsCadLibrary
             if (Convert.ToInt32(width) > 1250 || Convert.ToInt32(height) > 1250)
             { m = 20; }
             drw.SetupSheet5("DRW1", 12, 12, 1, m, true, Settings.Default.DestinationFolder + @"\Vents-PDM\\Библиотека проектирования\\Templates\\Основные надписи\\A3-A-1.slddrt", 0.42, 0.297, "По умолчанию", false);            
-            int inin = 0;
-            int sdki = 0;
+            int errors = 0;
+            int warnings = 0;
 
-            swDrwSpigot.SaveAs4(newSpigotPath + ".SLDDRW", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref inin, ref sdki);
+            swDrwSpigot.SaveAs4(newSpigotPath + ".SLDDRW", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref errors, ref warnings);
 
             NewComponents.Add(new FileInfo(newSpigotPath + ".SLDDRW"));
             
@@ -365,12 +384,14 @@ namespace VentsCadLibrary
             _swApp.ExitApp();
             _swApp = null;
             
-            CheckInOutPdm(NewComponents, true, Settings.Default.TestPdmBaseName);
+            CheckInOutPdm(NewComponents, true, DestVaultName);
 
             foreach (var newComponent in NewComponents)
             {
-                PartInfoToXml(newComponent.FullName);
-            }           
+               // PartInfoToXml(newComponent.FullName);
+            }
+
+            newFile = newSpigotPath + ".SLDDRW";
         }
     }
 }

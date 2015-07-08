@@ -22,9 +22,7 @@ namespace VentsCadLibrary
         static void LoggerInfo(string logText, string код, string функция)
         {
             LoggerMine.Info(logText, код, функция);
-        }
-        
-              
+        }     
 
         static class LoggerMine
         {

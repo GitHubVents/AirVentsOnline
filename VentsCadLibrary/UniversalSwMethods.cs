@@ -39,7 +39,7 @@ namespace VentsCadLibrary
                 IEdmFolder5 oFolder;
                 vault1.LoginAuto(pdmBase, 0);
                 var edmFile5 = vault1.GetFileFromPath(path, out oFolder);
-                edmFile5.GetFileCopy(0, 0, oFolder.ID, (int)EdmGetFlag.EdmGet_RefsVerLatest);              
+                edmFile5.GetFileCopy(0, 0, oFolder.ID, (int)EdmGetFlag.EdmGet_RefsVerLatest);
             }
             catch (Exception exception)
             {
@@ -129,7 +129,7 @@ namespace VentsCadLibrary
                 if (extension.ToLower() != ".sldprt") return;
                 var @class = new MakeDxfExportPartDataClass
                 {
-                    PdmBaseName = Settings.Default.PdmBaseName
+                    PdmBaseName = VaultName
                 };
                 bool isErrors;
                 string newEdrwFileName;
@@ -140,7 +140,7 @@ namespace VentsCadLibrary
                 }
                 else
                 {
-                    CheckInOutPdm(new List<FileInfo> { new FileInfo(newEdrwFileName) }, true, Settings.Default.TestPdmBaseName);
+                    CheckInOutPdm(new List<FileInfo> { new FileInfo(newEdrwFileName) }, true, VaultName);
                     LoggerError("Закончена обработка детали " + Path.GetFileName(filePath) + " с ошибками", "",
                         "PartInfoToXml");
                 }
