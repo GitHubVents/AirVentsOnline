@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using VentsCadLibrary.Properties;
 
 namespace VentsCadLibrary
 {
     public partial class VentsCad
     {
+
+        public string ConnectionToSQL { get; set; }       
+
         public string VaultName { get; set; }
 
         public string DestVaultName { get; set; }
@@ -23,10 +25,11 @@ namespace VentsCadLibrary
                 vault1.LoginAuto(Vault, 0);
                 return vault1.RootFolder.LocalPath;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
+                LoggerError(string.Format("В базе - {1}, не удалось получить корнувую папку ({0})", exception.Message, Vault), "", " LocalPath(string Vault)");
                 return null;
-            }            
+            }
         }
 
         SldWorks _swApp;
@@ -47,7 +50,7 @@ namespace VentsCadLibrary
 
         #endregion
 
-        public void SpigotStr(string type, string width, string height, out string newFile)
+        public void Spigot(string type, string width, string height, out string newFile)
         {
             newFile = null;
             if (!IsConvertToInt(new[] { width, height })) return;    
@@ -66,10 +69,15 @@ namespace VentsCadLibrary
 
             if (string.IsNullOrEmpty(modelName)) return;
 
+            var sourceFolder = LocalPath(VaultName);
+            var destinationFolder = LocalPath(DestVaultName);
+
             var newSpigotName = modelName + "-" + width + "-" + height;
-            var newSpigotPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder,
+            var newSpigotPath = string.Format(@"{0}\{1}\{2}", destinationFolder,
                 SpigotDestinationFolder, newSpigotName);
-            
+
+
+            MessageBox.Show(newSpigotPath + ".SLDDRW");
 
             if (File.Exists(newSpigotPath + ".SLDDRW"))
             {
@@ -81,24 +89,20 @@ namespace VentsCadLibrary
             if (modelName == "12-30")
             { drawing = modelName; }
             Dimension myDimension;
-            var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", Settings.Default.SourceFolder,
+            var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", sourceFolder,
                 SpigotFolder, drawing);
-            
-            var pdmFolder = Settings.Default.SourceFolder;
+           
 
             GetLastVersionAsmPdm(modelSpigotDrw, VaultName);            
 
             if (!InitializeSw(true)) return;
-
-            MessageBox.Show(modelSpigotDrw);
+                       
 
             var swDrwSpigot = _swApp.OpenDoc6(modelSpigotDrw, (int)swDocumentTypes_e.swDocDRAWING,
                 (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "", 0, 0);
             
             if (swDrwSpigot == null) return;
-
-            MessageBox.Show("3");
-
+            
             ModelDoc2 swDoc = _swApp.ActivateDoc2("12-00", false, 0);
             var swAsm = (AssemblyDoc)swDoc;
             swAsm.ResolveAllLightWeightComponents(false);
@@ -201,7 +205,7 @@ namespace VentsCadLibrary
                 _swApp.IActivateDoc2("12-20-001", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
                 newPartName = string.Format("12-20-{0}.SLDPRT", height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, SpigotDestinationFolder, newPartName);
+                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
@@ -226,7 +230,7 @@ namespace VentsCadLibrary
                 _swApp.IActivateDoc2("12-20-002", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
                 newPartName = string.Format("12-20-{0}.SLDPRT", width);
-                newPartPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, SpigotDestinationFolder, newPartName);
+                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
@@ -251,7 +255,7 @@ namespace VentsCadLibrary
                 _swApp.IActivateDoc2("12-003", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
                 newPartName = string.Format("12-03-{0}-{1}.SLDPRT", width, height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, SpigotDestinationFolder, newPartName);
+                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
@@ -280,7 +284,7 @@ namespace VentsCadLibrary
                 _swApp.IActivateDoc2("12-30-001", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
                 newPartName = string.Format("12-30-{0}.SLDPRT", height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, SpigotDestinationFolder, newPartName);
+                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
@@ -305,7 +309,7 @@ namespace VentsCadLibrary
                 _swApp.IActivateDoc2("12-30-002", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
                 newPartName = string.Format("12-30-{0}.SLDPRT", width);
-                newPartPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, SpigotDestinationFolder, newPartName);
+                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
@@ -330,7 +334,7 @@ namespace VentsCadLibrary
                 _swApp.IActivateDoc2("12-003", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
                 newPartName = string.Format("12-03-{0}-{1}.SLDPRT", width, height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, SpigotDestinationFolder, newPartName);
+                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
@@ -371,7 +375,7 @@ namespace VentsCadLibrary
             { m = 15; }
             if (Convert.ToInt32(width) > 1250 || Convert.ToInt32(height) > 1250)
             { m = 20; }
-            drw.SetupSheet5("DRW1", 12, 12, 1, m, true, Settings.Default.DestinationFolder + @"\Vents-PDM\\Библиотека проектирования\\Templates\\Основные надписи\\A3-A-1.slddrt", 0.42, 0.297, "По умолчанию", false);            
+            drw.SetupSheet5("DRW1", 12, 12, 1, m, true, destinationFolder + @"\Vents-PDM\\Библиотека проектирования\\Templates\\Основные надписи\\A3-A-1.slddrt", 0.42, 0.297, "По умолчанию", false);            
             int errors = 0;
             int warnings = 0;
 

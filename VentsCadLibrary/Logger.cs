@@ -22,10 +22,11 @@ namespace VentsCadLibrary
         static void LoggerInfo(string logText, string код, string функция)
         {
             LoggerMine.Info(logText, код, функция);
-        }     
-
+        }
+        
         static class LoggerMine
-        {
+        {              
+
             private const string ConnectionString = "Data Source=192.168.14.11;Initial Catalog=SWPlusDB;User ID=sa;Password=PDMadmin";
             private const string ClassName = "VentsCadLibrary";
 

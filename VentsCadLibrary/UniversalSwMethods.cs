@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-using VentsCadLibrary.Properties;
 
 namespace VentsCadLibrary
 {
