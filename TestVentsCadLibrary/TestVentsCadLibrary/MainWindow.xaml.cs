@@ -19,19 +19,17 @@ namespace TestVentsCadLibrary
             {
                 ConnectionToSQL = "Data Source = srvkb; Initial Catalog = SWPlusDB; Persist Security Info = True; User ID = sa; Password = PDMadmin; MultipleActiveResultSets = True",
                 DestVaultName = "Tets_debag",
-               // VaultName = "Vents-PDM"
+                VaultName = "Vents-PDM"
             };
-                       
+
+
+            //  cad.BatchUnLock();
             
-            cad.BatchUnLock();
+            var Spigot = "";
+            cad.Spigot("20", "1301", "1201", out Spigot);
 
 
-            //var Spigot = "";
-            //cad.Spigot("20", "1977", "1344", out Spigot);
-            
-            //var PdmBaseName = "wef";
-
-           // MessageBox.Show(Spigot);
+            MessageBox.Show(Spigot);
         }
     }
 }

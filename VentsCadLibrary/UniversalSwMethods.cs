@@ -90,12 +90,20 @@ namespace VentsCadLibrary
         {
             vault1.LoginAuto("Tets_debag", 0);
 
-           // BatchAddFiles(filesList);
-           // MessageBox.Show("Файлы добавлены?");
+            BatchAddFiles(filesList);
+            MessageBox.Show("Файлы добавлены?");
 
-            //BatchUnLock(filesList);
+            try
+            {
+                BatchUnLock(filesList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
 
-            BatchUnLock();
+           // BatchUnLock();
            // MessageBox.Show("Файл зарегистрирован");
                        
 
@@ -254,73 +262,21 @@ namespace VentsCadLibrary
             catch (Exception){}
         }
 
-        public EdmVault5 vault1 = new EdmVault5();
-        
+        public EdmVault5 vault1 = new EdmVault5();        
 
         public void BatchAddFiles(List<VentsCadFiles> filesList)
         {
             try
             {
                 poAdder = (IEdmBatchAdd2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchAdd);
-                //var newFolder = vault.RootFolderPath + "\\Новая папка (2)";                
-                //poAdder.AddFolderPath(newFolder, 0, (int)EdmBatchAddFolderFlag.Ebaff_Nothing);
 
-             //   MessageBox.Show(vault1.Name);
-                //poAdder.AddFileFromPathToPath(file.LocalPartFileInfo.FullName, file.LocalPartFileInfo.DirectoryName + "\\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1977.SLDPRT", @"E:\Tets_debag\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1978.SLDPRT", @"E:\Tets_debag\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1979.SLDPRT", @"E:\Tets_debag\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1980.SLDPRT", @"E:\Tets_debag\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1981.SLDPRT", @"E:\Tets_debag\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1982.SLDPRT", @"E:\Tets_debag\", 0);
-                poAdder.AddFileFromPathToPath(@"C:\12-20-1983.SLDPRT", @"E:\Tets_debag\", 0);
-
-                //foreach (var file in filesList)
-                //{
-                //    MessageBox.Show(vault1.Name);
-                //    //poAdder.AddFileFromPathToPath(file.LocalPartFileInfo.FullName, file.LocalPartFileInfo.DirectoryName + "\\", 0);
-                //    poAdder.AddFileFromPathToPath(@"C:\12-20-1977.SLDPRT", @"E:\Tets_debag\", 0);                    
-                //}
-
-                poAdder.CommitAdd(0, null, 0);
-                
-                #region
-                //var edmFileInfo = new EdmFileInfo[0];
-
-                //var ppoAddedFiles = new EdmFileInfo[10];
-                //poAdder.CommitAdd(0, ref ppoAddedFiles);
-
-                ////Display the returned information in a message box
-
-                //int idx;
-                //idx = ppoAddedFiles.GetLowerBound(0);
-                //string msg = "";
-
-                //while (idx <= ppoAddedFiles.GetUpperBound(0))
-                //{
-                //    string row = null;
-                //    row = "(" + ppoAddedFiles[idx].mbsPath + ") arg = " + Convert.ToString(ppoAddedFiles[idx].mlArg);
-
-                //    if (ppoAddedFiles[idx].mhResult == 0)
-                //    {
-                //        row = row + " status = OK ";
-                //    }
-                //    else
-                //    {
-                //        string oErrName = "";
-                //        string oErrDesc = "";
-
-                //        vault1.GetErrorString(ppoAddedFiles[idx].mhResult, out oErrName, out oErrDesc);
-                //        row = row + " status = " + oErrName;
-                //    }
-
-                //    idx = idx + 1;
-                //    msg = msg + Constants.vbLf + row;
-
-                //}
-
-                //Interaction.MsgBox(msg);
-                #endregion
+                foreach (var file in filesList)
+                {
+                    poAdder.AddFileFromPathToPath(file.LocalPartFileInfo.FullName, file.LocalPartFileInfo.DirectoryName, 0);
+                    //poAdder.AddFileFromPathToPath(file.LocalPartFileInfo.FullName, file.LocalPartFileInfo.DirectoryName + "\\", 0);
+                    //poAdder.AddFileFromPathToPath(@"C:\12-20-1977.SLDPRT", @"E:\Tets_debag\", 0);
+                }
+                poAdder.CommitAdd(0, null, 0);               
             }
             catch (Exception exception)
             {
@@ -328,45 +284,41 @@ namespace VentsCadLibrary
             }            
         }
 
-        public void BatchUnLock()
-        {
-            var vault1 = new EdmVault5();
-            vault1.LoginAuto("Tets_debag", 0);
-            batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);
-            EdmSelItem[] ppoSelection = new EdmSelItem[1];
+        //public void BatchUnLock()
+        //{
+        //    //var vault1 = new EdmVault5();
+        //    //vault1.LoginAuto("Tets_debag", 0);
 
-            //aFile = vault1.GetFileFromPath(file.LocalPartFileInfo.FullName, out ppoRetParentFolder);
-            //MessageBox.Show(@"E:\Tets_debag\12-20-19" + num + ".SLDPRT");
-            
+        //    batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);
+        //    EdmSelItem[] ppoSelection = new EdmSelItem[1];
 
-                aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-1977.SLDPRT", out ppoRetParentFolder);
-            aPos = aFile.GetFirstFolderPosition();
-            aFolder = aFile.GetNextFolder(aPos);
+        //    aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-1977.SLDPRT", out ppoRetParentFolder);
+        //    aPos = aFile.GetFirstFolderPosition();
+        //    aFolder = aFile.GetNextFolder(aPos);
 
-            ppoSelection[0] = new EdmSelItem();
-            ppoSelection[0].mlDocID = aFile.ID;
-            ppoSelection[0].mlProjID = aFolder.ID;
-        
+        //    ppoSelection[0] = new EdmSelItem();
+        //    ppoSelection[0].mlDocID = aFile.ID;
+        //    ppoSelection[0].mlProjID = aFolder.ID;        
 
-            // Add selections to the batch of files to check in
-            batchUnlocker.AddSelection(vault1, ppoSelection);
+        //    // Add selections to the batch of files to check in
+        //    batchUnlocker.AddSelection(vault1, ppoSelection);
 
-            if ((batchUnlocker != null))
-            {
-                batchUnlocker.CreateTree(0, (int)EdmUnlockBuildTreeFlags.Eubtf_ShowCloseAfterCheckinOption + (int)EdmUnlockBuildTreeFlags.Eubtf_MayUnlock);
+        //    if ((batchUnlocker != null))
+        //    {
+        //        batchUnlocker.CreateTree(0, (int)EdmUnlockBuildTreeFlags.Eubtf_ShowCloseAfterCheckinOption + (int)EdmUnlockBuildTreeFlags.Eubtf_MayUnlock);
 
-                fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
-                aPos = fileList.GetHeadPosition();
+        //        fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
+        //        aPos = fileList.GetHeadPosition();
 
-                while (!(aPos.IsNull))
-                {
-                    fileList.GetNext2(aPos, out poSel);
-                }
+        //        while (!(aPos.IsNull))
+        //        {
+        //            fileList.GetNext2(aPos, out poSel);
+        //        }
 
-                batchUnlocker.UnlockFiles(0, null);
-                //batchUnlocker.ShowDlg(this.Handle.ToInt32());
-            }
-        }
+        //        batchUnlocker.UnlockFiles(0, null);
+        //        //batchUnlocker.ShowDlg(this.Handle.ToInt32());
+        //    }
+        //}
 
         //public void BatchUnLock()
         //{
@@ -402,42 +354,41 @@ namespace VentsCadLibrary
         //        }
         //    }
         //}
+        
+        public void BatchUnLock(List<VentsCadFiles> filesList)
+        {
+            batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);
+            int i = 0;
+            EdmSelItem[] ppoSelection = new EdmSelItem[filesList.Count];
+            foreach (var file in filesList)
+            {
+                aFile = vault1.GetFileFromPath(file.LocalPartFileInfo.FullName, out ppoRetParentFolder);
+               // aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-1977.SLDPRT", out ppoRetParentFolder);
+                aPos = aFile.GetFirstFolderPosition();
+                aFolder = aFile.GetNextFolder(aPos);
 
+                ppoSelection[i] = new EdmSelItem();
+                ppoSelection[i].mlDocID = aFile.ID;
+                ppoSelection[i].mlProjID = aFolder.ID;
+                i++;
+            }
 
+            // Add selections to the batch of files to check in
+            batchUnlocker.AddSelection(vault1, ppoSelection);
 
-        //public void BatchUnLock(List<VentsCadFiles> filesList)
-        //{   
-        //    batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);
-        //    int i = 0;
-        //    EdmSelItem[] ppoSelection = new EdmSelItem[filesList.Count];
-        //    foreach (var file in filesList)
-        //    {
-        //        //aFile = vault1.GetFileFromPath(file.LocalPartFileInfo.FullName, out ppoRetParentFolder);
-        //        aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-1977.SLDPRT", out ppoRetParentFolder);
-        //        aPos = aFile.GetFirstFolderPosition();
-        //        aFolder = aFile.GetNextFolder(aPos);                            
+            if ((batchUnlocker != null))
+            {
+                batchUnlocker.CreateTree(0, (int)EdmUnlockBuildTreeFlags.Eubtf_ShowCloseAfterCheckinOption + (int)EdmUnlockBuildTreeFlags.Eubtf_MayUnlock);
+                fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
+                aPos = fileList.GetHeadPosition();
 
-        //        ppoSelection[i] = new EdmSelItem();
-        //        ppoSelection[i].mlDocID = aFile.ID;
-        //        ppoSelection[i].mlProjID = aFolder.ID;
-        //        i++;
-        //    }
-
-        //    // Add selections to the batch of files to check in
-        //    batchUnlocker.AddSelection(vault1, ppoSelection);
-
-        //    if ((batchUnlocker != null))
-        //    {
-        //        batchUnlocker.CreateTree(0, (int)EdmUnlockBuildTreeFlags.Eubtf_ShowCloseAfterCheckinOption + (int)EdmUnlockBuildTreeFlags.Eubtf_MayUnlock);
-        //        fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
-        //        aPos = fileList.GetHeadPosition();
-
-        //        while (!(aPos.IsNull))
-        //        {
-        //            fileList.GetNext2(aPos, out poSel);
-        //        }
-        //    }
-        //}
+                while (!(aPos.IsNull))
+                {
+                    fileList.GetNext2(aPos, out poSel);
+                }
+                batchUnlocker.UnlockFiles(0, null);
+            }
+        }
 
         internal void GetIdPdm(string path, out string FileName, out int FileIdPdm)
         {

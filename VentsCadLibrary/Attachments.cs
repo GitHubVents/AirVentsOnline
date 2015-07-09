@@ -23,9 +23,9 @@ namespace VentsCadLibrary
         {
             try
             {
-                var vault1 = new EdmVault5();
-                vault1.LoginAuto(Vault, 0);
-                return vault1.RootFolder.LocalPath;
+                var edmVault5 = new EdmVault5();
+                edmVault5.LoginAuto(Vault, 0);
+                return edmVault5.RootFolder.LocalPath;
             }
             catch (Exception exception)
             {                
@@ -54,12 +54,10 @@ namespace VentsCadLibrary
 
         public void Spigot(string type, string width, string height, out string newFile)
         {
-            newFile = null;
-            var newFilesList = new List<VentsCadFiles>();
-            CheckInOutPdm(NewComponents, true, null, out newFilesList);
-
-            return;
-
+            //newFile = null;
+            //var newFilesList = new List<VentsCadFiles>();
+            //CheckInOutPdm(NewComponents, true, null, out newFilesList);
+            //return;
 
             newFile = null;
             if (!IsConvertToInt(new[] { width, height })) return;    
@@ -416,8 +414,8 @@ namespace VentsCadLibrary
             _swApp.ExitApp();
             _swApp = null;
 
-            //var newFilesList = new List<VentsCadFiles>();
-            //CheckInOutPdm(NewComponents, true, DestVaultName, out newFilesList);
+            var newFilesList = new List<VentsCadFiles>();
+            CheckInOutPdm(NewComponents, true, DestVaultName, out newFilesList);
 
             var text = "";
 
