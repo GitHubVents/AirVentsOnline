@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace TestVentsCadLibrary
 {
@@ -14,19 +15,23 @@ namespace TestVentsCadLibrary
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            VentsCadLibrary.VentsCad svb = new VentsCadLibrary.VentsCad
+            VentsCadLibrary.VentsCad cad = new VentsCadLibrary.VentsCad
             {
                 ConnectionToSQL = "Data Source = srvkb; Initial Catalog = SWPlusDB; Persist Security Info = True; User ID = sa; Password = PDMadmin; MultipleActiveResultSets = True",
                 DestVaultName = "Tets_debag",
-                VaultName = "Vents-PDM"
+               // VaultName = "Vents-PDM"
             };
-             
-            var sdg = "";
-            svb.Spigot("20", "1337", "873", out sdg);
+                       
+            
+            cad.BatchUnLock();
+
+
+            //var Spigot = "";
+            //cad.Spigot("20", "1977", "1344", out Spigot);
             
             //var PdmBaseName = "wef";
 
-            MessageBox.Show(sdg);
+           // MessageBox.Show(Spigot);
         }
     }
 }

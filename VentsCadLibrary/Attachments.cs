@@ -4,7 +4,7 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Windows.Forms;
 
 namespace VentsCadLibrary
 {
@@ -16,6 +16,8 @@ namespace VentsCadLibrary
         public string VaultName { get; set; }
 
         public string DestVaultName { get; set; }
+             
+
 
         string LocalPath(string Vault)
         {
@@ -26,8 +28,7 @@ namespace VentsCadLibrary
                 return vault1.RootFolder.LocalPath;
             }
             catch (Exception exception)
-            {
-                
+            {                
                 LoggerError(string.Format("В базе - {1}, не удалось получить корнувую папку ({0})", exception.Message, Vault), "", " LocalPath(string Vault)");
                 return null;
             }
@@ -35,9 +36,7 @@ namespace VentsCadLibrary
 
         SldWorks _swApp;
 
-        public List<VentsCadFiles> NewComponents = new List<VentsCadFiles>();
-        
-        //public List<FileInfo> NewComponents = new List<FileInfo>();
+        public List<VentsCadFiles> NewComponents = new List<VentsCadFiles>();        
 
         #region Fields
 
@@ -55,6 +54,13 @@ namespace VentsCadLibrary
 
         public void Spigot(string type, string width, string height, out string newFile)
         {
+            newFile = null;
+            var newFilesList = new List<VentsCadFiles>();
+            CheckInOutPdm(NewComponents, true, null, out newFilesList);
+
+            return;
+
+
             newFile = null;
             if (!IsConvertToInt(new[] { width, height })) return;    
 
@@ -90,13 +96,11 @@ namespace VentsCadLibrary
             { drawing = modelName; }
             Dimension myDimension;
             var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", sourceFolder,
-                SpigotFolder, drawing);
-           
+                SpigotFolder, drawing);           
 
             GetLastVersionAsmPdm(modelSpigotDrw, VaultName);            
 
-            if (!InitializeSw(true)) return;
-                       
+            if (!InitializeSw(true)) return;                       
 
             var swDrwSpigot = _swApp.OpenDoc6(modelSpigotDrw, (int)swDocumentTypes_e.swDocDRAWING,
                 (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "", 0, 0);
@@ -412,12 +416,20 @@ namespace VentsCadLibrary
             _swApp.ExitApp();
             _swApp = null;
 
-            var newFilesList = new List<VentsCadFiles>();
-            CheckInOutPdm(NewComponents, true, DestVaultName, out newFilesList);
+            //var newFilesList = new List<VentsCadFiles>();
+            //CheckInOutPdm(NewComponents, true, DestVaultName, out newFilesList);
+
+            var text = "";
+
+            foreach (var item in newFilesList)
+            {
+                text = text + "\n PartIdPdm - " + item.PartIdPdm + " PartName - " + item.PartName;
+            }
+            MessageBox.Show(text);
 
             foreach (var newComponent in NewComponents)
             {
-                PartInfoToXml(newComponent.LocalPartFileInfo.FullName);
+              //  PartInfoToXml(newComponent.LocalPartFileInfo.FullName);
             }
 
             newFile = newSpigotPath + ".SLDDRW";

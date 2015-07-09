@@ -29,7 +29,7 @@ namespace AirVentsCadWpf.DataControls
 
             MaterialMontageFrame.ItemsSource = ((IListSource)_sqlBaseData.MaterialsForMontageFrame()).GetList();
             MaterialMontageFrame.DisplayMemberPath = "MaterialsName";
-            MaterialMontageFrame.SelectedValuePath = "LevelID";//  "CodeMaterial";
+            MaterialMontageFrame.SelectedValuePath = "LevelID"; //"CodeMaterial";
             MaterialMontageFrame.SelectedIndex = 0;
 
             #region MontageFrame50 Initialize
@@ -178,15 +178,24 @@ namespace AirVentsCadWpf.DataControls
 
         void MaterialMontageFrame_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            //switch (MaterialMontageFrame.SelectedIndex)
-            //{
-            //    case 0:
-            //    case 1:
-            //    break;
-            //    default:
-            //    MaterialMontageFrame.SelectedIndex = -1;
-            //        break;
-            //}
+            Thikness.Items.Clear();
+            switch (MaterialMontageFrame.SelectedIndex)
+            {               
+                case 0:
+                    Thikness.Items.Add("2");
+                    break;
+                case 1:
+                    Thikness.Items.Add("2");
+                    Thikness.Items.Add("3");
+                    break;
+                case 2:
+                    Thikness.Items.Add("4");                    
+                    break;
+                default:
+                    MaterialMontageFrame.SelectedIndex = -1;
+                    break;
+            }
+            Thikness.SelectedIndex = 0;
         }
 
         private void Ral1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
