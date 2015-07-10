@@ -52,6 +52,8 @@ namespace VentsCadLibrary
         
         public void Spigot(string type, string width, string height, out string newFile)
         {
+            #region
+
             //newFile = null;
 
             //MessageBox.Show(ExistInBase("12-445-445", null, null, null, null, null).ToString());
@@ -64,6 +66,8 @@ namespace VentsCadLibrary
             //var newFilesList = new List<VentsCadFiles>();
             //CheckInOutPdm(NewComponents, true, null, out newFilesList);
             //return;
+
+            #endregion
 
             newFile = null;
 
@@ -89,23 +93,12 @@ namespace VentsCadLibrary
             var newSpigotName = modelName + "-" + width + "-" + height;
             var newSpigotPath = string.Format(@"{0}\{1}\{2}", destinationFolder,
                 SpigotDestinationFolder, newSpigotName);
-
-            //if (File.Exists(newSpigotPath + ".SLDDRW"))
-            //{
-            //    newFile = newSpigotPath + ".SLDDRW";
-            //    return;                
-            //}                      
-
+            
             if (ExistInBase(newSpigotName, null, null, null, null, null))
             {
                 newFile = newSpigotPath + ".SLDDRW";
                 return;
-            }
-
-            //NewComponents.Add(new VentsCadFiles
-            //{
-            //    LocalPartFileInfo = newSpigotPath + ".SLDASM"
-            //});
+            }                       
 
             var drawing = "12-00";
             if (modelName == "12-30")
@@ -113,8 +106,7 @@ namespace VentsCadLibrary
             Dimension myDimension;
             var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", sourceFolder,
                 SpigotFolder, drawing);
-
-            //MessageBox.Show(modelSpigotDrw);
+                       
 
             GetLastVersionAsmPdm(modelSpigotDrw, VaultName);            
 
@@ -122,9 +114,6 @@ namespace VentsCadLibrary
 
             var swDrwSpigot = _swApp.OpenDoc6(modelSpigotDrw, (int)swDocumentTypes_e.swDocDRAWING,
                 (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "", 0, 0);
-
-          //  MessageBox.Show(modelSpigotDrw, swDrwSpigot.ToString());
-
 
             if (swDrwSpigot == null) return;
             
@@ -433,7 +422,7 @@ namespace VentsCadLibrary
                 LocalPartFileInfo = newSpigotPath + ".SLDDRW"
             });
             
-          //  _swApp.CloseDoc(Path.GetFileNameWithoutExtension(new FileInfo(newSpigotPath + ".SLDDRW").FullName) + " - DRW1");
+            //_swApp.CloseDoc(Path.GetFileNameWithoutExtension(new FileInfo(newSpigotPath + ".SLDDRW").FullName) + " - DRW1");
             _swApp.CloseDoc(newSpigotPath);
             _swApp.ExitApp();
             _swApp = null;

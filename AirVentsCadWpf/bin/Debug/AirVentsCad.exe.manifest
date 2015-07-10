@@ -48,14 +48,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AirVentsCad.exe" size="1632160">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AirVentsCad.exe" size="1631136">
       <assemblyIdentity name="AirVentsCad" version="1.0.1.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>C34NGMmIG8nWRf+LUjUCLgVUcpLPylBzAcE6Ech0laQ=</dsig:DigestValue>
+        <dsig:DigestValue>aWHXTb2bYGBA7kztjyuMaRvnkMqH4Y55D5RI6yXFRb4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -116,6 +116,18 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>49f3lEQtnb6Z9dV4wLyNnjGY/kBVz1WB/B3ngIWWfFA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VentsCadLibrary.dll" size="25088">
+      <assemblyIdentity name="VentsCadLibrary" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>3K6sWEe9LZUoirv64fqtYrota3VzwOLOMNLhJ0u6ow8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

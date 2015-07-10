@@ -14,14 +14,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="AirVentsCad.exe.manifest" size="11152">
+    <dependentAssembly dependencyType="install" codebase="AirVentsCad.exe.manifest" size="11800">
       <assemblyIdentity name="AirVentsCad.exe" version="1.0.1.181" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="amd64" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8P+dxUVvX++WRf3XXrx9JJjt/q+v6hJEV/+8CzkfvQI=</dsig:DigestValue>
+        <dsig:DigestValue>1yCqJpmLJvuIOygNv88kefGCetckqA6nO+Zh/B+Va24=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

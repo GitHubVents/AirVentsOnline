@@ -11,6 +11,7 @@ namespace AirVentsCadWpf.AirVentsClasses
     /// </summary>
     public partial class SqlBaseData
     {
+
         /// <summary>
         /// Panels the type identifier.
         /// </summary>
@@ -42,8 +43,7 @@ namespace AirVentsCadWpf.AirVentsClasses
             }
             return panelTypeId;
         }
-
-
+        
         /// <summary>
         /// 
         /// </summary>

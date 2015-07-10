@@ -2910,9 +2910,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
         /// <returns></returns>
         public string MontageFrameS(string widthS, string lenghtS, string thiknessS, string typeOfMf, string frameOffset, string material, IList<string> покрытие)
         {
+            var addMatName = "";
 
-            //MessageBox.Show(material);
-
+            if (material != "1800" & thiknessS == "2")
+            {
+                addMatName = "HK";
+            }
+           
             #region Проверка введенных значений и открытие сборки
 
             if (IsConvertToDouble(new[] { widthS, lenghtS, thiknessS, frameOffset }) == false) { return ""; }
@@ -2931,9 +2935,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 case "2": internalLongitudinalBeam = true; break;
                 case "3": internalCrossbeam = true; frameOffcetStr = "-" + frameOffset; break;
             }
-
-
-            var newMontageFrameName = String.Format("10-{0}-{1}-{2}{3}{4}.SLDASM", thiknessS, widthS, lenghtS, typeOfMfs, frameOffcetStr);
+            
+            var newMontageFrameName = String.Format("10-{0}{5}-{1}-{2}{3}{4}.SLDASM", thiknessS, widthS, lenghtS, typeOfMfs, frameOffcetStr, addMatName);
 
             //var newMontageFrameName = String.Format("10-{0}-{1}-{2}{3}-{4}{5}{6}{7}.SLDASM",
             //    thiknessS,
@@ -3188,18 +3191,12 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                 const int deleteOption = (int)swDeleteSelectionOptions_e.swDelete_Absorbed + (int)swDeleteSelectionOptions_e.swDelete_Children;
                 // Удаление ненужных элементов поперечной балки
-                swDocMontageFrame.Extension.SelectByID2("Регулируемая ножка-1@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                swDocMontageFrame.EditDelete();
-                swDocMontageFrame.Extension.SelectByID2("Регулируемая ножка-2@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                swDocMontageFrame.EditDelete();
-                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-23@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                swDocMontageFrame.EditDelete();
-                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-24@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                swDocMontageFrame.EditDelete();
-                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-25@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                swDocMontageFrame.EditDelete();
-                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-26@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);
-                swDocMontageFrame.EditDelete();
+                swDocMontageFrame.Extension.SelectByID2("Регулируемая ножка-1@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);swDocMontageFrame.EditDelete();
+                swDocMontageFrame.Extension.SelectByID2("Регулируемая ножка-2@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);swDocMontageFrame.EditDelete();
+                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-23@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);swDocMontageFrame.EditDelete();
+                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-24@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);swDocMontageFrame.EditDelete();
+                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-25@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);swDocMontageFrame.EditDelete();
+                swDocMontageFrame.Extension.SelectByID2("Hex Nut 5915_gost-26@10-4", "COMPONENT", 0, 0, 0, false, 0, null, 0);swDocMontageFrame.EditDelete();
                 swDocMontageFrame.Extension.SelectByID2("Вырез-Вытянуть5@10-03-01-4-2@10-4", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
                 swDocMontageFrame.Extension.DeleteSelection2(deleteOption);
                 swDocMontageFrame.Extension.SelectByID2("Вырез-Вытянуть4@10-03-01-4-2@10-4", "BODYFEATURE", 0, 0, 0, false, 0, null, 0);
@@ -3210,18 +3207,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #region Сохранение элементов и сборки, а также применение материалов
 
-            if (material == "")
-            {
-                material = "HK";
-
-                if (thiknessS == "2")
-                {
-                    material = "OZ";
-                }
-            }
-
             #region Детали
-
 
             //Продольные балки (Длина установки)
             #region 10-01-01-4 - Деталь
@@ -3237,7 +3223,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 case "2":
                 case "1":
                     typeOfMfs = "-0" + typeOfMf;
-                    break;
+                    break;                
             }
 
             //var newPartName = String.Format("10-01-01-{0}-{1}{2}{3}-{4}{5}{6}{7}.SLDPRT",
@@ -3250,7 +3236,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //    string.IsNullOrEmpty(покрытие[1]) ? "" : "-" + покрытие[1],
             //    string.IsNullOrEmpty(покрытие[2]) ? "" : "-" + покрытие[2]);
 
-            var newPartName = String.Format("10-01-01-{0}-{1}{2}{3}.SLDPRT", thiknessS, lenght, frameOffcetStr, typeOfMfs);
+            var newPartName = String.Format("10-01-01-{0}{4}-{1}{2}{3}.SLDPRT", thiknessS, lenght, frameOffcetStr, typeOfMfs, addMatName);
 
             var newPartPath = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, BaseFrameDestinationFolder, newPartName);
             if (File.Exists(newPartPath))
@@ -3299,7 +3285,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 //string.IsNullOrEmpty(покрытие[1]) ? "" : "-" + покрытие[1],
                 //string.IsNullOrEmpty(покрытие[2]) ? "" : "-" + покрытие[2]);
 
-                newPartName = String.Format("10-02-01-{0}-{1}{2}{3}.SLDPRT", thiknessS, lenght, frameOffcetStr, typeOfMfs);
+                newPartName = String.Format("10-02-01-{0}{4}-{1}{2}{3}.SLDPRT", thiknessS, lenght, frameOffcetStr, typeOfMfs, addMatName);
 
                 newPartPath = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, BaseFrameDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
@@ -3335,7 +3321,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 //string.IsNullOrEmpty(покрытие[1]) ? "" : "-" + покрытие[1],
                 //string.IsNullOrEmpty(покрытие[2]) ? "" : "-" + покрытие[2]);
 
-                newPartName = String.Format("10-04-{0}-{1}.SLDPRT", thiknessS, (lenght - 140));
+                newPartName = String.Format("10-04-{0}{2}-{1}.SLDPRT", thiknessS, (lenght - 140), addMatName);
 
                 newPartPath = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, BaseFrameDestinationFolder, newPartName);
                 if (File.Exists(newPartPath))
@@ -3375,10 +3361,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
 
 
-            newPartName = String.Format("10-03-01-{0}-{1}{2}.SLDPRT", thiknessS, (width - 120), typeOfMfs);
+            newPartName = String.Format("10-03-01-{0}{3}-{1}{2}.SLDPRT", thiknessS, (width - 120), typeOfMfs, addMatName);
 
             newPartPath = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, BaseFrameDestinationFolder, newPartName);
-            var newPrt0202 = String.Format("10-02-01-{0}-{1}{2}.SLDPRT", thiknessS, (width - 120), typeOfMfs);
+            var newPrt0202 = String.Format("10-02-01-{0}{3}-{1}{2}.SLDPRT", thiknessS, (width - 120), typeOfMfs, addMatName);
             newPrt0202 = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, BaseFrameDestinationFolder, newPrt0202);
 
             if (File.Exists(newPartPath))
@@ -4268,7 +4254,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 IEdmFolder5 oFolder;
                 vault1.LoginAuto(pdmBase, 0);
                 var edmFile5 = vault1.GetFileFromPath(path, out oFolder);
-                edmFile5.GetFileCopy(0, 0, oFolder.ID, (int)EdmGetFlag.EdmGet_RefsVerLatest);
+                edmFile5.GetFileCopy(0, 0, oFolder.ID, (int)EdmGetFlag.EdmGet_RefsVerLatest);                
                 MessageBox.Show(path);
             }
             catch (Exception exception)

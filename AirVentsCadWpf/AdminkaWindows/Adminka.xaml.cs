@@ -284,7 +284,7 @@ namespace AirVentsCadWpf.AdminkaWindows
             return child;
         }
 
-        private void UsersList_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        void UsersList_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             foreach (var item in e.AddedCells)
             {
@@ -307,7 +307,7 @@ namespace AirVentsCadWpf.AdminkaWindows
             }
         }
 
-        private void Window_IsVisibleChanged_1(object sender, DependencyPropertyChangedEventArgs e)
+        void Window_IsVisibleChanged_1(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (GruopName == null)
             {
@@ -329,18 +329,11 @@ namespace AirVentsCadWpf.AdminkaWindows
                 {
                     _sqlBase.AddUserInSqlBase(item.AccountName, item.FullUserName);        
                 }
-
-                
             }
             else
             {
                 MessageBox.Show("PINOP");
             }
-
-
-            
-
-            // var List
         }
     }
 }

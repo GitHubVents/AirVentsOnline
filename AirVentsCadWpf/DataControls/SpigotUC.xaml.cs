@@ -22,12 +22,12 @@ namespace AirVentsCadWpf.DataControls
         {
             try
             {
-                VentsCadLibrary.VentsCad vcad = new VentsCadLibrary.VentsCad();
-                var unit = "";
-                vcad.SpigotStr(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text, out unit);
-                MessageBox.Show(unit);
-                //var sw = new ModelSw();
-                //sw.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text);
+                //VentsCadLibrary.VentsCad vcad = new VentsCadLibrary.VentsCad();
+                //var unit = "";
+                //vcad.SpigotStr(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text, out unit);
+                //MessageBox.Show(unit);
+                var sw = new ModelSw();
+                sw.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text);
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace AirVentsCadWpf.DataControls
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var sw = new ModelSw();
-            sw.Mamba();
+            //sw.Mamba();
         }
     }
 }

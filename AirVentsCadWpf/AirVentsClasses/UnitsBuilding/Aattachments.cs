@@ -1005,10 +1005,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             //GetLastVersionPdm(components, Settings.Default.PdmBaseName);
             #endregion
-
             
-         //   GetLastVersionAsmPdm(modelSpigotAsm, Settings.Default.PdmBaseName);
-
+            //GetLastVersionAsmPdm(modelSpigotAsm, Settings.Default.PdmBaseName);
             GetLastVersionAsmPdm(modelSpigotDrw, Settings.Default.PdmBaseName);
             
 

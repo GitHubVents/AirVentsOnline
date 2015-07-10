@@ -321,3 +321,5 @@ C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\AirVen
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\MakeDxfUpdatePartData.dll
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\DataControls\Specification\SpecificationBomUc.baml
 C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\obj\Debug\DataControls\Specification\SpecificationBomUc.g.cs
+C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\VentsCadLibrary.dll
+C:\Users\kb81.VENTS\Source\Repos\AirVentsOnline2\AirVentsCadWpf\bin\Debug\VentsCadLibrary.pdb
