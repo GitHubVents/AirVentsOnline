@@ -4,7 +4,8 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data;
+using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -81,9 +82,11 @@ namespace VentsCadLibrary
 
             public string PartName { get; set; }
 
+            public string PartWithoutExtension { get { return LocalPartFileInfo.Substring(LocalPartFileInfo.LastIndexOf('\\')); }  }
+
             public int PartIdPdm { get; set; }
 
-            public FileInfo LocalPartFileInfo { get; set; }
+            public string LocalPartFileInfo { get; set; }
         }
         
         public void CheckInOutPdm(List<VentsCadFiles> filesList, bool registration, string pdmBase, out List<VentsCadFiles> newFilesList)
@@ -91,7 +94,7 @@ namespace VentsCadLibrary
             vault1.LoginAuto("Tets_debag", 0);
 
             BatchAddFiles(filesList);
-            MessageBox.Show("Файлы добавлены?");
+            //MessageBox.Show("Файлы добавлены?");
 
             try
             {
@@ -100,16 +103,12 @@ namespace VentsCadLibrary
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-            
+            }            
 
            // BatchUnLock();
-           // MessageBox.Show("Файл зарегистрирован");
-                       
+           // MessageBox.Show("Файл зарегистрирован");                       
 
-            newFilesList = new List<VentsCadFiles>();
-
-            return;
+            newFilesList = new List<VentsCadFiles>();                      
 
             foreach (var file in filesList)
             {                
@@ -153,22 +152,110 @@ namespace VentsCadLibrary
                 }
                 catch (Exception exception)
                 {
-                    LoggerError(string.Format("Во время регистрации документа по пути {0} возникла ошибка\nБаза - {1}. {2}", file.LocalPartFileInfo.FullName, pdmBase, exception.Message), "", "CheckInOutPdm");
+                    LoggerError(string.Format("Во время регистрации документа по пути {0} возникла ошибка\nБаза - {1}. {2}", file.LocalPartFileInfo, pdmBase, exception.Message), "", "CheckInOutPdm");
                 }
                 finally
                 {
                     string FileName;
                     int FileIdPdm;
-                    GetIdPdm(file.LocalPartFileInfo.FullName, out FileName, out FileIdPdm);
+                    GetIdPdm(file.LocalPartFileInfo, out FileName, out FileIdPdm);
                     newFilesList.Add(new VentsCadFiles
                     {
                         PartName = FileName,
                         PartIdPdm = FileIdPdm,
-                        LocalPartFileInfo = new FileInfo(file.LocalPartFileInfo.FullName),
+                        LocalPartFileInfo = file.LocalPartFileInfo,
                         PartIdSql = file.PartIdSql
-                    });                  
+                    });
                 }
             }
+        }
+
+        public bool ExistInBase(string fileName, int? idPdm, int? fileType, int? typeOfSpigot, int? height, int? width)
+        {
+            var status = false;
+            using (var con = new SqlConnection(ConnectionToSQL))
+            {
+                try
+                {
+                    con.Open();
+
+                    var sqlCommand = new SqlCommand("AirVents.Spigot", con) { CommandType = CommandType.StoredProcedure };
+                    var sqlParameter = sqlCommand.Parameters;
+
+                    if (fileName == null)
+                    {
+                        sqlParameter.AddWithValue("@Filename", DBNull.Value);
+                    }
+                    else
+                    {
+                        sqlParameter.AddWithValue("@Filename", fileName);
+                    }
+
+                    if (idPdm == null)
+                    {
+                        sqlParameter.AddWithValue("@IDPDM", DBNull.Value);
+                    }
+                    else
+                    {
+                        sqlParameter.AddWithValue("@IDPDM", idPdm);
+                    }
+
+                    if (fileType == null)
+                    {
+                        sqlParameter.AddWithValue("@FileType", DBNull.Value);
+                    }
+                    else
+                    {
+                        sqlParameter.AddWithValue("@FileType", fileType);
+                    }
+
+                    if (typeOfSpigot == null)
+                    {
+                        sqlParameter.AddWithValue("@Type", DBNull.Value);
+                    }
+                    else
+                    {
+                        sqlParameter.AddWithValue("@Type", typeOfSpigot);
+                    }
+
+                    if (height == null)
+                    {
+                        sqlParameter.AddWithValue("@Hight", DBNull.Value);
+                    }
+                    else
+                    {
+                        sqlParameter.AddWithValue("@Hight", height);
+                    }
+
+                    if (width == null)
+                    {
+                        sqlParameter.AddWithValue("@Width", DBNull.Value);
+                    }
+                    else
+                    {
+                        sqlParameter.AddWithValue("@Width", width);
+                    }                                       
+
+                    sqlCommand.Parameters.Add("@status", SqlDbType.Bit);
+                    sqlCommand.Parameters["@status"].Direction = ParameterDirection.ReturnValue;
+                    sqlCommand.ExecuteNonQuery();
+
+                    status = Convert.ToBoolean(sqlCommand.Parameters["@status"].Value);
+
+                    MessageBox.Show(string.Format("fileName - {0} idPdm - {1} fileType - {2} typeOfSpigot - {3} height - {4} width - {5}", fileName, idPdm, fileType, typeOfSpigot, height, width));
+                    MessageBox.Show(status ? "Деталь есть в базе" : "Детали нет в базе", fileName);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Введите корректные данные! " + exception.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            // todo
+            return status;
         }
 
         public void PartInfoToXml(string filePath)
@@ -272,7 +359,18 @@ namespace VentsCadLibrary
 
                 foreach (var file in filesList)
                 {
-                    poAdder.AddFileFromPathToPath(file.LocalPartFileInfo.FullName, file.LocalPartFileInfo.DirectoryName, 0);
+                    //MessageBox.Show(directoryName);
+
+                    //MessageBox.Show(file.LocalPartFileInfo, "file.LocalPartFileInfo");
+                    //MessageBox.Show(file.PartName, "file.PartName");
+                    //MessageBox.Show(file.PartWithoutExtension, "file.PartWithoutExtension");
+
+                    var directoryName = file.LocalPartFileInfo.Replace(file.PartWithoutExtension, "");
+
+                    //MessageBox.Show(directoryName, "directoryName");
+
+                    poAdder.AddFileFromPathToPath(file.LocalPartFileInfo, directoryName, 0);
+
                     //poAdder.AddFileFromPathToPath(file.LocalPartFileInfo.FullName, file.LocalPartFileInfo.DirectoryName + "\\", 0);
                     //poAdder.AddFileFromPathToPath(@"C:\12-20-1977.SLDPRT", @"E:\Tets_debag\", 0);
                 }
@@ -280,80 +378,10 @@ namespace VentsCadLibrary
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.StackTrace);   
+                MessageBox.Show(exception.Message, "BatchAddFiles");
             }            
         }
 
-        //public void BatchUnLock()
-        //{
-        //    //var vault1 = new EdmVault5();
-        //    //vault1.LoginAuto("Tets_debag", 0);
-
-        //    batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);
-        //    EdmSelItem[] ppoSelection = new EdmSelItem[1];
-
-        //    aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-1977.SLDPRT", out ppoRetParentFolder);
-        //    aPos = aFile.GetFirstFolderPosition();
-        //    aFolder = aFile.GetNextFolder(aPos);
-
-        //    ppoSelection[0] = new EdmSelItem();
-        //    ppoSelection[0].mlDocID = aFile.ID;
-        //    ppoSelection[0].mlProjID = aFolder.ID;        
-
-        //    // Add selections to the batch of files to check in
-        //    batchUnlocker.AddSelection(vault1, ppoSelection);
-
-        //    if ((batchUnlocker != null))
-        //    {
-        //        batchUnlocker.CreateTree(0, (int)EdmUnlockBuildTreeFlags.Eubtf_ShowCloseAfterCheckinOption + (int)EdmUnlockBuildTreeFlags.Eubtf_MayUnlock);
-
-        //        fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
-        //        aPos = fileList.GetHeadPosition();
-
-        //        while (!(aPos.IsNull))
-        //        {
-        //            fileList.GetNext2(aPos, out poSel);
-        //        }
-
-        //        batchUnlocker.UnlockFiles(0, null);
-        //        //batchUnlocker.ShowDlg(this.Handle.ToInt32());
-        //    }
-        //}
-
-        //public void BatchUnLock()
-        //{
-        //    batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);            
-        //    EdmSelItem[] ppoSelection = new EdmSelItem[6];
-        //    for (int i = 0; i < 6; i++)
-        //    {
-        //        int num = 77 + i;
-        //        //aFile = vault1.GetFileFromPath(file.LocalPartFileInfo.FullName, out ppoRetParentFolder);
-        //        //MessageBox.Show(@"E:\Tets_debag\12-20-19" + num + ".SLDPRT");
-
-        //        aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-19" + num + ".SLDPRT", out ppoRetParentFolder);
-        //        aPos = aFile.GetFirstFolderPosition();
-        //        aFolder = aFile.GetNextFolder(aPos);
-
-        //        ppoSelection[i] = new EdmSelItem();
-        //        ppoSelection[i].mlDocID = aFile.ID;
-        //        ppoSelection[i].mlProjID = aFolder.ID;               
-        //    }
-
-        //    // Add selections to the batch of files to check in
-        //    batchUnlocker.AddSelection(vault1, ppoSelection);
-
-        //    if ((batchUnlocker != null))
-        //    {
-        //        batchUnlocker.CreateTree(0, (int)EdmUnlockBuildTreeFlags.Eubtf_ShowCloseAfterCheckinOption + (int)EdmUnlockBuildTreeFlags.Eubtf_MayUnlock);
-        //        fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
-        //        aPos = fileList.GetHeadPosition();
-
-        //        while (!(aPos.IsNull))
-        //        {
-        //            fileList.GetNext2(aPos, out poSel);
-        //        }
-        //    }
-        //}
         
         public void BatchUnLock(List<VentsCadFiles> filesList)
         {
@@ -362,8 +390,7 @@ namespace VentsCadLibrary
             EdmSelItem[] ppoSelection = new EdmSelItem[filesList.Count];
             foreach (var file in filesList)
             {
-                aFile = vault1.GetFileFromPath(file.LocalPartFileInfo.FullName, out ppoRetParentFolder);
-               // aFile = vault1.GetFileFromPath(@"E:\Tets_debag\12-20-1977.SLDPRT", out ppoRetParentFolder);
+                aFile = vault1.GetFileFromPath(file.LocalPartFileInfo, out ppoRetParentFolder);                
                 aPos = aFile.GetFirstFolderPosition();
                 aFolder = aFile.GetNextFolder(aPos);
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 using System.Windows;
 
 namespace TestVentsCadLibrary
@@ -20,15 +20,10 @@ namespace TestVentsCadLibrary
                 ConnectionToSQL = "Data Source = srvkb; Initial Catalog = SWPlusDB; Persist Security Info = True; User ID = sa; Password = PDMadmin; MultipleActiveResultSets = True",
                 DestVaultName = "Tets_debag",
                 VaultName = "Vents-PDM"
-            };
-
-
-            //  cad.BatchUnLock();
+            };   
             
             var Spigot = "";
-            cad.Spigot("20", "1301", "1201", out Spigot);
-
-
+            cad.Spigot("20", "1075", "734", out Spigot);
             MessageBox.Show(Spigot);
         }
     }
