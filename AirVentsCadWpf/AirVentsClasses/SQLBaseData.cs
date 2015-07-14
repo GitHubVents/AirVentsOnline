@@ -10,7 +10,33 @@ namespace AirVentsCadWpf.AirVentsClasses
     /// Класс реализующий работу с базой данных
     /// </summary>
     public partial class SqlBaseData
-    {
+    {        
+        public void AirVents_SetPDMID (int Type, int IdPdm, int Part)
+        {            
+            using (var con = new SqlConnection(Properties.Settings.Default.ConnectionToSQL))
+            {
+                try
+                {
+                    con.Open();
+                    var sqlCommand = new SqlCommand("AirVents.SetPDMID", con) { CommandType = CommandType.StoredProcedure };
+
+                    sqlCommand.Parameters.AddWithValue("@Type", Type);   // Если сборка = 2, Если деталь = 1
+                    sqlCommand.Parameters.AddWithValue("@IDPDM", IdPdm); 
+                    sqlCommand.Parameters.AddWithValue("@PART", Part);//@Type = 1 PartID = @PART // @Type = 2 PanelNumber = @PART
+
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message + "\n" + exception);                    
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }            
+        }
+
 
         /// <summary>
         /// Panels the type identifier.
@@ -61,6 +87,7 @@ namespace AirVentsCadWpf.AirVentsClasses
                     #region @Width
 
                     if (tableParams == null)
+
                     {
                         sqlCommand.Parameters.AddWithValue("@Width", DBNull.Value);
                     }
@@ -87,11 +114,10 @@ namespace AirVentsCadWpf.AirVentsClasses
             return true;
         }
 
-
         /// <summary>
         /// Airs the vents_ add part of panel.
         /// </summary>
-        /// <param name="panelTypeName">Name of the panel type.</param>
+        /// <param name="panelTypeId">Name of the panel type.</param>
         /// <param name="elementType">Type of the element.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
@@ -106,7 +132,8 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// <returns></returns>
         public int AirVents_AddPartOfPanel
             (
-            string panelTypeName,
+            //int? pdmId,
+            int panelTypeId,
             int elementType,
             int? width,
             int? height,
@@ -133,8 +160,21 @@ namespace AirVentsCadWpf.AirVentsClasses
                 {
                     con.Open();
                     var sqlCommand = new SqlCommand("AirVents_AddPartOfPanel", con) { CommandType = CommandType.StoredProcedure };
+                    
+                    #region PDM ID
 
-                    sqlCommand.Parameters.AddWithValue("@PanelTypeName", panelTypeName);//@PanelTypeName = 'Ножки опорные',
+                    //if (pdmId == null)
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@PDMID", DBNull.Value);                        
+                    //}
+                    //else
+                    //{
+                    //    sqlCommand.Parameters.AddWithValue("@PDMID", pdmId);                        
+                    //}
+
+                    #endregion
+
+                    sqlCommand.Parameters.AddWithValue("@PanelTypeID", panelTypeId);//@PanelTypeName = 'Ножки опорные',
                     sqlCommand.Parameters.AddWithValue("@ElementType", elementType);//@ElementType = 1,
 
                     #region @Width
@@ -356,7 +396,7 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// Airs the vents_ add panel.
         /// </summary>
         /// <param name="partId">The part identifier.</param>
-        /// <param name="panelTypeName">Name of the panel type.</param>
+        /// <param name="panelTypeId">Name of the panel type.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="panelMatOut">The panel mat out.</param>
@@ -374,7 +414,7 @@ namespace AirVentsCadWpf.AirVentsClasses
         public int AirVents_AddPanel
             (
             int partId,
-            string panelTypeName,
+            int panelTypeId,
             int? width,
             int? height,
             int? panelMatOut,
@@ -409,7 +449,7 @@ namespace AirVentsCadWpf.AirVentsClasses
 
                     sqlCommand.Parameters.AddWithValue("@PARTID", partId);
 
-                    sqlCommand.Parameters.AddWithValue("@PanelTypeName", panelTypeName);//@PanelTypeName = 'Ножки опорные',
+                    sqlCommand.Parameters.AddWithValue("@PanelTypeID", panelTypeId);//@PanelTypeName = 'Ножки опорные',
 
                     #region @Width
 
@@ -762,7 +802,7 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// <summary>
         /// Добавление панели или ее элемента в базу.
         /// </summary>
-        /// <param name="panelTypeName">Имя типа панели</param><example>Ножки опорные</example>
+        /// <param name="panelTypeId">Имя типа панели</param><example>Ножки опорные</example>
         /// <param name="elementType">Номер типа элемента</param><example>0 - Сборка, 1 - Внешняя панель</example>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
@@ -782,7 +822,7 @@ namespace AirVentsCadWpf.AirVentsClasses
         /// <param name="stepInsertion">The step insertion.</param>
         /// <returns></returns>
         public bool AirVents_AddPanel2(
-            string panelTypeName,
+            int panelTypeId,
             int elementType, 
             int? width,
             int? height,  // 880
@@ -808,7 +848,7 @@ namespace AirVentsCadWpf.AirVentsClasses
                     con.Open();
                     var sqlCommand = new SqlCommand("AirVents_AddPanel", con) { CommandType = CommandType.StoredProcedure };
                     
-                    sqlCommand.Parameters.AddWithValue("@PanelTypeName", panelTypeName);//@PanelTypeName = 'Ножки опорные',
+                    sqlCommand.Parameters.AddWithValue("@PanelTypeID", panelTypeId);//@PanelTypeName = 'Ножки опорные',
                     sqlCommand.Parameters.AddWithValue("@ElementType", elementType);//@ElementType = 1,
 
                     #region @Width
@@ -1084,6 +1124,24 @@ namespace AirVentsCadWpf.AirVentsClasses
             //panelsTable.Columns[0].ColumnName = "Группа";
             return panelsTable;
         }
+
+        public int PanelsTypeId(string panelTypeCode)
+        {
+            var panelsTable = new DataTable();
+            var connectionString = @Properties.Settings.Default.ConnectionToSQL;
+            var query =
+                "SELECT [PanelTypeID] FROM [AirVents].[PanelType] WHERE[PanelTypeCode] = '" + panelTypeCode + "'";
+            var sqlConnection = new SqlConnection(connectionString);
+            var sqlCommand = new SqlCommand(query, sqlConnection);
+            sqlConnection.Open();
+            var sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            sqlDataAdapter.Fill(panelsTable);
+            sqlConnection.Close();
+            sqlDataAdapter.Dispose();
+            //MessageBox.Show(panelsTable.Rows[0][0].ToString());           
+            return Convert.ToInt32(panelsTable.Rows[0][0].ToString());
+        }
+
 
         /// <summary>
         /// Panelses the table.
@@ -1568,6 +1626,7 @@ INNER JOIN AirVents.Profil
             }
             return true;
         }
+          
 
         /// <summary>
         /// Adds the user in SQL base.

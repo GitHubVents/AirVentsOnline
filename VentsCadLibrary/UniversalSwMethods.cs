@@ -93,8 +93,7 @@ namespace VentsCadLibrary
         {
             vault1.LoginAuto("Tets_debag", 0);
 
-            BatchAddFiles(filesList);
-            //MessageBox.Show("Файлы добавлены?");
+            BatchAddFiles(filesList);            
 
             try
             {
@@ -103,10 +102,7 @@ namespace VentsCadLibrary
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }            
-
-           // BatchUnLock();
-           // MessageBox.Show("Файл зарегистрирован");                       
+            }                                   
 
             newFilesList = new List<VentsCadFiles>();                      
 
@@ -381,8 +377,7 @@ namespace VentsCadLibrary
                 MessageBox.Show(exception.Message, "BatchAddFiles");
             }            
         }
-
-        
+                
         public void BatchUnLock(List<VentsCadFiles> filesList)
         {
             batchUnlocker = (IEdmBatchUnlock2)vault1.CreateUtility(EdmUtility.EdmUtil_BatchUnlock);

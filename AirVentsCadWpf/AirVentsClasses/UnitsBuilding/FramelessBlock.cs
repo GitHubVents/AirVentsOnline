@@ -75,10 +75,12 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             foreach (var панель in съемныеПанели)
             {
                 CloseSldAsm(панель);
+
                 #region to delete
                 //_swApp.CloseDoc(Path.GetFileName(панель));    
                 #endregion
             }
+
             FramelessBlockStr(size, order, side, section, pDown, pFixed, pUp, съемныеПанели, промежуточныеСтойки, height);
             Логгер.Информация("Блок згенерирован", "" , "FramelessBlock", "FramelessBlock");
         }

@@ -309,6 +309,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
 
         void BUILDING_Click(object sender, RoutedEventArgs e)
         {
+            //return;
+
             if (ШиринаСъемнойПанели2.Visibility == Visibility.Visible)
             {
                 if (ШиринаСъемнойПанели2.Text == "")
@@ -380,11 +382,14 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
 
                 const string noBrush = "Без покрытия";
 
+                SqlBaseData basedata = new SqlBaseData();
+
                 try
                 {
                     //const string paneltype = "Панель верхняя";
+                    //MessageBox.Show(ТипВерхнейПанели.Text, КришаТип.Text);
                     panelUp = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипВерхнейПанели.Text, КришаТип.Text },
+                        typeOfPanel: new[] { ТипВерхнейПанели.Text, КришаТип.Text, Convert.ToString(basedata.PanelsTypeId(ТипВерхнейПанели.Text))},
                         width: Convert.ToString(lenght),
                         height: Convert.ToString(width),
                         materialP1: materialP1, 
@@ -413,6 +418,9 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     ex.TargetSite.ToString(),
                     "FramelessUnitUc");
                 }
+
+                MessageBox.Show(panelUp);
+                return;
 
                 #region Панель нижняя под монтажные ножки
 
@@ -461,7 +469,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     try
                     {
                         panelRemovable1 = modelSw.PanelsFramelessStr(
-                            typeOfPanel: new[] {ТипСъемнойПанели1.SelectedValue.ToString(), ТипСъемнойПанели1.Text},
+                            typeOfPanel: new[]
+                            {
+                                ТипСъемнойПанели1.SelectedValue.ToString(),
+                                ТипСъемнойПанели1.Text,
+                                Convert.ToString(basedata.PanelsTypeId(ТипСъемнойПанели1.SelectedValue.ToString()))
+                            },
                             width: Convert.ToString(ШиринаСъемнойПанели1.Text),
                             height: Convert.ToString(height - 40),
                             materialP1: materialP1,
@@ -490,7 +503,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     try
                     {
                        panelRemovable2 = modelSw.PanelsFramelessStr(
-                       typeOfPanel: new[] { ТипСъемнойПанели2.SelectedValue.ToString(), ТипСъемнойПанели2.Text },
+                       typeOfPanel: new[] 
+                       {
+                           ТипСъемнойПанели2.SelectedValue.ToString(),
+                           ТипСъемнойПанели2.Text,
+                           Convert.ToString(basedata.PanelsTypeId(ТипСъемнойПанели2.SelectedValue.ToString()))
+                       },
                        width: Convert.ToString(ШиринаСъемнойПанели2.Text), height: Convert.ToString(height - 40),
                        materialP1: materialP1,
                        materialP2: materialP2,
@@ -517,7 +535,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     try
                     {
                         panelRemovable3 = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипСъемнойПанели3.SelectedValue.ToString(), ТипСъемнойПанели3.Text },
+                        typeOfPanel: new[] 
+                        {
+                            ТипСъемнойПанели3.SelectedValue.ToString(),
+                            ТипСъемнойПанели3.Text,
+                           Convert.ToString(basedata.PanelsTypeId(ТипСъемнойПанели3.SelectedValue.ToString()))
+                        },
                         width: Convert.ToString(ШиринаСъемнойПанели3.Text),
                         height: Convert.ToString(height - 40),
                         materialP1: materialP1,
@@ -555,7 +578,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                             var typeOfPanel = ТипУсилПанели1.SelectedItem as ComboBoxItem;
 
                             panelReinforcing1 = modelSw.PanelsFramelessStr(
-                            typeOfPanel: new[] { ТипНесъемнойПанели.SelectedValue.ToString(), ТипНесъемнойПанели.Text, ТипУсилПанели1.Text },
+                            typeOfPanel: new[]
+                            {
+                                ТипНесъемнойПанели.SelectedValue.ToString(),
+                                ТипНесъемнойПанели.Text,
+                                Convert.ToString(basedata.PanelsTypeId(ТипНесъемнойПанели.SelectedValue.ToString())),
+                                ТипУсилПанели1.Text },
                             width: Convert.ToString(130),
                             height: Convert.ToString(height - 40),
                             materialP1: materialP1,
@@ -587,7 +615,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                             var typeOfPanel = ТипУсилПанели2.SelectedItem as ComboBoxItem;
 
                             panelReinforcing2 = modelSw.PanelsFramelessStr(
-                            typeOfPanel: new[] { ТипНесъемнойПанели.SelectedValue.ToString(), ТипНесъемнойПанели.Text, ТипУсилПанели1.Text },
+                            typeOfPanel: new[]
+                            {
+                                ТипНесъемнойПанели.SelectedValue.ToString(),
+                                ТипНесъемнойПанели.Text,
+                                Convert.ToString(basedata.PanelsTypeId(ТипНесъемнойПанели.SelectedValue.ToString())),
+                                ТипУсилПанели1.Text },
                             width: Convert.ToString(130),
                             height: Convert.ToString(height - 40),
                             materialP1: materialP1,
@@ -641,7 +674,12 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 {
                     //"Несъемная";
                     panelFixed = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипНесъемнойПанели.SelectedValue.ToString(), ТипНесъемнойПанели.Text },
+                        typeOfPanel: new[]
+                        {
+                            ТипНесъемнойПанели.SelectedValue.ToString(),
+                            ТипНесъемнойПанели.Text,
+                            Convert.ToString(basedata.PanelsTypeId(ТипНесъемнойПанели.SelectedValue.ToString())),
+                        },
                         width: Convert.ToString(lenght),
                         height: Convert.ToString(height - 40),
                         materialP1: materialP1,

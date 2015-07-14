@@ -249,7 +249,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл", thiknessStr},
                             {"D1@Листовой металл", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -275,7 +276,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл1", thiknessStr},
                             {"D1@Листовой металл1", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл1", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -302,7 +304,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл", thiknessStr},
                             {"D1@Листовой металл", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -331,7 +334,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл1", thiknessStr},
                             {"D1@Листовой металл1", Convert.ToString(Convert.ToDouble(bendParams[0]))},
                             {"D2@Листовой металл1", Convert.ToString((Convert.ToDouble(bendParams[1]))*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -555,7 +559,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл", thiknessStr},
                             {"D1@Листовой металл", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -583,7 +588,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл", thiknessStr},
                             {"D1@Листовой металл", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -611,7 +617,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл", thiknessStr},
                             {"D1@Листовой металл", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -642,7 +649,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             {"Толщина@Листовой металл1", thiknessStr},
                             {"D1@Листовой металл1", Convert.ToString(bendRadius)},
                             {"D2@Листовой металл1", Convert.ToString(kFactor*1000)}
-                        });
+                        },
+                        false);
                     newComponents.Add(new FileInfo(newPartPath));
                 }
 
@@ -805,17 +813,18 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         else if (!File.Exists(newPartPath))
                         {
                             SwPartParamsChangeWithNewName("11-30-101",
-                        String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DamperDestinationFolder, newName),
-                        new[,]
-                        {
-                            {"D2@Эскиз1", Convert.ToString(heightD+10)},
-                            {"D3@Эскиз19", Convert.ToString(countL/10 - 100)},
-                            {"D1@Кривая1", Convert.ToString(countL)},
-                            {"D1@Кривая2", Convert.ToString(rivetH)},
-                            {"Толщина@Листовой металл", thiknessStr},
-                            {"D1@Листовой металл", Convert.ToString(bendRadius)},
-                            {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                                String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DamperDestinationFolder, newName),
+                                new[,]
+                                {
+                                    {"D2@Эскиз1", Convert.ToString(heightD+10)},
+                                    {"D3@Эскиз19", Convert.ToString(countL/10 - 100)},
+                                    {"D1@Кривая1", Convert.ToString(countL)},
+                                    {"D1@Кривая2", Convert.ToString(rivetH)},
+                                    {"Толщина@Листовой металл", thiknessStr},
+                                    {"D1@Листовой металл", Convert.ToString(bendRadius)},
+                                    {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
+                                },
+                                false);
                             _swApp.CloseDoc(newName);
                             newComponents.Add(new FileInfo(String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DamperDestinationFolder, newName)));
                         }
@@ -842,17 +851,18 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         else if (!File.Exists(newPartPath))
                         {
                             SwPartParamsChangeWithNewName("11-30-102",
-                        String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DamperDestinationFolder, newName),
-                        new[,]
-                        {
-                            {"D2@Эскиз1", Convert.ToString(heightD+10)},
-                            {"D2@Эскиз19", Convert.ToString(countL/10 - 100)},
-                            {"D1@Кривая2", Convert.ToString(countL)},
-                            {"D1@Кривая1", Convert.ToString(rivetH)},
-                            {"Толщина@Листовой металл", thiknessStr},
-                            {"D1@Листовой металл", Convert.ToString(bendRadius)},
-                            {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
-                        });
+                                String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DamperDestinationFolder, newName),
+                                new[,]
+                                {
+                                    {"D2@Эскиз1", Convert.ToString(heightD+10)},
+                                    {"D2@Эскиз19", Convert.ToString(countL/10 - 100)},
+                                    {"D1@Кривая2", Convert.ToString(countL)},
+                                    {"D1@Кривая1", Convert.ToString(rivetH)},
+                                    {"Толщина@Листовой металл", thiknessStr},
+                                    {"D1@Листовой металл", Convert.ToString(bendRadius)},
+                                    {"D2@Листовой металл", Convert.ToString(kFactor*1000)}
+                                },
+                                false);
                             _swApp.CloseDoc(newName);
                             newComponents.Add(new FileInfo(String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DamperDestinationFolder, newName)));
                         }
@@ -1570,7 +1580,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             
                             {"D1@Кривая2", Convert.ToString(weldW2*1000)},
                             {"D1@Кривая1", Convert.ToString(weldW*1000)}
-                        });
+                        },
+                        false);
                     try
                     {
                         VentsMatdll(new[] { "1700" }, new[] { "", "Шаргень", "2" }, newPartName);
@@ -1675,18 +1686,19 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         SwPartParamsChangeWithNewName("15-002",
                             String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, RoofDestinationFolder, newPartName),
                             new[,]
-                        {
-                            {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4) : Convert.ToString(lengthD + type4)},
-                            {"D2@Эскиз1", Convert.ToString(widthD)},
-                            {"D4@Эскиз27", Convert.ToString(addwidth2-4.62)},
-                            {"D1@Эскиз27", Convert.ToString(90)},
-                            {"D2@Эскиз27", Convert.ToString((75-4.62))},
-                            
-                            {"D2@Эскиз23", type == "5" || type == "6" ? Convert.ToString(165) : Convert.ToString(25)},
-
-                            {"D1@Кривая2", Convert.ToString(weldW2*1000)},
-                            {"D1@Кривая1", Convert.ToString(weldW*1000)}
-                        });
+                            {
+                                {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4) : Convert.ToString(lengthD + type4)},
+                                {"D2@Эскиз1", Convert.ToString(widthD)},
+                                {"D4@Эскиз27", Convert.ToString(addwidth2-4.62)},
+                                {"D1@Эскиз27", Convert.ToString(90)},
+                                {"D2@Эскиз27", Convert.ToString((75-4.62))},
+                                                                                                                          
+                                {"D2@Эскиз23", type == "5" || type == "6" ? Convert.ToString(165) : Convert.ToString(25)},
+                                
+                                {"D1@Кривая2", Convert.ToString(weldW2*1000)},
+                                {"D1@Кривая1", Convert.ToString(weldW*1000)}
+                            },
+                            false);
                         try
                         {
                             VentsMatdll(new[] { "1700" }, new[] { "", "Шаргень", "2" }, newPartName);

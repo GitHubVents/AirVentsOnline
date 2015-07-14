@@ -249,6 +249,6 @@ namespace AirVentsCadWpf.DataControls
                 ТолщинаВннутренней.Visibility = Visibility.Visible;
             }
         }
-        
+                
     }
 }

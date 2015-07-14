@@ -439,8 +439,6 @@ namespace VentsCadLibrary
                 if (item.LocalPartFileInfo.ToUpper().Contains(".SLDPRT")) { typeFile = 0; }
                 var fileNameWithoutExtension = item.PartName.Remove(item.PartName.LastIndexOf('.'));
 
-                //MessageBox.Show(fileNameWithoutExtension, "fileNameWithoutExtension");
-
                 ExistInBase(fileNameWithoutExtension, item.PartIdPdm, typeFile, Convert.ToInt32(type), Convert.ToInt32(height), Convert.ToInt32(width));
 
                 text = text + "\n PartIdPdm - " + item.PartIdPdm + " PartName - " + item.PartName;

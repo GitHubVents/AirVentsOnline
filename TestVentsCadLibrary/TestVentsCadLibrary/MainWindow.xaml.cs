@@ -15,7 +15,7 @@ namespace TestVentsCadLibrary
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            VentsCadLibrary.VentsCad cad = new VentsCadLibrary.VentsCad
+            VentsCadLibrary.VentsCad ventsCadLibrary = new VentsCadLibrary.VentsCad
             {
                 ConnectionToSQL = "Data Source = srvkb; Initial Catalog = SWPlusDB; Persist Security Info = True; User ID = sa; Password = PDMadmin; MultipleActiveResultSets = True",
                 DestVaultName = "Tets_debag",
@@ -23,7 +23,7 @@ namespace TestVentsCadLibrary
             };   
             
             var Spigot = "";
-            cad.Spigot("20", "1075", "734", out Spigot);
+            ventsCadLibrary.Spigot("20", "1075", "734", out Spigot);
             MessageBox.Show(Spigot);
         }
     }

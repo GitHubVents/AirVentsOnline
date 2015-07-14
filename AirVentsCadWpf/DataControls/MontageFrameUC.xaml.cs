@@ -82,7 +82,9 @@ namespace AirVentsCadWpf.DataControls
                     FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
                 }
             }
+
             var sw = new ModelSw();
+
             sw.MontageFrame(
                 WidthBaseFrame.Text,
                 LenghtBaseFrame.Text,
