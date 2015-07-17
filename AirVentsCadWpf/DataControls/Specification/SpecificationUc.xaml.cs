@@ -15,6 +15,7 @@ using System.Xml.Linq;
 using AirVentsCadWpf.AirVentsClasses;
 using AirVentsCadWpf.AirVentsClasses.UnitsBuilding;
 using AirVentsCadWpf.Properties;
+using AirVentsCadWpf.ServiceReference6;
 using BomPartList.Спецификации;
 using EdmLib;
 using SolidWorks.Interop.sldworks;
@@ -48,6 +49,7 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
           
             InitializeComponent();
+
             ТаблицаСпецификации.Visibility = Visibility.Collapsed;
             СпецификацияТаблица.Visibility = Visibility.Collapsed;
             Exp1.Visibility = Visibility.Collapsed;
@@ -93,6 +95,8 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(имяСборки);
 
+               // MessageBox.Show(_путьКСборке, "20");
+
                 if (_путьКСборке != "")
                 {
                     Конфигурации.ItemsSource = _работаСоСпецификацией.ПолучениеКонфигураций(_путьКСборке).ToList();
@@ -102,7 +106,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                     MessageBox.Show("Сборка не найдена!");
                 }
 
-                _спецификация = _работаСоСпецификацией.Спецификация(_путьКСборке, 10, "00");
+                _спецификация = _работаСоСпецификацией.Спецификация(_путьКСборке, 20, "00");
                 ТаблицаСпецификации.ItemsSource = _спецификация;
 
             }
@@ -409,7 +413,9 @@ namespace AirVentsCadWpf.DataControls.Specification
                 return;
             }
             
-//            LoggerInfo(string.Format("Начало выгрузки в XML установки {0}{1}", имяСборки, включаяВсеПодсборки));
+            // LoggerInfo(string.Format("Начало выгрузки в XML установки {0}{1}", имяСборки, включаяВсеПодсборки));
+
+
 
             if (включаяПодсборки)
             {
@@ -426,9 +432,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 ВыгрузитьСборку(_путьКСборке);
             }
-
-  //          LoggerInfo(string.Format("Выгрузка в XML установки {0}{1} завершена", имяСборки, включаяВсеПодсборки));
-            MessageBox.Show(string.Format("Выгрузка сборки {0}{1} выполнена.", имяСборки, включаяВсеПодсборки));
+            
+            // LoggerInfo(string.Format("Выгрузка в XML установки {0}{1} завершена", имяСборки, включаяВсеПодсборки));
+            MessageBox.Show($"Выгрузка сборки {имяСборки}{включаяВсеПодсборки} выполнена.", "Процесс завершен", MessageBoxButton.OK, MessageBoxImage.None, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
 
         }
 
@@ -751,7 +757,7 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         static bool IsSheetMetalPart(IPartDoc swPart)
         {
-//            LoggerInfo("Проверка на листовую деталь IsSheetMetalPart()");
+            //    LoggerInfo("Проверка на листовую деталь IsSheetMetalPart()");
             try
             {
                 var vBodies = swPart.GetBodies2((int)swBodyType_e.swSolidBody, false);
@@ -762,7 +768,7 @@ namespace AirVentsCadWpf.DataControls.Specification
                     {
                         var isSheetMetal = vBody.IsSheetMetal();
                         if (!isSheetMetal) continue;
-//                        LoggerInfo("Проверка завершена");
+                        //                        LoggerInfo("Проверка завершена");
                         return true;
                     }
                     catch (Exception exception)
@@ -804,7 +810,7 @@ namespace AirVentsCadWpf.DataControls.Specification
         {
             if (AsmsNames!=null)
             {
-              //  MessageBox.Show(_AsmsNames.Count.ToString());
+                //  MessageBox.Show(_AsmsNames.Count.ToString());
                 СписокНайденныхФайлов.ItemsSource = AsmsNames;
                 
                 AutoCompleteTextBox1.ItemsSource = AsmsNames;
@@ -815,7 +821,6 @@ namespace AirVentsCadWpf.DataControls.Specification
         private void AutoCompleteTextBox1Reload()
         {
            // if (AsmsNames == null) return;
-
            // MessageBox.Show(AutoCompleteTextBox1.Text);
 
             var epdmSearch = new EpdmSearch { VaultName = Settings.Default.PdmBaseName };
@@ -830,7 +835,6 @@ namespace AirVentsCadWpf.DataControls.Specification
 
             AutoCompleteTextBox1.FilterMode = AutoCompleteFilterMode.Contains;
         }
-
 
 
         private void AutoCompleteTextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -856,28 +860,22 @@ namespace AirVentsCadWpf.DataControls.Specification
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             AutoCompleteTextBox1Reload();
+            
+            // AutoCompleteTextBox1.DropDownOpening += AutoCompleteTextBox1_DropDownOpening;
 
-           // AutoCompleteTextBox1.DropDownOpening += AutoCompleteTextBox1_DropDownOpening;
 
-
-         //   AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down));
+            //   AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down));
             
 
             //AutoCompleteTextBox1_SelectionChanged(sender, null);
-         //   AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down));
+            //   AutoCompleteTextBox1_KeyDown(sender, new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Down));
             //AutoCompleteTextBox1_TextChanged(sender, new RoutedEventArgs());
 
             
             //  AutoCompleteTextBox1.Text = AutoCompleteTextBox1.Text + "";
             //  AutoCompleteTextBox1.TextChanged += AutoCompleteTextBox1_TextChanged;
         }
-
-        void AutoCompleteTextBox1_DropDownOpening(object sender, RoutedPropertyChangingEventArgs<bool> e)
-        {
-            MessageBox.Show("gvwg");
-        }
-
-       
+        
 
         private void AutoCompleteTextBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -888,20 +886,8 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         void AutoCompleteTextBox1_TextChanged(object sender, RoutedEventArgs e)
         {
-           // AutoCompleteTextBox1.DropDownClosed;
-        }
-
-        void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(System.Environment.UserName);
-            MessageBox.Show(System.Net.Dns.GetHostName());
-        }
-
-        void Button_Click_5(object sender, RoutedEventArgs e)
-        {
-            AirVents_AddOrder();
-            //MessageBox.Show("Hello world " + "\n userName -" + System.Environment.userName + "\n HostName -" + System.Net.Dns.GetHostName());
-           // WriteToBase("wqdhsfn", "aqegsh", "adghdn", "qegteht", "aefsd");
+            Найти.IsEnabled = AutoCompleteTextBox1.Text.Length != 0;
+            // AutoCompleteTextBox1.DropDownClosed;
         }
 
 
@@ -993,10 +979,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-        private void ДобавитьТаблицу_Click(object sender, RoutedEventArgs e)
+        void ДобавитьТаблицу_Click(object sender, RoutedEventArgs e)
         {
             var swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
-
 
             var swModel = (IModelDoc2)swApp.IActiveDoc;
             TableAnnotation myTable;
@@ -1017,7 +1002,7 @@ namespace AirVentsCadWpf.DataControls.Specification
 //            swModel.ClearSelection2(true);
         }
 
-        private static void InsertTable(IModelDoc2 swModel, out TableAnnotation myTable)
+        static void InsertTable(IModelDoc2 swModel, out TableAnnotation myTable)
         {
             var swDrawing = ((DrawingDoc) (swModel));
             myTable = swDrawing.InsertTableAnnotation(0.417, 0.292, 2, 4, 2);
@@ -1031,7 +1016,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             //myTable.InsertRow();
         }
 
-        private static void InsertTableРис(IModelDoc2 swModel, string[] обозначения)
+        static void InsertTableРис(IModelDoc2 swModel, string[] обозначения)
         {
             var swDrawing = ((DrawingDoc)(swModel));
             var enumerable = обозначения as string[] ?? обозначения.ToArray();
@@ -1057,7 +1042,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-        private void AutoCompleteTextBox1_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        void AutoCompleteTextBox1_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
         {
             if (ВыгрузитьВXml.IsEnabled)
             {
@@ -1066,7 +1051,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-        private void ПолучитьПереченьДеталей_Click(object sender, RoutedEventArgs e)
+        void ПолучитьПереченьДеталей_Click(object sender, RoutedEventArgs e)
         {
             //if (ПолучитьПереченьДеталей.IsChecked == true)
             //{
@@ -1097,13 +1082,23 @@ namespace AirVentsCadWpf.DataControls.Specification
             public string Путь {  get; set; }
             public string Наименование { get { return Path.GetFileNameWithoutExtension(Путь); } }
         }
-       
-        private void ВыгрузитьВXml_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+
+
+        class PartsListXml2
+        {
+            public bool Xml { get; set; }
+            public int CurrentVersion { get; set; }
+            public string IdPmd { get; set; }
+            public string Наименование { get; set; }
+            public string Путь { get; set; }
+        }
+
+
+        void ВыгрузитьВXml_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (ВыгрузитьВXml.IsEnabled)
             {
                 ПолучитьПереченьДеталей.IsEnabled = true;
-                
             }
             else
             {
@@ -1112,7 +1107,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-        private void Конфигурация_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void Конфигурация_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var partsListXml = new List<PartsListXml>();
 
@@ -1146,7 +1141,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             return string.Equals(xmlPartVersion, currentVersion);
         }
 
-        private void PartsList_LoadingRow(object sender, DataGridRowEventArgs e)
+        void PartsList_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             var partsListXml = (PartsListXml)e.Row.DataContext;
 
@@ -1158,30 +1153,43 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 e.Row.Background = _orangeColorBrush;
             }
-
         }
 
-        private void XMLParts_Click(object sender, RoutedEventArgs e)
+        void XMLParts_Click(object sender, RoutedEventArgs e)
         {
             var modelSw = new ModelSw();
 
-            var list = PartsList.ItemsSource.OfType<PartsListXml>().ToList();
-            
-            //if (list == null) return;
+            var list = PartsListXml2sDataGrid.ItemsSource.OfType<PartsListXml2>().ToList();
+
             foreach (var newComponent in list)
             {
-                //modelSw.PartInfoToXml(newComponent.Путь);
-
                 if (!newComponent.Xml)
                 {
+                    MessageBox.Show(newComponent.Путь, newComponent.Наименование);
                     modelSw.PartInfoToXml(newComponent.Путь);
                 }
             }
-            Конфигурация_SelectionChanged(null, null);
 
+
+
+            #region
+
+            //var list = PartsList.ItemsSource.OfType<PartsListXml>().ToList();
+
+            //foreach (var newComponent in list)
+            //{
+            //    if (!newComponent.Xml)
+            //    {
+            //        modelSw.PartInfoToXml(newComponent.Путь);
+            //    }
+            //}
+
+            //Конфигурация_SelectionChanged(null, null);
+
+            #endregion
         }
 
-        private void Конфигурация_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void Конфигурация_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Конфигурация.Visibility == Visibility.Visible )
             {
@@ -1194,12 +1202,12 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-        private void PartsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void PartsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             XmlParts.Visibility = PartsList.HasItems ? Visibility.Visible : Visibility.Hidden;
         }
 
-        private void ПолучитьПереченьДеталей_Unchecked(object sender, RoutedEventArgs e)
+        void ПолучитьПереченьДеталей_Unchecked(object sender, RoutedEventArgs e)
         {
             Конфигурация.Text = "";
             Конфигурация.IsEnabled = false;
@@ -1219,11 +1227,57 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
         }
 
-        private void ПолучитьПереченьДеталей_Checked(object sender, RoutedEventArgs e)
+        //List<PartsListXml> _partsListXmls = new List<PartsListXml>();
+
+        private EdmBomCell[] specBomCells;
+
+        void ПолучитьПереченьДеталей_Checked(object sender, RoutedEventArgs e)
         {
             try
             {
+                var emdpService = new EpdmServiceClient();
+                var path = emdpService.SearchDoc(AutoCompleteTextBox1.Text + ".SLDASM");
+                var configs = emdpService.GetConfiguration(path[0].FilePath);
+                Конфигурация.ItemsSource = configs;
+                var спецификация = emdpService.Bom(path[0].FilePath, configs[0]);
+                emdpService.Close();
+            
+            var emdpService2 = new EpdmServiceClient();
+            var partsListXml2S = new List<PartsListXml2>();
+
+            foreach (var item in спецификация)
+            {
+                if (item.ТипФайла.ToLower() == "sldprt")
+                {
+                    if (item.Раздел == "Детали" || item.Раздел == "")
+                    {
+                        partsListXml2S.Add(new PartsListXml2
+                        {
+                            CurrentVersion = Convert.ToInt32(item.ПоследняяВерсия),
+                            IdPmd = item.IdPdm,
+                            Наименование = item.FileName,
+                            Xml = true,
+                            Путь = emdpService2.SearchDoc(item.FileName)[0].FilePath
+                        });
+                    }
+                }
+            }
+            PartsListXml2sDataGrid.ItemsSource = partsListXml2S;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+
+            return;
+
+            #region Сборка не найдена!
+
+            try
+            {
                 _путьКСборке = _работаСоСпецификацией.ПолучениеПутиКСборке(AutoCompleteTextBox1.Text);
+
+                MessageBox.Show(_путьКСборке);
 
                 if (_путьКСборке != "")
                 {
@@ -1253,7 +1307,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             {
                 MessageBox.Show(exception.ToString());
             }
-            
+
+            #endregion
+
         }
 
 
@@ -1290,20 +1346,13 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
 
             return version;
-        }
-
-
-
-
-
-
+        }        
 
         private void OpenFile(object sender, RoutedEventArgs e)
         {
             var item = (PartsListXml)PartsList.SelectedItem;
             Process.Start(@item.Путь);
         }
-
 
         private void PartsList_LayoutUpdated(object sender, EventArgs e)
         {
@@ -1315,8 +1364,8 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           //var iner = Version(@"C:\Temp\02-01-01-1050-1060-50-Az.xml");
-           // MessageBox.Show(iner.ToString());
+            //var iner = Version(@"C:\Temp\02-01-01-1050-1060-50-Az.xml");
+            // MessageBox.Show(iner.ToString());
             //Parse(@"C:\Temp\02-01-01-1050-1060-50-Az.xml");
 
             var swApp = (SldWorks)Marshal.GetActiveObject("SldWorks.Application");
@@ -1359,6 +1408,24 @@ namespace AirVentsCadWpf.DataControls.Specification
         private void ПолучитьПереченьДеталей_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
           //  throw new NotImplementedException();
+        }
+
+        private void XmlParts1_Click(object sender, RoutedEventArgs e)
+        {
+            var modelSw = new ModelSw();
+
+            var list = PartsListXml2sDataGrid.ItemsSource.OfType<PartsListXml2>().ToList();
+            
+            //MessageBox.Show(list.Count.ToString());
+
+            foreach (var newComponent in list)
+            {
+                if (newComponent.Xml)
+                {
+                    //MessageBox.Show(newComponent.Путь, newComponent.Наименование);
+                    modelSw.PartInfoToXml(newComponent.Путь);
+                }
+            }
         }
     }
 }

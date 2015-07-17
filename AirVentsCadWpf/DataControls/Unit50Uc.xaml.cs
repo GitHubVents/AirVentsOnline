@@ -34,7 +34,6 @@ namespace AirVentsCadWpf.DataControls
 
             InnerPartGrid.Visibility = Visibility.Collapsed;
 
-
             //GridTypeOfUnit50.Children.Add(new UnitElement());
             var sqlBaseData = new SqlBaseData();
             var airVentsStandardSize = sqlBaseData.AirVentsStandardSize();
@@ -241,36 +240,39 @@ namespace AirVentsCadWpf.DataControls
         void BUILDING_Click(object sender, RoutedEventArgs e)
         {
             var sw = new ModelSw();
+            var frame = "";
             try
             {
-                if (FrameOffset.Text == "")
+                if (MontageFrame50.IsChecked == true )
                 {
-                    try
+                    if (FrameOffset.Text == "")
                     {
-                        FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                        try
+                        {
+                            FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                        }
+                        catch (Exception)
+                        {
+                            FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                        }
                     }
-                    catch (Exception)
+                    frame =
+                        sw.MontageFrameS(
+                        WidthBaseFrame.Text,
+                        LenghtBaseFrame.Text,
+                        Thikness.Text,
+                        TypeOfFrame.Text,
+                        FrameOffset.Text,
+                        MaterialMontageFrame.SelectedValue.ToString(),
+                        new[]
                     {
-                        FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
-                    }
-                }
-                var frame =
-                    sw.MontageFrameS(
-                    WidthBaseFrame.Text,
-                    LenghtBaseFrame.Text,
-                    Thikness.Text,
-                    TypeOfFrame.Text,
-                    FrameOffset.Text,
-                    MaterialMontageFrame.SelectedValue.ToString(),
-                    new[]
-                {
                     RalFrame1.Text, CoatingTypeFrame1.Text, CoatingClassFrame1.Text,
                     RalFrame1.SelectedValue != null ? RalFrame1.SelectedValue.ToString():""
-                });
+                    });
 
-                FrameOffset.Text = "";
+                    FrameOffset.Text = "";
+                }
                 
-                //
 
                 var mat1Code = "";
                 var mat2Code = "";

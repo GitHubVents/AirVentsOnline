@@ -75,7 +75,7 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="Сборка" HorizontalAlignment="Center" Margin="3,4" VerticalAlignment="Center"/>
                         <toolkit:AutoCompleteBox x:Name="AutoCompleteTextBox1" Grid.Row="0" Grid.Column="2" Margin="2" KeyDown="AutoCompleteTextBox1_KeyDown" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100" SelectionChanged="AutoCompleteTextBox1_SelectionChanged" TextChanged="AutoCompleteTextBox1_TextChanged" DropDownClosed="AutoCompleteTextBox1_DropDownClosed" />
-                        <Button x:Name="Найти" Content="Найти" HorizontalAlignment="Right" Margin="0,5,2,0" VerticalAlignment="Top" Click="Button_Click_3" Background="{x:Null}" Padding="3,1" Grid.Column="3" Height="24"/>
+                        <Button x:Name="Найти" Content="Найти" HorizontalAlignment="Right" Margin="0,5,2,0" VerticalAlignment="Top" Click="Button_Click_3" Background="{x:Null}" Padding="3,1" Grid.Column="3" Height="24" IsEnabled="False"/>
                     </Grid>
                     <Button x:Name="ВыгрузитьВXml" Content="Выгрузить в XML" HorizontalAlignment="Center" Margin="2" VerticalAlignment="Center" Background="{x:Null}" Padding="5,2" Click="ВыгрузитьВXml_Click"
                             Grid.Row="0" Grid.Column="1" IsEnabledChanged="ВыгрузитьВXml_IsEnabledChanged" />
@@ -427,8 +427,8 @@
                 </ComboBox>
             </Grid>
         </GroupBox>
-        <Button x:Name="ДобавитьТаблицу" Grid.Row="2" Content="Добавить таблицу" Margin="2" VerticalAlignment="Top" Width="150" Click="ДобавитьТаблицу_Click"/>
-        <GroupBox x:Name="ПереченьДеталей" Header="Перечень деталей" HorizontalAlignment="Left" Margin="2" Grid.Row="2" VerticalAlignment="Top">
+        <Button x:Name="ДобавитьТаблицу" Grid.Row="2" Content="Добавить таблицу" Margin="710,203,190,0" VerticalAlignment="Top" Width="150" Click="ДобавитьТаблицу_Click"/>
+        <GroupBox x:Name="ПереченьДеталей" Header="Перечень деталей" HorizontalAlignment="Left" Margin="425,37,0,0" Grid.Row="2" VerticalAlignment="Top">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -468,6 +468,45 @@
             </Grid>
         </GroupBox>
         <Button Grid.Row="0" Content="Button" HorizontalAlignment="Left" Margin="956,16,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" Background="{x:Null}" IsEnabled="False"/>
+        <GroupBox x:Name="ПереченьДеталей_Copy" Header="Перечень деталей" HorizontalAlignment="Left" Margin="6,5,0,0" Grid.Row="2" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid x:Name="PartsListXml2sDataGrid" VirtualizingPanel.VirtualizationMode="Recycling" 
+        			ItemsSource="{Binding PartsListXml2}" Grid.Column="0" HorizontalAlignment="Left" Margin="2,4,0,0" IsReadOnly="True"
+        			Grid.Row="0"  SelectionMode="Single" CanUserResizeRows="False" RowDetailsVisibilityMode="Visible" 
+        			AutoGenerateColumns="False" SelectedIndex="0" Height="Auto" Width="Auto" MaxHeight="250">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu >
+                            <MenuItem Header="Путь к файлу" Click="MenuItem_Click"  />
+                            <MenuItem Header="Открыть" Click="OpenFile"  />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Width="Auto" MinWidth="130" Binding="{Binding Наименование}"/>
+                        <!--<DataGridTextColumn Header="Версия" Width="Auto" MinWidth="50" Binding="{Binding Путь}"/>-->
+                        <!--   <DataGridTextColumn Header="Xml" Width="40" MaxWidth="200" Binding="{Binding Xml}"/> -->
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button x:Name="XmlParts1" Content="Выгрузить в XML" HorizontalAlignment="Left" Height="25" Margin="2" Grid.Row="2" VerticalAlignment="Top" Width="108"
+        			Grid.Column="0" Background="{x:Null}" Click="XmlParts1_Click" />
+                <Grid Height="Auto" Margin="2" Grid.Row="1" VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="Total1" Content="Всего:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center"/>
+                    <Label x:Name="Ready1" Grid.Row="1" Content="Выгружено:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
         <!--ItemsSource="{Binding AsmsNames}" SelectedItem="{Binding SelectedName, Mode=TwoWay}" -->
     </Grid>
 

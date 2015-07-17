@@ -145,7 +145,7 @@ namespace AirVentsCadWpf.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("SWPlusDB_New")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DB-Tes")]
         public string TestSqlConnection {
             get {
                 return ((string)(this["TestSqlConnection"]));

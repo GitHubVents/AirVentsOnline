@@ -10,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Xml.Linq;
 using AirVentsCadWpf.AirVentsClasses;
 using AirVentsCadWpf.Properties;
 using AirVentsCadWpf.Логирование;
@@ -57,9 +56,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней", Content = "НВЗ"},
                 new ComboBoxItem {ToolTip = "Нижней\nВерхней\nЗадней\nСъемной(ых)", Content = "НВЗС"}
             };
-
-            
-           // ТипУстановкиПромежуточныеВставки.Visibility = Visibility.Collapsed;
+                                
 
             DataGrid1.Visibility = Visibility.Collapsed;
 
@@ -389,10 +386,10 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     //const string paneltype = "Панель верхняя";
                     //MessageBox.Show(ТипВерхнейПанели.Text, КришаТип.Text);
                     panelUp = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипВерхнейПанели.Text, КришаТип.Text, Convert.ToString(basedata.PanelsTypeId(ТипВерхнейПанели.Text))},
+                        typeOfPanel: new[] { ТипВерхнейПанели.Text, КришаТип.Text, Convert.ToString(basedata.PanelsTypeId(ТипВерхнейПанели.Text)) },
                         width: Convert.ToString(lenght),
                         height: Convert.ToString(width),
-                        materialP1: materialP1, 
+                        materialP1: materialP1,
                         materialP2: materialP2,
                         скотч: ПрименениеСкотча.Text,// == "Со скотчем",
                         усиление: PanelUpChk.IsChecked == true,
@@ -419,8 +416,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     "FramelessUnitUc");
                 }
 
-                MessageBox.Show(panelUp);
-                return;
+                //MessageBox.Show(panelUp);
+                //return;
 
                 #region Панель нижняя под монтажные ножки
 
@@ -428,7 +425,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                 {
                     //const string paneltype = "Панель нижняя под монтажные ножки";
                     panelDown = modelSw.PanelsFramelessStr(
-                        typeOfPanel: new[] { ТипПанелиНижней.Text, ОпорнаяЧастьТип.Text },
+                        typeOfPanel: new[] { ТипПанелиНижней.Text, ОпорнаяЧастьТип.Text, Convert.ToString(basedata.PanelsTypeId(ТипПанелиНижней.Text)) },
                         width: Convert.ToString(lenght),
                         height: Convert.ToString(width),
                         materialP1: materialP1,
@@ -455,6 +452,9 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                     ex.TargetSite.ToString(),
                     "FramelessUnitUc");
                 }
+
+                //MessageBox.Show(panelDown);
+                //return;
 
                 #endregion
 
@@ -565,7 +565,9 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         MessageBox.Show(exception.ToString());
                     }
 
-                    
+                    //MessageBox.Show(panelRemovable1);
+                    //return;
+
                     #region Усиливющие панели
 
                     string panelReinforcing1 = null;
@@ -635,7 +637,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                                 Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                                 Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0",
                                 Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                                Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : noBrush,
+                                Ral1.SelectedValue?.ToString() ?? noBrush,
                                 Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : noBrush
                             },
                             расположениеВставок: ProfilsConfig() + "_2",

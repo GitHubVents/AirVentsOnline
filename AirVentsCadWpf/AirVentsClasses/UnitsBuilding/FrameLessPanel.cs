@@ -675,26 +675,31 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             const string modelPanelsPath = FrameLessFolder;
             var sourceFolder = Settings.Default.SourceFolder;
             const string nameAsm = "02-11-40-1";
-            var modelPanelAsmbly = String.Format(@"{0}{1}\{2}.SLDASM",
+
+            var modelPanelAsmbly = new FileInfo(String.Format(@"{0}{1}\{2}.SLDASM",
                 sourceFolder,
                 modelPanelsPath,
-                nameAsm);
+                nameAsm)).FullName;
 
             #endregion
 
+           
+
             #region Получение последней версии и открытие сборки
 
-            GetLastVersionPdm(
-                new[]{modelPanelAsmbly,
-                    String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-01-40-.SLDPRT"),
-                    String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-02-40-.SLDPRT"),
-                    String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-03-40-.SLDPRT"),
-                    String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-04-40-.SLDPRT"),
-                    String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-05-40-.SLDPRT"),
-                    String.Format(@"{0}{1}{2}", sourceFolder, @"\Библиотека проектирования\Прочие изделия\Крепежные изделия\", "Заглушка пластикова для т.о. 16х13 сір..SLDPRT"),
-                    String.Format(@"{0}{1}{2}", sourceFolder, @"\Библиотека проектирования\Стандартные изделия\", "Винт саморез DIN 7504 K.SLDPRT"),
-                    String.Format(@"{0}{1}{2}", sourceFolder, @"\Библиотека проектирования\Стандартные изделия\", "Rivet Bralo.sldprt")},
-                Settings.Default.PdmBaseName);
+            GetLatestVersionAsmPdm(modelPanelAsmbly, Settings.Default.PdmBaseName);
+
+            //GetLastVersionPdm(
+            //    new[]{modelPanelAsmbly,
+            //        String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-01-40-.SLDPRT"),
+            //        String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-02-40-.SLDPRT"),
+            //        String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-03-40-.SLDPRT"),
+            //        String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-04-40-.SLDPRT"),
+            //        String.Format(@"{0}{1}\{2}", sourceFolder, modelPanelsPath,"02-11-05-40-.SLDPRT"),
+            //        String.Format(@"{0}{1}{2}", sourceFolder, @"\Библиотека проектирования\Прочие изделия\Крепежные изделия\", "Заглушка пластикова для т.о. 16х13 сір..SLDPRT"),
+            //        String.Format(@"{0}{1}{2}", sourceFolder, @"\Библиотека проектирования\Стандартные изделия\", "Винт саморез DIN 7504 K.SLDPRT"),
+            //        String.Format(@"{0}{1}{2}", sourceFolder, @"\Библиотека проектирования\Стандартные изделия\", "Rivet Bralo.sldprt")},
+            //    Settings.Default.PdmBaseName);
 
             var swDoc = _swApp.OpenDoc6(modelPanelAsmbly, (int)swDocumentTypes_e.swDocASSEMBLY,
                (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
@@ -2411,9 +2416,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     int typeFile = 0;
                     if (item.LocalPartFileInfo.ToUpper().Contains(".SLDASM")) { typeFile = 2; }                    
                     if (item.LocalPartFileInfo.ToUpper().Contains(".SLDPRT")) { typeFile = 1; }
-                    
-                    MessageBox.Show("typeFile - " + typeFile + "\n PartIdPdm - " + item.PartIdPdm + "\n PartIdSql - " + item.PartIdSql);
-                    sqlBaseData.AirVents_SetPDMID(typeFile, item.PartIdPdm, item.PartIdSql);
+
+                    //MessageBox.Show("typeFile - " + typeFile + "\n PartIdPdm - " + item.PartIdPdm + "\n PartIdSql - " + item.PartIdSql);
+
+                    if (item.PartIdPdm != 0)
+                    {
+                        sqlBaseData.AirVents_SetPDMID(typeFile, item.PartIdPdm, item.PartIdSql);
+                    }                    
                 }
                 catch (Exception exception)
                 {
@@ -2424,7 +2433,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             foreach (var newComponent in NewComponents)
             {
                 //MessageBox.Show(newComponent.Name);
-                //PartInfoToXml(newComponent.FullName);
+                PartInfoToXml(newComponent.FullName);
             }
 
             #endregion

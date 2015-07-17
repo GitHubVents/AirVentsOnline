@@ -26,13 +26,13 @@ namespace AirVentsCadWpf.AdminkaWindows
             SQLBase.ItemsSource = new[] {"Рабочая","Тестовая"};
         }
         
-        private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
+        void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             Hide();
         }
 
-        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             PdmBaseName.Content = " PdmBaseName - " + Settings.Default.PdmBaseName;
             TestPdmBaseName.Content = " TestPdmBaseName - " + Settings.Default.TestPdmBaseName;
@@ -41,7 +41,7 @@ namespace AirVentsCadWpf.AdminkaWindows
             Developer.Content = " Developer - " + Settings.Default.Developer;
         }
       
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Логгер.Информация("Сохранение настроек программы", "", "Сохранение настроек программы", "SettingsW");
 
@@ -107,7 +107,7 @@ namespace AirVentsCadWpf.AdminkaWindows
             Visibility = Visibility.Collapsed;
         }
 
-        private void VaultsComboBox_Initialized(object sender, EventArgs e)
+        void VaultsComboBox_Initialized(object sender, EventArgs e)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace AirVentsCadWpf.AdminkaWindows
             }
         }
 
-        private void ФайлЛоггера_Click(object sender, RoutedEventArgs e)
+        void ФайлЛоггера_Click(object sender, RoutedEventArgs e)
         {
             //var logClass = new LogerParse();
 

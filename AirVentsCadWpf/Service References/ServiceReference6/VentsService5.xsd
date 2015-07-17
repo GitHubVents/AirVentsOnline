@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/HostingWindowsForms" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfEPDM.SearchColumnName">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EPDM.SearchColumnName" nillable="true" type="tns:EPDM.SearchColumnName" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEPDM.SearchColumnName" nillable="true" type="tns:ArrayOfEPDM.SearchColumnName" />
+  <xs:complexType name="EPDM.SearchColumnName">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FileId" type="xs:int" />
+      <xs:element minOccurs="0" name="FileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FilePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FolderId" type="xs:int" />
+      <xs:element minOccurs="0" name="PartNumber" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EPDM.SearchColumnName" nillable="true" type="tns:EPDM.SearchColumnName" />
+  <xs:complexType name="ArrayOfEPDM.BomCells">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EPDM.BomCells" nillable="true" type="tns:EPDM.BomCells" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEPDM.BomCells" nillable="true" type="tns:ArrayOfEPDM.BomCells" />
+  <xs:complexType name="EPDM.BomCells">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdPdm" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Количество" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Конфигурация" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Материал" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="МатериалЦми" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Наименование" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Обозначение" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ПоследняяВерсия" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Раздел" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Состояние" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ТипФайла" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ТолщинаЛиста" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Уровень" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EPDM.BomCells" nillable="true" type="tns:EPDM.BomCells" />
+</xs:schema>

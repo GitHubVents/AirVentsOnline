@@ -62,10 +62,17 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 string.Format(" {0} ", Path.GetFileNameWithoutExtension(new FileInfo(path).FullName)),
                 MessageBoxButton.YesNoCancel) != MessageBoxResult.Yes) return;
             
-            CloseSldAsm(pDown);
-            CloseSldAsm(pFixed);
-            CloseSldAsm(pUp);
-
+            try
+            {
+                CloseSldAsm(pDown);
+                CloseSldAsm(pFixed);
+                CloseSldAsm(pUp);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            
             #region to delete
             //_swApp.CloseDoc(Path.GetFileName(pDown));
             //_swApp.CloseDoc(Path.GetFileName(pFixed));
@@ -74,7 +81,14 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             foreach (var панель in съемныеПанели)
             {
-                CloseSldAsm(панель);
+                try
+                {
+                    CloseSldAsm(панель);
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }               
 
                 #region to delete
                 //_swApp.CloseDoc(Path.GetFileName(панель));    
@@ -140,9 +154,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             CreateDistDirectory(orderFolder);
 
-            var framelessBlockNewPath = String.Format(@"{0}\{1}.SLDASM",
+            var framelessBlockNewPath =  new FileInfo(String.Format(@"{0}\{1}.SLDASM",
                 orderFolder,
-                framelessBlockNewName);
+                framelessBlockNewName)).FullName;
 
             if (File.Exists(framelessBlockNewPath))
             {
@@ -152,16 +166,20 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
 
             var pdmFolder = Settings.Default.SourceFolder;
-            var components = new[]
-            {
-                unitAsMmodel,
-                String.Format(@"{0}{1}{2}", pdmFolder, @"\Проекты\AirVents\AirVents 30\ВНС-901.92.000\","ВНС-901.92.001.SLDPRT"),
-                String.Format(@"{0}{1}{2}", pdmFolder, @"\Проекты\Blauberg\10 - Рама монтажная\", "10-3-980-700.SLDASM"),
-                String.Format(@"{0}{1}{2}", pdmFolder, @"\Библиотека проектирования\Прочие изделия\Крепежные изделия\Замки и ручки\", "M8-Panel block-one side.SLDPRT"),
-                String.Format(@"{0}{1}{2}", pdmFolder, @"\Библиотека проектирования\Стандартные изделия\", "Threaded Rivets с насечкой.SLDPRT")
-            };
 
-            GetLastVersionPdm(components, Settings.Default.PdmBaseName);
+            //var components = new[]
+            //{
+            //    unitAsMmodel,
+            //    String.Format(@"{0}{1}{2}", pdmFolder, @"\Проекты\AirVents\AirVents 30\ВНС-901.92.000\","ВНС-901.92.001.SLDPRT"),
+            //    String.Format(@"{0}{1}{2}", pdmFolder, @"\Проекты\Blauberg\10 - Рама монтажная\", "10-3-980-700.SLDASM"),
+            //    String.Format(@"{0}{1}{2}", pdmFolder, @"\Библиотека проектирования\Прочие изделия\Крепежные изделия\Замки и ручки\", "M8-Panel block-one side.SLDPRT"),
+            //    String.Format(@"{0}{1}{2}", pdmFolder, @"\Библиотека проектирования\Стандартные изделия\", "Threaded Rivets с насечкой.SLDPRT")
+            //};
+
+            //GetLastVersionPdm(components, Settings.Default.PdmBaseName);
+
+            GetLatestVersionAsmPdm(unitAsMmodel, Settings.Default.PdmBaseName);
+
             var swDoc = _swApp.OpenDoc6(unitAsMmodel, (int)swDocumentTypes_e.swDocASSEMBLY, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
             _swApp.Visible = true;
             var swAsm = (AssemblyDoc)swDoc;
@@ -202,8 +220,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     swDoc.EditDelete();
                     break;
             }
-
-
+            
             switch (side)
             {
                 case "левая":

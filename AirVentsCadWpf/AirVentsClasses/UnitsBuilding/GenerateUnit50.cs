@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -2451,13 +2452,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("02-104-50.SLDASM", true, 0)));
-                    swDoc.Extension.SelectByID2("02-04-003-50-1@02-104-50", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.Extension.SelectByID2("02-01-003-1@02-104-50", "COMPONENT", 0, 0, 0, false, 0, null, 0);
                     swAsm.ReplaceComponents(newPartPath, "", false, true);
-                    _swApp.CloseDoc("02-04-003-50.SLDPRT");
+                    _swApp.CloseDoc("02-01-003.SLDPRT");
                 }
                 else if (File.Exists(newPartPath) != true)
                 {
-                    SwPartParamsChangeWithNewName("02-04-003-50",
+                    SwPartParamsChangeWithNewName("02-01-003",
                         String.Format(@"{0}{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
                         new [,]
                         {
@@ -2479,18 +2480,18 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("02-104-50.SLDASM", true, 0)));
-                    swDoc.Extension.SelectByID2("02-04-004-50-1@02-104-50", "COMPONENT", 0, 0, 0, false, 0, null, 0);
+                    swDoc.Extension.SelectByID2("02-01-004-1@02-104-50", "COMPONENT", 0, 0, 0, false, 0, null, 0);
                     swAsm.ReplaceComponents(newPartPath, "", false, true);
-                    _swApp.CloseDoc("02-04-004-50.SLDPRT");
+                    _swApp.CloseDoc("02-01-004.SLDPRT");
                 }
                 else if (File.Exists(newPartPath) != true)
                 {
-                    SwPartParamsChangeWithNewName("02-04-004-50",
-                        String.Format(@"{0}{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
+                    SwPartParamsChangeWithNewName("02-01-004",
+                        $@"{Settings.Default.DestinationFolder}{DestinationFolder}\{newName}",
                         new [,]
                         {
-                            {"D6@Эскиз1", Convert.ToString(heightD - 10)},
-                            {"D3@Эскиз1", Convert.ToString(widthD - 10)}
+                            {"D6@Эскиз1", Convert.ToString(heightD - 10, CultureInfo.InvariantCulture)},
+                            {"D3@Эскиз1", Convert.ToString(widthD - 10, CultureInfo.InvariantCulture)}
                         },
                         false);
                     _swApp.CloseDoc(newName);
@@ -3822,9 +3823,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
             else
             {
-
-
-
                 //SetMeterial(material, _swApp.IActiveDoc2, "");
                 //try
                 //{
@@ -3847,7 +3845,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 {
                     //  MessageBox.Show(exception.Message);
                 }
-
                 _swApp.CloseDoc(newPartName);
                 NewComponents.Add(new FileInfo(newPartPath));
             }
@@ -3894,9 +3891,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 }
                 else
                 {
-
-
-
                     //SetMeterial(material, _swApp.IActiveDoc2, "");
                     //try
                     //{
@@ -3950,9 +3944,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 }
                 else
                 {
-
-
-
                     //SetMeterial(material, _swApp.IActiveDoc2, "");
                     //try
                     //{
@@ -3996,7 +3987,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     typeOfMfs = "";
                     break;
             }
-
             //newPartName = String.Format("10-04-{0}-{1}{2}{3}-{4}{5}.SLDPRT",
             //    thiknessS,
             //    width - 120,
@@ -4022,9 +4012,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
             else
             {
-
-
-
 
                 //SetMeterial(material, _swApp.IActiveDoc2, "");
                 //try
@@ -4621,59 +4608,66 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
         void SwPartParamsChangeWithNewName(string partName, string newName, string[,] newParams, bool newFuncOfAdding)
         {
-            Логгер.Отладка(string.Format("Начало изменения детали {0}", partName), "", "", "SwPartParamsChangeWithNewName");
-            //Logger.Log(LogLevel.Debug, string.Format("Начало изменения детали {0}", partName));
-            var swDoc = _swApp.OpenDoc6(partName + ".SLDPRT", (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
-            var modName = swDoc.GetPathName();
-            for (var i = 0; i < newParams.Length / 2; i++)
+            try
             {
-                try
+                Логгер.Отладка(string.Format("Начало изменения детали {0}", partName), "", "", "SwPartParamsChangeWithNewName");
+                //Logger.Log(LogLevel.Debug, string.Format("Начало изменения детали {0}", partName));
+                var swDoc = _swApp.OpenDoc6(partName + ".SLDPRT", (int)swDocumentTypes_e.swDocPART, (int)swOpenDocOptions_e.swOpenDocOptions_Silent, "", 0, 0);
+                var modName = swDoc.GetPathName();
+                for (var i = 0; i < newParams.Length / 2; i++)
                 {
-                    var myDimension = ((Dimension)(swDoc.Parameter(newParams[i, 0] + "@" + partName + ".SLDPRT")));
-                    var param = Convert.ToDouble(newParams[i, 1]); var swParametr = param;
-                    myDimension.SystemValue = swParametr / 1000;
-                    swDoc.EditRebuild3();
+                    try
+                    {
+                        var myDimension = ((Dimension)(swDoc.Parameter(newParams[i, 0] + "@" + partName + ".SLDPRT")));
+                        var param = Convert.ToDouble(newParams[i, 1]); var swParametr = param;
+                        myDimension.SystemValue = swParametr / 1000;
+                        swDoc.EditRebuild3();
+                    }
+                    catch (Exception exception)
+                    {
+                        Логгер.Отладка(string.Format("Во время изменения детали {4} произошла ошибка при изменении параметров {0}={1}. {2} {3}",
+                            newParams[i, 0], newParams[i, 1], exception.TargetSite, exception.Message, Path.GetFileNameWithoutExtension(modName)),
+                            "", "", "SwPartParamsChangeWithNewName");
+
+                        LoggerDebug(string.Format("Во время изменения детали {4} произошла ошибка при изменении параметров {0}={1}. {2} {3}",
+                            newParams[i, 0], newParams[i, 1], exception.TargetSite, exception.Message, Path.GetFileNameWithoutExtension(modName)),
+                            "", "SwPartParamsChangeWithNewName");
+                    }
                 }
-                catch (Exception exception)
-                {
-                    Логгер.Отладка(string.Format("Во время изменения детали {4} произошла ошибка при изменении параметров {0}={1}. {2} {3}",
-                        newParams[i, 0], newParams[i, 1], exception.TargetSite, exception.Message, Path.GetFileNameWithoutExtension(modName)),
-                        "", "", "SwPartParamsChangeWithNewName");
+                if (newName == "") { return; }
 
-                    LoggerDebug(string.Format("Во время изменения детали {4} произошла ошибка при изменении параметров {0}={1}. {2} {3}",
-                        newParams[i, 0], newParams[i, 1], exception.TargetSite, exception.Message, Path.GetFileNameWithoutExtension(modName)),
-                        "", "SwPartParamsChangeWithNewName");
+                GabaritsForPaintingCamera(swDoc);
+
+                swDoc.EditRebuild3();
+                swDoc.ForceRebuild3(false);
+
+                if (!newFuncOfAdding)
+                {
+                    NewComponents.Add(new FileInfo(newName + ".SLDPRT"));
                 }
-            }
-            if (newName == "") { return; }
 
-            GabaritsForPaintingCamera(swDoc);
-
-            swDoc.EditRebuild3();
-            swDoc.ForceRebuild3(false);
-
-            if (!newFuncOfAdding)
-            {
-                NewComponents.Add(new FileInfo(newName + ".SLDPRT"));
-            }
-
-            if (newFuncOfAdding)
-            {
-                NewComponentsFull.Add(new VentsCadFiles
+                if (newFuncOfAdding)
                 {
-                    LocalPartFileInfo = new FileInfo(newName + ".SLDPRT").FullName,
-                    PartIdSql = Convert.ToInt32(newName.Substring(newName.LastIndexOf('-') + 1))
-                });
+                    NewComponentsFull.Add(new VentsCadFiles
+                    {
+                        LocalPartFileInfo = new FileInfo(newName + ".SLDPRT").FullName,
+                        PartIdSql = Convert.ToInt32(newName.Substring(newName.LastIndexOf('-') + 1))
+                    });
+                }
+
+                //MessageBox.Show(NewComponentsFull.Last().LocalPartFileInfo, NewComponentsFull.Last().PartIdSql.ToString());
+
+                swDoc.SaveAs2(newName + ".SLDPRT", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
+                //swApp = new SldWorks();
+                //RegistrationPdm(newName, true, Properties.Settings.Default.TestPdmBaseName);
+                _swApp.CloseDoc(newName + ".SLDPRT");
+                Логгер.Отладка(String.Format("Деталь {0} изменена и сохранена по пути {1}", partName, new FileInfo(newName).FullName), "", "", "SwPartParamsChangeWithNewName");
+                LoggerInfo(String.Format("Деталь {0} изменена и сохранена по пути {1}", partName, new FileInfo(newName).FullName), "", "SwPartParamsChangeWithNewName");
             }
-
-            //MessageBox.Show(NewComponentsFull.Last().LocalPartFileInfo, NewComponentsFull.Last().PartIdSql.ToString());
-
-            swDoc.SaveAs2(newName + ".SLDPRT", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
-            //swApp = new SldWorks();
-            //RegistrationPdm(newName, true, Properties.Settings.Default.TestPdmBaseName);
-            _swApp.CloseDoc(newName + ".SLDPRT");
-            Логгер.Отладка(String.Format("Деталь {0} изменена и сохранена по пути {1}", partName, new FileInfo(newName).FullName), "", "", "SwPartParamsChangeWithNewName");
-            LoggerInfo(String.Format("Деталь {0} изменена и сохранена по пути {1}", partName, new FileInfo(newName).FullName),"", "SwPartParamsChangeWithNewName");
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }            
         }
 
         /// <summary>
@@ -5181,7 +5175,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
         public void CheckInOutPdmNew(List<VentsCadFiles> filesList, bool registration, string pdmBase, out List<VentsCadFiles> newFilesList)
         {
-            vaultB.LoginAuto("Vents-PDM", 0);
+            if (!vaultB.IsLoggedIn)
+            {
+                vaultB.LoginAuto(Settings.Default.TestPdmBaseName, 0);
+            }            
 
             BatchAddFiles(filesList);            
 
@@ -5246,8 +5243,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     int FileIdPdm;
                     GetIdPdm(file.LocalPartFileInfo, out FileName, out FileIdPdm);
 
-                    MessageBox.Show(file.LocalPartFileInfo + "\nFileName - " + FileName + "\nFileIdPdm - " + FileIdPdm, "CheckInOutPdmNew");
-                    MessageBox.Show(vaultB.Name + "\n - " + vaultB.RootFolderPath + "\nIsLoggedIn - " + vaultB.IsLoggedIn, "CheckInOutPdmNew");
+                    //MessageBox.Show(file.LocalPartFileInfo + "\nFileName - " + FileName + "\nFileIdPdm - " + FileIdPdm, "CheckInOutPdmNew");
+                    //MessageBox.Show(vaultB.Name + "\n - " + vaultB.RootFolderPath + "\nIsLoggedIn - " + vaultB.IsLoggedIn, "CheckInOutPdmNew");
 
                     newFilesList.Add(new VentsCadFiles
                     {
@@ -5269,7 +5266,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 foreach (var file in filesList)
                 {
                     var directoryName = file.LocalPartFileInfo.Replace(file.PartWithoutExtension, "");
-                    MessageBox.Show(directoryName + "\nLocalPartFileInfo - " + file.LocalPartFileInfo, "BatchAddFiles");
+                    //  MessageBox.Show(directoryName + "\nLocalPartFileInfo - " + file.LocalPartFileInfo, "BatchAddFiles");
                     poAdder.AddFileFromPathToPath(file.LocalPartFileInfo, directoryName, 0);                    
                 }
 
@@ -5295,7 +5292,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             foreach (var file in filesList)
             {
                 //var path = new FileInfo(file.LocalPartFileInfo).FullName;
-                MessageBox.Show(vaultB.Name + " - " + vaultB.IsLoggedIn + "\nLocalPartFileInfo - " + file.LocalPartFileInfo, "BatchUnLock");
+                //MessageBox.Show(vaultB.Name + " - " + vaultB.IsLoggedIn + "\nLocalPartFileInfo - " + file.LocalPartFileInfo, "BatchUnLock");
                 var aFile = vaultB.GetFileFromPath(file.LocalPartFileInfo, out ppoRetParentFolder);
                 aPos = aFile.GetFirstFolderPosition();
                 aFolder = aFile.GetNextFolder(aPos);
@@ -5335,9 +5332,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 m1:
                 Thread.Sleep(500);
                 path = new FileInfo(path).FullName;
-                MessageBox.Show(path, "GetIdPdm");
+                //MessageBox.Show(path, "GetIdPdm");
                 var edmFile5 = vaultB.GetFileFromPath(path, out oFolder);
-                MessageBox.Show(edmFile5.Name + "\n " + vaultB.Name + "\n " + vaultB.RootFolderPath, "GetIdPdm");
+                //MessageBox.Show(edmFile5.Name + "\n " + vaultB.Name + "\n " + vaultB.RootFolderPath, "GetIdPdm");
                 if (oFolder == null)
                 {
                     tries++;

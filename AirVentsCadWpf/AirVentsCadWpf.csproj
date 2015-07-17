@@ -27,7 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Vents</PublisherName>
-    <ApplicationRevision>184</ApplicationRevision>
+    <ApplicationRevision>190</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -260,6 +260,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Service References\ServiceReference6\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Switcher.cs" />
     <Compile Include="Логирование\Логгер.cs" />
     <Page Include="AdminkaWindows\Adminka.xaml">
@@ -411,6 +416,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.ConnectionClassifierMeasure.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.EPDMBomCells.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.EPDMSearchColumnName.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference6\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference6\configuration.svcinfo" />
+    <None Include="Service References\ServiceReference6\configuration91.svcinfo" />
+    <None Include="Service References\ServiceReference6\VentsService.disco" />
     <None Include="Service References\AirVentsCadService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -422,6 +443,25 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="AirVentsCadWpf_TemporaryKey.pfx" />
+    <None Include="Service References\ServiceReference6\VentsService.wsdl" />
+    <None Include="Service References\ServiceReference6\VentsService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\VentsService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\VentsService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\VentsService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\VentsService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\VentsService5.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <Resource Include="DataControls\Pictures\Бескаркасная установка\01 - Frameless Design 40mm - 01.JPG" />
     <Resource Include="DataControls\Pictures\Бескаркасная установка\01 - Frameless Design 40mm - 02.JPG" />
     <Resource Include="DataControls\Pictures\Бескаркасная установка\01 - Frameless Design 40mm - 03.JPG" />
@@ -586,6 +626,7 @@
     <WCFMetadataStorage Include="Service References\ServiceReference3\" />
     <WCFMetadataStorage Include="Service References\ServiceReference4\" />
     <WCFMetadataStorage Include="Service References\ServiceReference5\" />
+    <WCFMetadataStorage Include="Service References\ServiceReference6\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ServiceReference1\configuration91.svcinfo" />
