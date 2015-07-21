@@ -14,7 +14,12 @@
             Initializes a new instance of the <see cref="T:MakeDxfUpdatePartData.MakeDxfExportPartDataClass"/> class.
             </summary>
         </member>
-        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(System.String,System.String@,System.Boolean@,System.Boolean,System.Boolean,System.Boolean)">
+        <member name="P:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.PdmBaseName">
+            <summary>
+            Gets or sets the name of the PDM base. For example: "Vents-PDM"
+            </summary>
+        </member>
+        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(System.String,System.String@,System.Boolean@,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
             Creates the flatt pattern update cutlist and edrawing.
             </summary>
@@ -24,6 +29,7 @@
             <param name="makeDxf">if set to <c>true</c> [make DXF].</param>
             <param name="makeEprt">if set to <c>true</c> [make eprt].</param>
             <param name="swVisible">if set to <c>true</c> [sw visible].</param>
+            <param name="relativePath"></param>
         </member>
         <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.CreateFlattPatternUpdateCutlistAndEdrawing2(System.String,System.String@,System.Boolean@,System.Boolean,System.Boolean,System.Boolean)">
             <summary>
@@ -45,7 +51,6 @@
             <param name="isErrors">if set to <c>true</c> [is errors].</param>
             <param name="makeEprt">if set to <c>true</c> [make eprt].</param>
             <param name="version">The version.</param>
-            <param name="?">The ?.</param>
         </member>
         <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.RegistrationPdm(System.String)">
             <summary>
@@ -67,19 +72,6 @@
             </summary>
             <param name="filePath">The file path.</param>
             <param name="pdfFilePath">The PDF file path.</param>
-        </member>
-        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.SearchDoc(System.String,MakeDxfUpdatePartData.MakeDxfExportPartDataClass.SwDocType)">
-            <summary>
-            Searches the document.
-            </summary>
-            <param name="filePath">The file path.</param>
-            <param name="swDocType">Type of the sw document.</param>
-            <returns></returns>
-        </member>
-        <member name="P:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.PdmBaseName">
-            <summary>
-            Gets or sets the name of the PDM base. For example: "Vents-PDM"
-            </summary>
         </member>
         <member name="T:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.SwDocType">
             <summary>
@@ -110,6 +102,14 @@
             <summary>
             По схожести
             </summary>
+        </member>
+        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.SearchDoc(System.String,MakeDxfUpdatePartData.MakeDxfExportPartDataClass.SwDocType)">
+            <summary>
+            Searches the document.
+            </summary>
+            <param name="filePath">The file path.</param>
+            <param name="swDocType">Type of the sw document.</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

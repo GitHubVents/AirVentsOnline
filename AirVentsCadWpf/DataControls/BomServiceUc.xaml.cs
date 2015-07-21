@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,11 +9,10 @@ using System.Windows.Media;
 using AirVentsCadWpf.AirVentsClasses;
 using AirVentsCadWpf.Properties;
 //using AirVentsCadWpf.ServiceReference2;
-using AirVentsCadWpf.ServiceReference3;
-using AirVentsCadWpf.ServiceReference5;
+//using AirVentsCadWpf.ServiceReference3;
+//using AirVentsCadWpf.ServiceReference5;
 using BomPartList;
 using EdmLib;
-using MakeDxfUpdatePartData;
 using VentsMaterials;
 using VentsPDM_dll;
 using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
@@ -26,7 +23,7 @@ namespace AirVentsCadWpf.DataControls
 
     public partial class BomServiceUc
     {
-        private SpellServiceSoap spellServiceSoap;
+        //private SpellServiceSoap spellServiceSoap;
 
         #region Fields and Constructor
         
@@ -34,14 +31,14 @@ namespace AirVentsCadWpf.DataControls
         //List<BomPartListClass.BomCells> _bomPartsListFiltered;
         //List<BomPartListClass.BomCells> _bomPartsListOriginal;
 
-         List<BomPartListClassBomCells> _bomPartsList;
-         List<BomPartListClassBomCells> _bomPartsListFiltered;
-         List<BomPartListClassBomCells> _bomPartsListOriginal;
+         //List<BomPartListClassBomCells> _bomPartsList;
+         //List<BomPartListClassBomCells> _bomPartsListFiltered;
+         //List<BomPartListClassBomCells> _bomPartsListOriginal;
         
         
 
         //readonly List<BomPartListClass.BomCells> _bomListSelectedPrts = new List<BomPartListClass.BomCells>();
-         readonly List<BomPartListClassBomCells> _bomListSelectedPrts = new List<BomPartListClassBomCells>();
+         //readonly List<BomPartListClassBomCells> _bomListSelectedPrts = new List<BomPartListClassBomCells>();
 
 
         private BomPartListClass _bomClass;
@@ -86,7 +83,7 @@ namespace AirVentsCadWpf.DataControls
             try
             {
                 //MessageBox.Show(_serviceClient.
-                _allAsmInPdm = _serviceClient.AsmNames();
+                //_allAsmInPdm = _serviceClient.AsmNames();
                 FindAsm();
             }
             catch (Exception exception)
@@ -103,7 +100,7 @@ namespace AirVentsCadWpf.DataControls
         #region Main Methods
 
     
-        readonly BomTableServiceClient _serviceClient = new BomTableServiceClient();
+        //readonly BomTableServiceClient _serviceClient = new BomTableServiceClient();
 
         private readonly string[] _allAsmInPdm;
 
@@ -114,10 +111,7 @@ namespace AirVentsCadWpf.DataControls
         //        return _serviceClient.BomParts(_assemblyPath, Settings.Default.PdmBaseName, Settings.Default.userName, Settings.Default.Password, Settings.Default.ConnectionToSQL);
         //    }
         //}
-
-
         
-
         void ChangedDataGrid(bool isChanged)
         {
             if (isChanged)
@@ -164,9 +158,9 @@ namespace AirVentsCadWpf.DataControls
 
          void FilterBomTable()
         {
-            _bomPartsListFiltered = _bomPartsList;
-            if (_bomPartsListFiltered != null) _bomPartsListFiltered = _bomPartsListFiltered.Where(x => x.Обозначение.Contains(FilterTextBox.Text)).ToList();
-            BomTablePrt.ItemsSource = _bomPartsListFiltered;
+            //_bomPartsListFiltered = _bomPartsList;
+            //if (_bomPartsListFiltered != null) _bomPartsListFiltered = _bomPartsListFiltered.Where(x => x.Обозначение.Contains(FilterTextBox.Text)).ToList();
+            //BomTablePrt.ItemsSource = _bomPartsListFiltered;
         }
 
         
@@ -232,20 +226,20 @@ namespace AirVentsCadWpf.DataControls
         {
             if (BomTablePrt.SelectedValue == null) return;
             //var row = ((BomPartListClass.BomCells)(BomTablePrt.SelectedValue));
-            var row = ((BomPartListClassBomCells)(BomTablePrt.SelectedValue));
-            MaterialsList.SelectedValue = row.Материал;
+            //var row = ((BomPartListClassBomCells)(BomTablePrt.SelectedValue));
+            //MaterialsList.SelectedValue = row.Материал;
 
-            SelectedPart.ItemsSource = _bomPartsList.Where(x => x.Обозначение == row.ОбозначениеDocMgr);
+            //SelectedPart.ItemsSource = _bomPartsList.Where(x => x.Обозначение == row.ОбозначениеDocMgr);
         }
 
         void BomTablePrt_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (BomTablePrt.SelectedValue == null) return;
             //var row = ((BomPartListClass.BomCells)(BomTablePrt.SelectedValue));
-            var row = ((BomPartListClassBomCells)(BomTablePrt.SelectedValue));
-            if (_bomListSelectedPrts.Any(bomListSelectedPrt => row.Обозначение == bomListSelectedPrt.Обозначение)) return;
-            _bomListSelectedPrts.Add(row);
-            BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
+            //var row = ((BomPartListClassBomCells)(BomTablePrt.SelectedValue));
+            //if (_bomListSelectedPrts.Any(bomListSelectedPrt => row.Обозначение == bomListSelectedPrt.Обозначение)) return;
+            //_bomListSelectedPrts.Add(row);
+            //BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
         }
 
         // Buttons
@@ -254,13 +248,13 @@ namespace AirVentsCadWpf.DataControls
         {
             try
             {
-                _assemblyPath = _serviceClient.PathByNameAsm(AsmNames.Text);
-                if (_assemblyPath == "") return;
-                var list = _serviceClient.Bom(1, _assemblyPath).ToList();
-                _bomPartsListOriginal = list;
-                _bomPartsList = list;
-                BomTablePrt.ItemsSource = _bomPartsList;
-                AssemblyInfo.Content = _assemblyPath;
+                //_assemblyPath = _serviceClient.PathByNameAsm(AsmNames.Text);
+                //if (_assemblyPath == "") return;
+                //var list = _serviceClient.Bom(1, _assemblyPath).ToList();
+                //_bomPartsListOriginal = list;
+                //_bomPartsList = list;
+                //BomTablePrt.ItemsSource = _bomPartsList;
+                //AssemblyInfo.Content = _assemblyPath;
             }
             catch (Exception exception)
             {
@@ -295,44 +289,44 @@ namespace AirVentsCadWpf.DataControls
 
         void ClearList_Click(object sender, RoutedEventArgs e)
         {
-            _bomListSelectedPrts.Clear();
-            BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
+            //_bomListSelectedPrts.Clear();
+            //BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
         }
 
         void УдалитьВыбранную_Click(object sender, RoutedEventArgs e)
         {
             //_bomListSelectedPrts.Remove(BomTableSelectedPrt.SelectedItem as BomPartListClass.BomCells);
-            _bomListSelectedPrts.Remove(BomTableSelectedPrt.SelectedItem as BomPartListClassBomCells);
+            //_bomListSelectedPrts.Remove(BomTableSelectedPrt.SelectedItem as BomPartListClassBomCells);
             
-            BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
+            //BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
         }
 
         void BeginUpdate_Click(object sender, RoutedEventArgs e)
         {
-            var partDataClass = new MakeDxfExportPartDataClass{ PdmBaseName = Settings.Default.PdmBaseName };
-            foreach (var selectedPrt in _bomListSelectedPrts)
-            {
-                try
-                {
-                    if (UpdateCutList.IsChecked == true)
-                    {
-                     //   partDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(selectedPrt.Путь);
-                    }
-                    if (MakeDxf.IsChecked == true)
-                    {
-                       // partDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(selectedPrt.Путь);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    MessageBox.Show(exception.Message);
-                    return;
-                }
-            }
+            //var partDataClass = new MakeDxfExportPartDataClass{ PdmBaseName = Settings.Default.PdmBaseName };
+            //foreach (var selectedPrt in _bomListSelectedPrts)
+            //{
+            //    try
+            //    {
+            //        if (UpdateCutList.IsChecked == true)
+            //        {
+            //         //   partDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(selectedPrt.Путь);
+            //        }
+            //        if (MakeDxf.IsChecked == true)
+            //        {
+            //           // partDataClass.CreateFlattPatternUpdateCutlistAndEdrawing(selectedPrt.Путь);
+            //        }
+            //    }
+            //    catch (Exception exception)
+            //    {
+            //        MessageBox.Show(exception.Message);
+            //        return;
+            //    }
+            //}
 
-            _bomListSelectedPrts.Clear();
-            BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
-            Application.Current.MainWindow.Activate();
+            //_bomListSelectedPrts.Clear();
+            //BomTableSelectedPrt.ItemsSource = _bomListSelectedPrts.OrderBy(x => x.Обозначение);
+            //Application.Current.MainWindow.Activate();
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)
@@ -575,24 +569,22 @@ namespace AirVentsCadWpf.DataControls
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            var languageServiceClient = new ServiceReference4.LanguageServiceClient();
-            var httpRequestProperty = new HttpRequestMessageProperty();
+            //var languageServiceClient = new ServiceReference4.LanguageServiceClient();
+            //var httpRequestProperty = new HttpRequestMessageProperty();
+            
+
+            //// Creates a block within which an OperationContext object is in scope.
+            //using (var operationContextScope = new OperationContextScope(languageServiceClient.InnerChannel))
+            //{
+            //    OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = httpRequestProperty;
+            //    const string sourceText = "Use pixels to express measurements for padding and margins.";
+            //    //Keep appId parameter blank as we are sending access token in authorization header.
+            //    var translationResult = languageServiceClient.Translate("", sourceText, "en", "de", "text/plain", "");
 
 
-
-            // Creates a block within which an OperationContext object is in scope.
-            using (var operationContextScope = new OperationContextScope(languageServiceClient.InnerChannel))
-            {
-                OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = httpRequestProperty;
-                const string sourceText = "Use pixels to express measurements for padding and margins.";
-                //Keep appId parameter blank as we are sending access token in authorization header.
-                var translationResult = languageServiceClient.Translate("", sourceText, "en", "de", "text/plain", "");
-
-
-                MessageBox.Show(String.Format("Translation for source {0} from {1} to {2} is", sourceText, "en", "de"), translationResult);
-               // Console.WriteLine(translationResult);
-            }
-
+            //    MessageBox.Show(String.Format("Translation for source {0} from {1} to {2} is", sourceText, "en", "de"), translationResult);
+            //   // Console.WriteLine(translationResult);
+            //}
         }
         
     }

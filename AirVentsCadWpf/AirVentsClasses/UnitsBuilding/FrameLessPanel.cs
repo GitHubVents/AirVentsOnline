@@ -1970,9 +1970,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //     скотч == "CheckBox" ? "-ST" : "");
             #endregion
 
-            var newPartPath = String.Format(@"{0}\{1}\{2}.SLDPRT",
-                Settings.Default.DestinationFolder,
-                DestinationFolder, newName);
+            var newPartPath = $@"{Settings.Default.DestinationFolder}\{DestinationFolder}\{newName}.SLDPRT";
 
             if (File.Exists(newPartPath))
             {
@@ -1988,7 +1986,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 //kFactor = Convert.ToDouble(bendParams[1]);
 
                 SwPartParamsChangeWithNewName("02-11-01-40-",
-                    String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
+                    $@"{Settings.Default.DestinationFolder}\{DestinationFolder}\{newName}",
                     new[,]
                     {
                         // Габариты
@@ -2039,8 +2037,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             
             //newName = modelname2 + "-02-" + width + "-" + height + "-" + "40-" + materialP2[0] + strenghtP + panelsUpDownConfigString;
 
-            newPartPath = String.Format(@"{0}\{1}\{2}.SLDPRT", Settings.Default.DestinationFolder,
-                DestinationFolder, newName);
+            newPartPath = $@"{Settings.Default.DestinationFolder}\{DestinationFolder}\{newName}.SLDPRT";
 
             if (File.Exists(newPartPath))
             {
@@ -3173,14 +3170,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             public static string InValUpDown()
             {
-                return String.Format("_({0}{1}{2}{3}{4}{5})",
-                    Convert.ToInt32(G0) != 0 ? Convert.ToString(G0) : "",
-                    Convert.ToInt32(B1) != 0 ? "-" + Convert.ToString(B1) : "",
-                    Convert.ToInt32(G1) != 0 ? "_" + Convert.ToString(G1) : "",
-                    Convert.ToInt32(B2) != 0 ? "-" + Convert.ToString(B2) : "",
-                    Convert.ToInt32(G2) != 0 ? "_" + Convert.ToString(G2) : "",
-                    Convert.ToInt32(B3) != 0 ? "-" + Convert.ToString(B3) : ""
-                    );
+                return
+                    $"_({(Convert.ToInt32(G0) != 0 ? Convert.ToString(G0) : "")}" +
+                    $"{(Convert.ToInt32(B1) != 0 ? "-" + Convert.ToString(B1) : "")}" +
+                    $"{(Convert.ToInt32(G1) != 0 ? "_" + Convert.ToString(G1) : "")}" +
+                    $"{(Convert.ToInt32(B2) != 0 ? "-" + Convert.ToString(B2) : "")}" +
+                    $"{(Convert.ToInt32(G2) != 0 ? "_" + Convert.ToString(G2) : "")}" +
+                    $"{(Convert.ToInt32(B3) != 0 ? "-" + Convert.ToString(B3) : "")})";
             }
         }
 

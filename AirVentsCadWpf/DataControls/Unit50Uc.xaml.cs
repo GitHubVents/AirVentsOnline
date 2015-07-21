@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,8 +34,7 @@ namespace AirVentsCadWpf.DataControls
             ToSQL.Conn = Settings.Default.ConnectionToSQL;
 
             InnerPartGrid.Visibility = Visibility.Collapsed;
-
-            //GridTypeOfUnit50.Children.Add(new UnitElement());
+            
             var sqlBaseData = new SqlBaseData();
             var airVentsStandardSize = sqlBaseData.AirVentsStandardSize();
             SizeOfUnit.ItemsSource = ((IListSource)airVentsStandardSize).GetList();
@@ -156,7 +156,7 @@ namespace AirVentsCadWpf.DataControls
 
             MaterialMontageFrame.ItemsSource = ((IListSource)_sqlBaseData.MaterialsForMontageFrame()).GetList();
             MaterialMontageFrame.DisplayMemberPath = "MaterialsName";
-            MaterialMontageFrame.SelectedValuePath = "LevelID";//  "CodeMaterial";
+            MaterialMontageFrame.SelectedValuePath = "LevelID";
             MaterialMontageFrame.SelectedIndex = 0;
 
             FrameOffset.MaxLength = 5;
@@ -249,11 +249,11 @@ namespace AirVentsCadWpf.DataControls
                     {
                         try
                         {
-                            FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                            FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2), CultureInfo.InvariantCulture);
                         }
                         catch (Exception)
                         {
-                            FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2));
+                            FrameOffset.Text = Convert.ToString((Convert.ToDouble(LenghtBaseFrame.Text) / 2), CultureInfo.InvariantCulture);
                         }
                     }
                     frame =
@@ -267,12 +267,12 @@ namespace AirVentsCadWpf.DataControls
                         new[]
                     {
                     RalFrame1.Text, CoatingTypeFrame1.Text, CoatingClassFrame1.Text,
-                    RalFrame1.SelectedValue != null ? RalFrame1.SelectedValue.ToString():""
-                    });
+                    RalFrame1.SelectedValue?.ToString() ?? ""
+                    }, 
+                        true);
 
                     FrameOffset.Text = "";
                 }
-                
 
                 var mat1Code = "";
                 var mat2Code = "";
@@ -297,7 +297,6 @@ namespace AirVentsCadWpf.DataControls
 
                 if (Panel50.IsChecked == true)
                 {
-
                     try
                     {
                         //Верх - Низ
@@ -311,7 +310,6 @@ namespace AirVentsCadWpf.DataControls
                                             _sqlBaseData.PanelsTable().Rows[0][2].ToString(),
                                             _sqlBaseData.PanelsTable().Rows[0][1].ToString()
                                         },
-                                    // { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },
                                     width: Convert.ToString(Convert.ToInt32(Lenght.Text) - 100),
                                     height: Convert.ToString(Convert.ToInt32(WidthU.Text) - 100),
                                     materialP1: materialP1,
@@ -320,14 +318,12 @@ namespace AirVentsCadWpf.DataControls
                                     {
                                         Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
                                         Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
-                                        Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
-                                        Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
+                                        Ral1.SelectedValue?.ToString() ?? "",
+                                        Ral2.SelectedValue?.ToString() ?? ""
                                     },
                                     onlyPath: true);
                         }
-                        catch (Exception)
-                        {
-                        }
+                        catch (Exception){}
 
                         //Несъемная
                         try
@@ -340,7 +336,6 @@ namespace AirVentsCadWpf.DataControls
                                             _sqlBaseData.PanelsTable().Rows[0][2].ToString(),
                                             _sqlBaseData.PanelsTable().Rows[0][1].ToString()
                                         },
-                                    // { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },
                                     width: Convert.ToString(Convert.ToInt32(Lenght.Text) - 100),
                                     height: Convert.ToString(Convert.ToInt32(HeightU.Text) - 100),
                                     materialP1: materialP1,
@@ -349,14 +344,12 @@ namespace AirVentsCadWpf.DataControls
                                     {
                                         Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
                                         Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
-                                        Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
-                                        Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
+                                        Ral1.SelectedValue?.ToString() ?? "",
+                                        Ral2.SelectedValue?.ToString() ?? ""
                                     },
                                     onlyPath: true);
                         }
-                        catch (Exception)
-                        {
-                        }
+                        catch (Exception){}
 
                         //Cъемная
                         try
@@ -372,18 +365,14 @@ namespace AirVentsCadWpf.DataControls
                                     {
                                         Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
                                         Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
-                                        Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
-                                        Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
+                                        Ral1.SelectedValue?.ToString() ?? "",
+                                        Ral2.SelectedValue?.ToString() ?? ""
                                     },
                                     onlyPath: true);
                         }
-                        catch (Exception)
-                        {
-                        }
+                        catch (Exception){}
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch (Exception){}
                 }
 
                 #endregion
@@ -398,18 +387,9 @@ namespace AirVentsCadWpf.DataControls
                 {
                     roofType = "";
                 }
+                
+                sw.UnitAsmbly(((DataRowView)SizeOfUnit.SelectedItem)["Type"].ToString(), OrderTextBox.Text, SideService.Text, WidthU.Text, HeightU.Text, Lenght.Text, frame, panels, roofType, "Section " + SectionTextBox.Text);}
 
-                // MessageBox.Show(roofType);
-
-                var size = SizeOfUnit.Text;
-                if (Nonstandard.IsChecked == true)
-                {
-                   // size = size + "N";
-                }
-
-                sw.UnitAsmbly(((DataRowView)SizeOfUnit.SelectedItem)["Type"].ToString(), OrderTextBox.Text, SideService.Text,
-                    WidthU.Text, HeightU.Text,
-                        Lenght.Text, frame, panels, roofType, "Section " + SectionTextBox.Text);}
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);

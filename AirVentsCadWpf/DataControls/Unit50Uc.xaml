@@ -7,7 +7,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="36"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -47,7 +47,7 @@
             </Grid>
             <Label Content="Длина" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
             <TextBox x:Name="Lenght" PreviewTextInput="NumberValidationTextBox"  VerticalAlignment="Center" HorizontalContentAlignment="Center" KeyDown="Lenght_KeyDown" Grid.Column="5" Margin="2" Text="1000" HorizontalAlignment="Center" VerticalContentAlignment="Center" TextChanged="Lenght_TextChanged" />
-            
+
             <Label x:Name="SideLabel" Content="Сторона обслуживания" Grid.Column="6" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top"/>
             <ComboBox x:Name="SideService" SelectedIndex="0" IsReadOnly="True" Grid.Column="7" SelectionChanged="SizeOfUnit_SelectionChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center">
                 <ComboBoxItem Content="правая" />

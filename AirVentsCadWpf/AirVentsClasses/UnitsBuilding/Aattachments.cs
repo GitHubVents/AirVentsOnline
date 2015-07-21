@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -892,8 +893,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             GabaritsForPaintingCamera(swDoc);
             swDoc.EditRebuild3();
             swDoc.ForceRebuild3(true);
-            var name = String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder,
-                DamperDestinationFolder, newDamperName);
+            var name = $@"{Settings.Default.DestinationFolder}\{DamperDestinationFolder}\{newDamperName}";
             swDoc.SaveAs2(name + ".SLDASM", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
             newComponents.Add(new FileInfo(name + ".SLDASM"));
             _swApp.CloseDoc(Path.GetFileNameWithoutExtension(new FileInfo(name + ".SLDASM").FullName));
@@ -1397,32 +1397,38 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             if (_swApp == null) { return ""; }
 
             var newRoofName = "15-0" + type + "-" + width + "-" + lenght;
-            var newRoofPath = String.Format(@"{0}{1}\{2}.SLDASM", Settings.Default.DestinationFolder, RoofDestinationFolder, newRoofName);
+            var newRoofPath = $@"{Settings.Default.DestinationFolder}{RoofDestinationFolder}\{newRoofName}.SLDASM";
 
             if (File.Exists(newRoofPath))
             {
                 if (onlyPath) return newRoofPath;
                 MessageBox.Show(newRoofPath, "Данная модель уже находится в базе");
                 return "";
+                #region to delete
                 //GetLastVersionPdm(new FileInfo(newRoofPath).FullName, Settings.Default.TestPdmBaseName);
                 //_swApp.OpenDoc6(newRoofPath, (int)swDocumentTypes_e.swDocASSEMBLY,
                 //    (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
                 //return newRoofPath;
+                #endregion
             }
 
-            var pdmFolder = Settings.Default.SourceFolder;
-            var components = new[]
-            {
-                String.Format(@"{0}{1}\{2}", pdmFolder, SpigotFolder,"15-000.SLDASM"),
-                String.Format(@"{0}{1}\{2}", pdmFolder, SpigotFolder,"15-001.SLDPRT"),
-                String.Format(@"{0}{1}\{2}", pdmFolder, @"\Библиотека проектирования\Стандартные изделия","Винт самосверл 6-гр.гол с шайбой.SLDPRT"),
-                String.Format(@"{0}{1}\{2}", pdmFolder, @"\Библиотека проектирования\Стандартные изделия","Rivet Bralo.SLDPRT")
-            };
-            GetLastVersionPdm(components, Settings.Default.PdmBaseName);
+            #region to delete
+            //var pdmFolder = Settings.Default.SourceFolder;
+            //var components = new[]
+            //{
+            //    String.Format(@"{0}{1}\{2}", pdmFolder, SpigotFolder,"15-000.SLDASM"),
+            //    String.Format(@"{0}{1}\{2}", pdmFolder, SpigotFolder,"15-001.SLDPRT"),
+            //    String.Format(@"{0}{1}\{2}", pdmFolder, @"\Библиотека проектирования\Стандартные изделия","Винт самосверл 6-гр.гол с шайбой.SLDPRT"),
+            //    String.Format(@"{0}{1}\{2}", pdmFolder, @"\Библиотека проектирования\Стандартные изделия","Rivet Bralo.SLDPRT")
+            //};
+            //GetLastVersionPdm(components, Settings.Default.PdmBaseName);
+            #endregion
 
-            var modelRoofPath = String.Format(@"{0}{1}\{2}.SLDASM", Settings.Default.SourceFolder, RoofFolder, modelName);
+            GetLatestVersionAsmPdm($@"{Settings.Default.SourceFolder}{SpigotFolder}\{"15-000.SLDASM"}", Settings.Default.PdmBaseName);
 
-            if (!Warning()) return "";
+            var modelRoofPath = $@"{Settings.Default.SourceFolder}{RoofFolder}\{modelName}.SLDASM";
+
+            //if (!Warning()) return "";
             var swDoc = _swApp.OpenDoc6(modelRoofPath, (int)swDocumentTypes_e.swDocASSEMBLY,
                 (int)swOpenDocOptions_e.swOpenDocOptions_LoadModel, "00", 0, 0);
             _swApp.Visible = true;
@@ -1444,7 +1450,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 swDoc.EditDelete();
                 swDoc.Extension.SelectByID2("Вырез-Вытянуть4@15-001-1@15-000", "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
                 swDoc.Extension.DeleteSelection2(deleteOption);
-
 
                 swDoc.Extension.SelectByID2("Rivet Bralo-1@15-000", "COMPONENT", 0, 0, 0, true, 0, null, 0);
                 swDoc.Extension.SelectByID2("Rivet Bralo-2@15-000", "COMPONENT", 0, 0, 0, true, 0, null, 0);
@@ -1474,7 +1479,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 swDoc.Extension.SelectByID2("Симметричный1", "MATE", 0, 0, 0, false, 0, null, 0);
                 swDoc.EditSuppress2(); swDoc.ClearSelection2(true);
                 swDoc.Extension.SelectByID2("Расстояние1", "MATE", 0, 0, 0, false, 0, null, 0);
-                swDoc.EditUnsuppress2();//swDoc.Extension.DeleteSelection2(deleteOption);
+                swDoc.EditUnsuppress2();
 
                 swDoc.Extension.SelectByID2("Fasteners - M8", "FTRFOLDER", 0, 0, 0, false, 0, null, 0);
                 swDoc.EditDelete();
@@ -1502,13 +1507,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 swDoc.EditUnsuppress2();
                 swDoc.Extension.SelectByID2("Эскиз23@15-001-1@15-000", "SKETCH", 0, 0, 0, false, 0, null, 0);
                 swDoc.EditSuppress2();
-                //swDoc.Extension.SelectByID2("Вырез-Вытянуть2@15-001-1@15-000", "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
-                //swDoc.EditDelete();
-                //swDoc.Extension.DeleteSelection2(deleteOption);
-                //swDoc.Extension.SelectByID2("Кривая1@15-001-1@15-000", "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
-                //swDoc.EditDelete();
-                // swDoc.Extension.SelectByID2("Зеркальное отражение1@15-001-1@15-000", "BODYFEATURE", 0, 0, 0, true, 0, null, 0);
-                // swDoc.EditDelete();
+
                 swDoc.Extension.SelectByID2("Винт самосверл 6-гр.гол с шайбой-1@15-000", "COMPONENT", 0, 0, 0, true, 0, null, 0);
                 swDoc.Extension.SelectByID2("Rivet Bralo-1@15-000", "COMPONENT", 0, 0, 0, true, 0, null, 0);
                 swDoc.Extension.SelectByID2("Rivet Bralo-2@15-000", "COMPONENT", 0, 0, 0, true, 0, null, 0);
@@ -1527,7 +1526,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             #region Сохранение и изменение элементов
 
-
             var addwidth = 100;
             var addwidth2 = 75;
             var type4 = 0;
@@ -1542,7 +1540,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 type4 = 170;
                 addwidth2 = 170 + 75; 
             }
-            //MessageBox.Show(addwidth.ToString());
+            
             var widthD = (Convert.ToDouble(width)/divwidth + addwidth);
             var lengthD = (Convert.ToDouble(lenght) - 28.5);
             const double step = 200;
@@ -1555,8 +1553,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             try
             {
                 _swApp.IActivateDoc2("15-001", true, 0);
-                var newPartName = String.Format("15-0{0}-01-{1}-{2}", type, width, lenght);
-                var newPartPath = String.Format(@"{0}\{1}\{2}.SLDPRT", Settings.Default.DestinationFolder, RoofDestinationFolder, newPartName);
+                var newPartName = $"15-0{type}-01-{width}-{lenght}";
+                var newPartPath = $@"{Settings.Default.DestinationFolder}\{RoofDestinationFolder}\{newPartName}.SLDPRT";
                 if (File.Exists(newPartPath))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("15-000.SLDASM", true, 0)));
@@ -1567,19 +1565,19 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 else
                 {
                     SwPartParamsChangeWithNewName("15-001",
-                        String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, RoofDestinationFolder, newPartName),
+                        $@"{Settings.Default.DestinationFolder}\{RoofDestinationFolder}\{newPartName}",
                         new[,]
                         {
-                            {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4) : Convert.ToString(lengthD + type4)},
-                            {"D2@Эскиз1", Convert.ToString(widthD)},
-                            {"D4@Эскиз27", Convert.ToString(addwidth2-4.62)},
+                            {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4, CultureInfo.InvariantCulture) : Convert.ToString(lengthD + type4, CultureInfo.InvariantCulture)},
+                            {"D2@Эскиз1", Convert.ToString(widthD, CultureInfo.InvariantCulture)},
+                            {"D4@Эскиз27", Convert.ToString(addwidth2-4.62, CultureInfo.InvariantCulture)},
                             {"D1@Эскиз27", Convert.ToString(90)},
-                            {"D2@Эскиз27", Convert.ToString((75-4.62))},
+                            {"D2@Эскиз27", Convert.ToString((75-4.62), CultureInfo.InvariantCulture)},
 
-                            {"D1@Эскиз24", type == "5" || type == "6" ? Convert.ToString(149.53) : Convert.ToString(9.53)},
+                            {"D1@Эскиз24", type == "5" || type == "6" ? Convert.ToString(149.53, CultureInfo.InvariantCulture) : Convert.ToString(9.53, CultureInfo.InvariantCulture)},
                             
-                            {"D1@Кривая2", Convert.ToString(weldW2*1000)},
-                            {"D1@Кривая1", Convert.ToString(weldW*1000)}
+                            {"D1@Кривая2", Convert.ToString(weldW2*1000, CultureInfo.InvariantCulture)},
+                            {"D1@Кривая1", Convert.ToString(weldW*1000, CultureInfo.InvariantCulture)}
                         },
                         false);
                     try
@@ -1672,8 +1670,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                 try
                 {
                     _swApp.IActivateDoc2("15-002", true, 0);
-                    var newPartName = String.Format("15-0{0}-02-{1}-{2}", type, width, lenght);
-                    var newPartPath = String.Format(@"{0}\{1}\{2}.SLDPRT", Settings.Default.DestinationFolder, RoofDestinationFolder, newPartName);
+                    var newPartName = $"15-0{type}-02-{width}-{lenght}";
+                    var newPartPath =
+                        $@"{Settings.Default.DestinationFolder}\{RoofDestinationFolder}\{newPartName}.SLDPRT";
                     if (File.Exists(newPartPath))
                     {
                         swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("15-000.SLDASM", true, 0)));
@@ -1684,19 +1683,19 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     else
                     {
                         SwPartParamsChangeWithNewName("15-002",
-                            String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, RoofDestinationFolder, newPartName),
+                            $@"{Settings.Default.DestinationFolder}\{RoofDestinationFolder}\{newPartName}",
                             new[,]
                             {
-                                {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4) : Convert.ToString(lengthD + type4)},
-                                {"D2@Эскиз1", Convert.ToString(widthD)},
-                                {"D4@Эскиз27", Convert.ToString(addwidth2-4.62)},
+                                {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4, CultureInfo.InvariantCulture) : Convert.ToString(lengthD + type4, CultureInfo.InvariantCulture)},
+                                {"D2@Эскиз1", Convert.ToString(widthD, CultureInfo.InvariantCulture)},
+                                {"D4@Эскиз27", Convert.ToString(addwidth2-4.62, CultureInfo.InvariantCulture)},
                                 {"D1@Эскиз27", Convert.ToString(90)},
-                                {"D2@Эскиз27", Convert.ToString((75-4.62))},
+                                {"D2@Эскиз27", Convert.ToString((75-4.62), CultureInfo.InvariantCulture)},
                                                                                                                           
                                 {"D2@Эскиз23", type == "5" || type == "6" ? Convert.ToString(165) : Convert.ToString(25)},
                                 
-                                {"D1@Кривая2", Convert.ToString(weldW2*1000)},
-                                {"D1@Кривая1", Convert.ToString(weldW*1000)}
+                                {"D1@Кривая2", Convert.ToString(weldW2*1000, CultureInfo.InvariantCulture)},
+                                {"D1@Кривая1", Convert.ToString(weldW*1000, CultureInfo.InvariantCulture)}
                             },
                             false);
                         try
@@ -1739,7 +1738,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     swDoc.EditDelete();
                     break;
             }
-
             
             #endregion
 

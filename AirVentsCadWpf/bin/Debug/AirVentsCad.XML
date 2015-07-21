@@ -1296,7 +1296,7 @@
             <param name="material">материал рамы</param>
             <param name="покрытие">The ПОКРЫТИЕ.</param>
         </member>
-        <member name="M:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.MontageFrameS(System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IList{System.String})">
+        <member name="M:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.MontageFrameS(System.String,System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.IList{System.String},System.Boolean)">
             <summary>
             Montages the frame s.
             </summary>
@@ -1307,6 +1307,7 @@
             <param name="frameOffset">The frame offset.</param>
             <param name="material">The material.</param>
             <param name="покрытие">The ПОКРЫТИЕ.</param>
+            <param name="onlyPath">The ПОКРЫТИЕ.</param>
             <returns></returns>
         </member>
         <member name="M:AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw.GetLastVersionAsmPdm(System.String,System.String)">
@@ -1826,30 +1827,6 @@
             <summary>
             InitializeComponent
             </summary>
-        </member>
-        <member name="T:AirVentsCadWpf.ServiceReference3.SpellError">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.word">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.s">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.code">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.pos">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.row">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.col">
-            <remarks/>
-        </member>
-        <member name="P:AirVentsCadWpf.ServiceReference3.SpellError.len">
-            <remarks/>
         </member>
         <member name="T:AirVentsCadWpf.App">
             <summary>

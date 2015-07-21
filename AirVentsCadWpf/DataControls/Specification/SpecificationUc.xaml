@@ -404,7 +404,7 @@
                 <Button Content="Добавтить PDM" HorizontalAlignment="Left" Margin="2,2,2,2" VerticalAlignment="Top" Background="{x:Null}" Grid.Column="2" Click="AddToPdm"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="Exp1" Grid.Row="2" Header="Выгрузка PDF" HorizontalAlignment="Left" Margin="640,289,-19,40" VerticalAlignment="Center">
+        <GroupBox x:Name="Exp1" Grid.Row="2" Header="Выгрузка PDF" HorizontalAlignment="Left" Margin="431,111,0,466" VerticalAlignment="Center">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -428,7 +428,7 @@
             </Grid>
         </GroupBox>
         <Button x:Name="ДобавитьТаблицу" Grid.Row="2" Content="Добавить таблицу" Margin="710,203,190,0" VerticalAlignment="Top" Width="150" Click="ДобавитьТаблицу_Click"/>
-        <GroupBox x:Name="ПереченьДеталей" Header="Перечень деталей" HorizontalAlignment="Left" Margin="425,37,0,0" Grid.Row="2" VerticalAlignment="Top">
+        <GroupBox x:Name="ПереченьДеталей" Header="Перечень деталей" HorizontalAlignment="Left" Margin="183,5,0,0" Grid.Row="2" VerticalAlignment="Top">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -481,7 +481,7 @@
                 <DataGrid x:Name="PartsListXml2sDataGrid" VirtualizingPanel.VirtualizationMode="Recycling" 
         			ItemsSource="{Binding PartsListXml2}" Grid.Column="0" HorizontalAlignment="Left" Margin="2,4,0,0" IsReadOnly="True"
         			Grid.Row="0"  SelectionMode="Single" CanUserResizeRows="False" RowDetailsVisibilityMode="Visible" 
-        			AutoGenerateColumns="False" SelectedIndex="0" Height="Auto" Width="Auto" MaxHeight="250">
+        			AutoGenerateColumns="True" SelectedIndex="0" Height="Auto" Width="Auto" MaxHeight="250">
                     <DataGrid.ContextMenu>
                         <ContextMenu >
                             <MenuItem Header="Путь к файлу" Click="MenuItem_Click"  />

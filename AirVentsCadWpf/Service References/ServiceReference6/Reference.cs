@@ -209,10 +209,25 @@ namespace AirVentsCadWpf.ServiceReference6 {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CodeMaterialField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ErpCodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string FileNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FilePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IdPdmField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SummMaterialField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string WeightField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string КоличествоField;
@@ -261,6 +276,32 @@ namespace AirVentsCadWpf.ServiceReference6 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CodeMaterial {
+            get {
+                return this.CodeMaterialField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CodeMaterialField, value) != true)) {
+                    this.CodeMaterialField = value;
+                    this.RaisePropertyChanged("CodeMaterial");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ErpCode {
+            get {
+                return this.ErpCodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ErpCodeField, value) != true)) {
+                    this.ErpCodeField = value;
+                    this.RaisePropertyChanged("ErpCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string FileName {
             get {
                 return this.FileNameField;
@@ -274,6 +315,19 @@ namespace AirVentsCadWpf.ServiceReference6 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FilePath {
+            get {
+                return this.FilePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FilePathField, value) != true)) {
+                    this.FilePathField = value;
+                    this.RaisePropertyChanged("FilePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string IdPdm {
             get {
                 return this.IdPdmField;
@@ -282,6 +336,32 @@ namespace AirVentsCadWpf.ServiceReference6 {
                 if ((object.ReferenceEquals(this.IdPdmField, value) != true)) {
                     this.IdPdmField = value;
                     this.RaisePropertyChanged("IdPdm");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SummMaterial {
+            get {
+                return this.SummMaterialField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SummMaterialField, value) != true)) {
+                    this.SummMaterialField = value;
+                    this.RaisePropertyChanged("SummMaterial");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Weight {
+            get {
+                return this.WeightField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WeightField, value) != true)) {
+                    this.WeightField = value;
+                    this.RaisePropertyChanged("Weight");
                 }
             }
         }

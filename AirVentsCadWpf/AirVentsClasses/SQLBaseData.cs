@@ -21,8 +21,8 @@ namespace AirVentsCadWpf.AirVentsClasses
                     var sqlCommand = new SqlCommand("AirVents.SetPDMID", con) { CommandType = CommandType.StoredProcedure };
 
                     sqlCommand.Parameters.AddWithValue("@Type", Type);   // Если сборка = 2, Если деталь = 1
-                    sqlCommand.Parameters.AddWithValue("@IDPDM", IdPdm); 
-                    sqlCommand.Parameters.AddWithValue("@PART", Part);//@Type = 1 PartID = @PART // @Type = 2 PanelNumber = @PART
+                    sqlCommand.Parameters.AddWithValue("@IDPDM", IdPdm);
+                    sqlCommand.Parameters.AddWithValue("@PART", Part);   //@Type = 1 PartID = @PART // @Type = 2 PanelNumber = @PART
 
                     sqlCommand.ExecuteNonQuery();
                 }
