@@ -8,9 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using AirVentsCadWpf.AirVentsClasses;
+using AirVentsCadWpf.AirVentsClasses.UnitsBuilding;
 using AirVentsCadWpf.Properties;
 using VentsMaterials;
-using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
+
+//using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
 
 namespace AirVentsCadWpf.DataControls
 {
@@ -97,7 +99,6 @@ namespace AirVentsCadWpf.DataControls
 
         void BUILDING_Click(object sender, RoutedEventArgs e)
         {
-            var sw = new ModelSw();
             
             var mat1Code = "";
             var mat2Code = "";
@@ -113,22 +114,51 @@ namespace AirVentsCadWpf.DataControls
 
             var materialP1 = new[] { MaterialP1.SelectedValue.ToString(), ТолщинаВнешней.Text, MaterialP1.Text, mat1Code };
             var materialP2 = new[] { MaterialP2.SelectedValue.ToString(), ТолщинаВннутренней.Text, MaterialP2.Text, mat2Code };
-            
+
             //MessageBox.Show(Ral1.SelectedValue + " " + CoatingType1.Text, CoatingClass1.Text);
 
-            sw.Panels50Build(
+            var vcad = new VentsCadLibrary.VentsCad
+            {
+                ConnectionToSql = Settings.Default.ConnectionToSQL,
+                DestVaultName = Settings.Default.TestPdmBaseName,
+                VaultName = Settings.Default.PdmBaseName
+            };
+
+            vcad.Panels50(
                 typeOfPanel: new[] { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },
                 width: WidthPanel.Text,
                 height: HeightPanel.Text,
                 materialP1: materialP1,
-                meterialP2: materialP2,
+                materialP2: materialP2,
                 покрытие: new[]
                 {
                     Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
                     Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
-                    Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : "",
-                    Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : ""
-                });
+                    Ral1.SelectedValue?.ToString() ?? "",
+                    Ral2.SelectedValue?.ToString() ?? ""
+                },
+                onlyPath: false);
+
+            #region
+
+            //var sw = new ModelSw();
+
+            //sw.Panels50Build(
+            //    typeOfPanel: new[] { TypeOfPanel50.SelectedValue.ToString(), TypeOfPanel50.Text },
+            //    width: WidthPanel.Text,
+            //    height: HeightPanel.Text,
+            //    materialP1: materialP1,
+            //    meterialP2: materialP2,
+            //    покрытие: new[]
+            //    {
+            //        Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
+            //        Ral2.Text, CoatingType2.Text, CoatingClass2.Text,
+            //        Ral1.SelectedValue?.ToString() ?? "",
+            //        Ral2.SelectedValue?.ToString() ?? ""
+            //    });
+
+            #endregion
+
         }
 
         void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

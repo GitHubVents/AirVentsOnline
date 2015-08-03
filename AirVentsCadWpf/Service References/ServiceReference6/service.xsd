@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://srvkb:8080/VentsService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ConecctorOneC" />
-  <xs:import schemaLocation="http://srvkb:8080/VentsService?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms" />
-  <xs:import schemaLocation="http://srvkb:8080/VentsService?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-  <xs:import schemaLocation="http://srvkb:8080/VentsService?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms.Data" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/ConecctorOneC" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms.Data" />
   <xs:element name="AuthenticationUser">
     <xs:complexType>
       <xs:sequence>
@@ -31,6 +31,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="SearchNomenclatureByName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SearchNomenclatureByNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ConecctorOneC" minOccurs="0" name="SearchNomenclatureByNameResult" nillable="true" type="q2:ArrayOfConnection.Nomenclature" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SearchDoc">
     <xs:complexType>
       <xs:sequence>
@@ -41,7 +55,7 @@
   <xs:element name="SearchDocResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/HostingWindowsForms" minOccurs="0" name="SearchDocResult" nillable="true" type="q2:ArrayOfEPDM.SearchColumnName" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/HostingWindowsForms" minOccurs="0" name="SearchDocResult" nillable="true" type="q3:ArrayOfEPDM.SearchColumnName" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,7 +70,7 @@
   <xs:element name="BomResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/HostingWindowsForms" minOccurs="0" name="BomResult" nillable="true" type="q3:ArrayOfEPDM.BomCells" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/HostingWindowsForms" minOccurs="0" name="BomResult" nillable="true" type="q4:ArrayOfEPDM.BomCells" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -70,7 +84,7 @@
   <xs:element name="GetConfigurationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetConfigurationResult" nillable="true" type="q4:ArrayOfstring" />
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="GetConfigurationResult" nillable="true" type="q5:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -91,7 +105,7 @@
   <xs:element name="AddTaskList">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/HostingWindowsForms.Data" minOccurs="0" name="list" nillable="true" type="q5:ArrayOfSqlQuery.TaskParam" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/HostingWindowsForms.Data" minOccurs="0" name="list" nillable="true" type="q6:ArrayOfSqlQuery.TaskParam" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

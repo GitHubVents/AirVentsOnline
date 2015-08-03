@@ -436,20 +436,15 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
             if (panelLeft2 == "-")
             {
-                swDoc.Extension.SelectByID2("Вторая панель право зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
-                swDoc.EditSuppress2();
-                swDoc.Extension.SelectByID2("Вторая панель право массив", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
-                swDoc.EditSuppress2();
+                swDoc.Extension.SelectByID2("Вторая панель право зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);swDoc.EditSuppress2();
+                swDoc.Extension.SelectByID2("Вторая панель право массив", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);swDoc.EditSuppress2();
             }
 
             if (panelLeft3 == "-")
             {
-                swDoc.Extension.SelectByID2("Третья панель право зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
-                swDoc.EditSuppress2();
-                swDoc.Extension.SelectByID2("Третья панель право массив", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);
-                swDoc.EditSuppress2();
+                swDoc.Extension.SelectByID2("Третья панель право зерк", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);swDoc.EditSuppress2();
+                swDoc.Extension.SelectByID2("Третья панель право массив", "COMPPATTERN", 0, 0, 0, false, 0, null, 0);swDoc.EditSuppress2();
             }
-
 
             swDoc.Extension.SelectByID2("02-11-40-1-1@" + ModelName.Replace(".SLDASM", ""), "COMPONENT", 0, 0, 0, false, 0, null, 0);
             swAsm.ReplaceComponents(панельНижняя, "", false, true);
@@ -964,7 +959,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
 
             #endregion
-
 
             swDoc.Extension.SelectByID2("Расстояние5", "MATE", 0, 0, 0, false, 0, null, 0);
             swDoc.ActivateSelectedFeature();

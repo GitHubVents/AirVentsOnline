@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="975e0ba5-ad63-40e4-ba6e-9a3dd381d08b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://srvkb:8080/VentsService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e6416410-d92b-4728-8143-3d7f402dd73e" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="75da97d1-2bdc-4c40-8879-3beb9f670003" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6e7c356d-e397-4217-ad84-838ab7bc57e2" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="ConecctorOneC.xsd" MetadataType="Schema" ID="979d7b28-86e3-4154-af39-00862c763dba" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="HostingWindowsForms.xsd" MetadataType="Schema" ID="41949b28-21e5-416e-baf7-0b5d2e9438c8" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="7d200a2c-bfe4-46dc-8846-d01628e6a1a9" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="HostingWindowsForms.Data.xsd" MetadataType="Schema" ID="6aac3667-f85f-4880-a0fe-78b54c188dc1" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

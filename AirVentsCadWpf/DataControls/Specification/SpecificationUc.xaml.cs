@@ -62,6 +62,8 @@ namespace AirVentsCadWpf.DataControls.Specification
 
             ПереченьДеталей.Visibility = Visibility.Hidden;
 
+           ПереченьДеталей_Copy.Visibility = Visibility.Hidden;
+
             PartsList.Visibility = Visibility.Hidden;
             XmlParts.Visibility = Visibility.Hidden;
 
@@ -98,7 +100,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             Конфигурация.ItemsSource = configs;
 
             _путьКСборке = path[0].FilePath;
-            specBomCells = emdpService.Bom(path[0].FilePath, configs[0]);
+            _specBomCells = emdpService.Bom(path[0].FilePath, configs[0]);
+
+           // MessageBox.Show(specBomCells[0].Обозначение, configs[0]);
             //var спецификация = emdpService.Bom(path[0].FilePath, configs[0]);
             emdpService.Close();
             
@@ -459,7 +463,7 @@ namespace AirVentsCadWpf.DataControls.Specification
             
             if (включаяПодсборки)
             {
-                foreach (var путьКСборке in specBomCells.Where(x =>
+                foreach (var путьКСборке in _specBomCells.Where(x =>
                 {
                     var extension = Path.GetExtension(x.FilePath + "\\" + x.FileName);
                     return extension.ToLower() == ".sldasm";
@@ -960,7 +964,7 @@ namespace AirVentsCadWpf.DataControls.Specification
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             AutoCompleteTextBox1Reload();
-            
+
             // AutoCompleteTextBox1.DropDownOpening += AutoCompleteTextBox1_DropDownOpening;
 
 
@@ -989,7 +993,6 @@ namespace AirVentsCadWpf.DataControls.Specification
             Найти.IsEnabled = AutoCompleteTextBox1.Text.Length != 0;
             // AutoCompleteTextBox1.DropDownClosed;
         }
-
 
         static void AirVents_AddOrder()
         {
@@ -1234,6 +1237,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             var xmlPartPath =
                 new FileInfo(@"\\srvkb\SolidWorks Admin\XML\" + Path.GetFileNameWithoutExtension(partPath) + ".xml");
 
+            //MessageBox.Show(partPath);
+            //MessageBox.Show(xmlPartPath.FullName);
+
             if (!xmlPartPath.Exists) return false;
 
             var xmlPartVersion = Version(xmlPartPath.FullName);
@@ -1329,7 +1335,7 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         //List<PartsListXml> _partsListXmls = new List<PartsListXml>();
 
-        private EPDMBomCells[] specBomCells;
+        private EPDMBomCells[] _specBomCells;
         
         void ПолучитьПереченьДеталей_Checked(object sender, RoutedEventArgs e)
         {
@@ -1341,30 +1347,36 @@ namespace AirVentsCadWpf.DataControls.Specification
                 Конфигурация.ItemsSource = configs;
                 var спецификация = emdpService.Bom(path[0].FilePath, configs[0]);
                 emdpService.Close();
+                
+                var partsListXml2S = new List<PartsListXml2>();
 
-            //MessageBox.Show("Спецификация получена");
-            
-            //var emdpService2 = new EpdmServiceClient();
-            var partsListXml2S = new List<PartsListXml2>();
-
-            foreach (var item in спецификация)
-            {
-                if (item.ТипФайла.ToLower() == "sldprt")
+                foreach (var item in спецификация)
                 {
-                    if (item.Раздел == "Детали" || item.Раздел == "")
+                    if (item.ТипФайла.ToLower() == "sldprt")
                     {
-                        partsListXml2S.Add(new PartsListXml2
+                        if (item.Раздел == "Детали" || item.Раздел == "")
                         {
-                            CurrentVersion = Convert.ToInt32(item.ПоследняяВерсия),
-                            IdPmd = item.IdPdm,
-                            Наименование = item.FileName,
-                            Xml = true,
-                            Путь = item.FilePath
-                        });
+                            partsListXml2S.Add(new PartsListXml2
+                            {
+                                CurrentVersion = Convert.ToInt32(item.ПоследняяВерсия),
+                                IdPmd = item.IdPdm,
+                                Наименование = item.FileName,
+                                Путь = item.FilePath + @"\" + item.FileName
+                            });
+                        }
                     }
                 }
-            }
+
+                foreach (var listXml in partsListXml2S)
+                {
+                    listXml.Xml = ExistLastXml(listXml.Путь, listXml.CurrentVersion);
+                }
+
+                PartsListXml2sDataGrid.ItemsSource = null;
                 PartsListXml2sDataGrid.ItemsSource = partsListXml2S;
+
+                ПереченьДеталей_Copy.Visibility = PartsListXml2sDataGrid.ItemsSource == null ? Visibility.Hidden : Visibility.Visible;
+
             }
             catch (Exception exception)
             {
@@ -1420,6 +1432,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             MessageBox.Show(item.Путь);
         }
 
+
+        #region XML File Version
+
         static int? Version(string xmlPath)
         {
             if (!xmlPath.EndsWith("xml"))
@@ -1446,7 +1461,9 @@ namespace AirVentsCadWpf.DataControls.Specification
             }
 
             return version;
-        }        
+        }
+
+        #endregion
 
         void OpenFile(object sender, RoutedEventArgs e)
         {
@@ -1507,7 +1524,7 @@ namespace AirVentsCadWpf.DataControls.Specification
 
         void ПолучитьПереченьДеталей_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-          //  throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         void XmlParts1_Click(object sender, RoutedEventArgs e)
@@ -1518,13 +1535,12 @@ namespace AirVentsCadWpf.DataControls.Specification
 
             foreach (var newComponent in list)
             {
-                if (newComponent.Xml)
+                if (!newComponent.Xml)
                 {
-                    modelSw.PartInfoToXml(newComponent.Путь + "\\" + newComponent.Наименование);
+                    modelSw.PartInfoToXml(newComponent.Путь);
                 }
             }
         }
-
-       
+        
     }
 }

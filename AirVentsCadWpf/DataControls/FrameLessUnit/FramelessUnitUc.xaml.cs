@@ -267,7 +267,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
 
         void SizeOfUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SizeOfUnit == null || SizeOfUnit.SelectedItem == null) return;
+            if (SizeOfUnit?.SelectedItem == null) return;
             
             var id = Convert.ToInt32(((DataRowView) SizeOfUnit.SelectedItem)["SizeID"].ToString());
             var sqlBaseData = new SqlBaseData();
@@ -399,8 +399,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                            Ral1.SelectedValue?.ToString() ?? noBrush,
+                            Ral2.SelectedValue?.ToString() ?? noBrush
                         },
                         расположениеВставок: ProfilsConfig(),
                         типУсиливающей: "");
@@ -438,8 +438,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                            Ral1.SelectedValue?.ToString() ?? noBrush,
+                            Ral2.SelectedValue?.ToString() ?? noBrush
                         },
                         расположениеВставок: ProfilsConfig(),
                         типУсиливающей: "");
@@ -489,8 +489,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                                 Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                                 Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0",
                                 Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                                Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString() : noBrush,
-                                Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : noBrush
+                                Ral1.SelectedValue?.ToString() ?? noBrush,
+                                Ral2.SelectedValue?.ToString() ?? noBrush
                             },
                             расположениеВставок: ProfilsConfig(),
                             типУсиливающей: "");
@@ -509,7 +509,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                            ТипСъемнойПанели2.Text,
                            Convert.ToString(basedata.PanelsTypeId(ТипСъемнойПанели2.SelectedValue.ToString()))
                        },
-                       width: Convert.ToString(ШиринаСъемнойПанели2.Text), height: Convert.ToString(height - 40),
+                       width: Convert.ToString(ШиринаСъемнойПанели2.Text),
+                       height: Convert.ToString(height - 40),
                        materialP1: materialP1,
                        materialP2: materialP2,
                        скотч: ПрименениеСкотча.Text,
@@ -520,8 +521,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                            Ral1.SelectedValue?.ToString() ?? noBrush,
+                            Ral2.SelectedValue?.ToString() ?? noBrush
                         },
                        расположениеВставок: ProfilsConfig(),
                        типУсиливающей: "");
@@ -553,8 +554,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                            Ral1.SelectedValue?.ToString() ?? noBrush,
+                            Ral2.SelectedValue?.ToString() ?? noBrush
                         },
                         расположениеВставок: ProfilsConfig(),
                         типУсиливающей: "");
@@ -598,8 +599,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                            Ral1.SelectedValue?.ToString() ?? noBrush,
+                            Ral2.SelectedValue?.ToString() ?? noBrush
                         },
                             расположениеВставок: ProfilsConfig() + "_1",
                             типУсиливающей: typeOfPanel.Tag.ToString());
@@ -638,7 +639,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                                 Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0",
                                 Ral2.Text != noBrush ? CoatingClass2.Text : "0",
                                 Ral1.SelectedValue?.ToString() ?? noBrush,
-                                Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString() : noBrush
+                                Ral2.SelectedValue?.ToString() ?? noBrush
                             },
                             расположениеВставок: ProfilsConfig() + "_2",
                             типУсиливающей: typeOfPanel.Tag.ToString());
@@ -694,8 +695,8 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
                         {
                             Ral1.Text, Ral1.Text != noBrush ? CoatingType1.Text : "0", Ral1.Text != noBrush ? CoatingClass1.Text : "0",
                             Ral2.Text, Ral2.Text != noBrush ? CoatingType2.Text : "0", Ral2.Text != noBrush ? CoatingClass2.Text : "0",
-                            Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():noBrush,
-                            Ral2.SelectedValue != null ? Ral2.SelectedValue.ToString():noBrush
+                            Ral1.SelectedValue?.ToString() ?? noBrush,
+                            Ral2.SelectedValue?.ToString() ?? noBrush
                         },
                         расположениеВставок: ProfilsConfig(),
                         типУсиливающей: null); 
@@ -766,7 +767,7 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
             }
 
             Логгер.Информация(
-                String.Format("Построение бескаркасной уставновки завершено - {0}",""),
+                $"Построение бескаркасной уставновки завершено - {""}",
                 "", "", "FramelessUnitUc");
         }
 
@@ -913,28 +914,15 @@ namespace AirVentsCadWpf.DataControls.FrameLessUnit
 
         string PanelsConfig()
         {
-            return String.Format("{0}{1}{2}{3}{4}{5}",
-                Отступ1.Visibility == Visibility.Visible ? Отступ1.Text : "",
-                ШиринаПанели1.Visibility == Visibility.Visible ? ";" + ШиринаПанели1.Text : "",
-                Отступ2.Visibility == Visibility.Visible ? ";" + Отступ2.Text : "",
-                ШиринаПанели2.Visibility == Visibility.Visible ? ";" + ШиринаПанели2.Text : "",
-                Отступ3.Visibility == Visibility.Visible ? ";" + Отступ3.Text : "",
-                ШиринаПанели3.Visibility == Visibility.Visible ? ";" + ШиринаПанели3.Text : "");
+            return
+                $"{(Отступ1.Visibility == Visibility.Visible ? Отступ1.Text : "")}{(ШиринаПанели1.Visibility == Visibility.Visible ? ";" + ШиринаПанели1.Text : "")}{(Отступ2.Visibility == Visibility.Visible ? ";" + Отступ2.Text : "")}{(ШиринаПанели2.Visibility == Visibility.Visible ? ";" + ШиринаПанели2.Text : "")}{(Отступ3.Visibility == Visibility.Visible ? ";" + Отступ3.Text : "")}{(ШиринаПанели3.Visibility == Visibility.Visible ? ";" + ШиринаПанели3.Text : "")}";
         }
 
         string ProfilsConfig()
         {   
             // todo ШиринаУсилПанели1 ШиринаПрофиля1
-            return String.Format
-                (
-                "{0};{1};{2};{3};{4};{5}",
-                ТипПроф1.Text + "_" + ШиринаПрофиля1.Text,
-                ТипПроф2.Text + "_" + ШиринаПрофиля2.Text,
-                ТипПроф3.Text + "_" + ШиринаПрофиля3.Text,
-                ТипПроф4.Text + "_" + ШиринаПрофиля4.Text,
-                ТипУсилПанели1.Text + "_" + ШиринаПрофиля1.Text,
-                ТипУсилПанели2.Text + "_" + ШиринаПрофиля1.Text
-                );
+            return
+                $"{ТипПроф1.Text + "_" + ШиринаПрофиля1.Text};{ТипПроф2.Text + "_" + ШиринаПрофиля2.Text};{ТипПроф3.Text + "_" + ШиринаПрофиля3.Text};{ТипПроф4.Text + "_" + ШиринаПрофиля4.Text};{ТипУсилПанели1.Text + "_" + ШиринаПрофиля1.Text};{ТипУсилПанели2.Text + "_" + ШиринаПрофиля1.Text}";
         }
 
         void ПостроитьПанель1_Click(object sender, RoutedEventArgs e)

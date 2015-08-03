@@ -19,17 +19,16 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://srvkb:8080/VentsService" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://srvkb:8080/VentsService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="VentsService.xsd" MetadataType="Schema" ID="9d44bd7d-9bec-4e0b-94a3-9659f4926814" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?xsd=xsd1" />
-    <MetadataFile FileName="VentsService.wsdl" MetadataType="Wsdl" ID="1a36ce08-6119-40a0-962c-a535ad5ea446" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?wsdl" />
-    <MetadataFile FileName="VentsService1.xsd" MetadataType="Schema" ID="1a48bc12-5e27-4e5a-a84e-053e2d344f71" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?xsd=xsd4" />
-    <MetadataFile FileName="VentsService2.xsd" MetadataType="Schema" ID="a8449460-f5a6-4c06-9c2e-90f078069f20" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?xsd=xsd0" />
-    <MetadataFile FileName="VentsService3.xsd" MetadataType="Schema" ID="77beda0e-3a90-4f5d-bdca-92f22ffff145" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?xsd=xsd5" />
-    <MetadataFile FileName="VentsService.disco" MetadataType="Disco" ID="dbf45e15-8622-4d36-800b-37b580626c3e" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?disco" />
-    <MetadataFile FileName="VentsService4.xsd" MetadataType="Schema" ID="bfd6fd86-0dc2-4148-aa27-3718843fc80b" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?xsd=xsd2" />
-    <MetadataFile FileName="VentsService5.xsd" MetadataType="Schema" ID="aa67212b-1d49-4f5a-9cdb-70db1d8f9640" SourceId="1" SourceUrl="http://srvkb:8080/VentsService?xsd=xsd3" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="16370ab9-964f-4d9c-aa0d-33bfbef342cc" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="65f13dd7-a3f2-42a3-9e69-965314abdbca" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="15f1c123-128d-4f66-9437-4444d9b5d5e3" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="ConecctorOneC.xsd" MetadataType="Schema" ID="d1a9ecd7-ecf9-4521-8e66-2cf372402922" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="HostingWindowsForms.xsd" MetadataType="Schema" ID="b15f238a-5b71-4988-8cae-4610d4df20d3" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="5f026dde-48bd-429b-b95a-36a1e8e76d74" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
+    <MetadataFile FileName="HostingWindowsForms.Data.xsd" MetadataType="Schema" ID="464c74bf-5c7e-4cd1-8f9e-ab28439e865a" SourceId="1" SourceUrl="http://srvkb:8080/VentsService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

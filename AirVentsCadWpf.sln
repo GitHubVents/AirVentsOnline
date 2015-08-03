@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirVentsCadWpf", "AirVentsCadWpf\AirVentsCadWpf.csproj", "{4A03F4CD-8E2A-4600-B89C-782ADCC67E44}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23A1FCD6-6048-4043-BEA8-6B08A296029F} = {23A1FCD6-6048-4043-BEA8-6B08A296029F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VentsCadLibrary", "VentsCadLibrary\VentsCadLibrary.csproj", "{23A1FCD6-6048-4043-BEA8-6B08A296029F}"
 EndProject

@@ -211,9 +211,6 @@ namespace AirVentsCadWpf.AirVentsClasses
             public string LinkedTo;
         }
 
-        
-
-
         private SwDmDocumentType SwDocMgrDocType()
         {
             if (SDocFileName.ToLower().EndsWith("sldprt"))

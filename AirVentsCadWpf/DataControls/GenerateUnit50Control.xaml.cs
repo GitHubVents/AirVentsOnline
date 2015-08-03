@@ -158,7 +158,8 @@ namespace AirVentsCadWpf.DataControls
             var sqlBaseData = new SqlBaseData();
             var standartUnitSizes =
                 sqlBaseData.StandartSize(
-                    SizeOfUnit.SelectedItem.ToString().Replace("System.Windows.Controls.ListBoxItem: ", ""));
+                    SizeOfUnit.SelectedItem.ToString().Replace("" +
+                                                               "System.Windows.Controls.ListBoxItem: ", ""));
 
             if (WidthU == null || HeightU == null)
             {

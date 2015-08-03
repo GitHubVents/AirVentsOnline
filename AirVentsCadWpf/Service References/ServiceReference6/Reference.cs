@@ -92,6 +92,67 @@ namespace AirVentsCadWpf.ServiceReference6 {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Connection.Nomenclature", Namespace="http://schemas.datacontract.org/2004/07/ConecctorOneC")]
+    [System.SerializableAttribute()]
+    public partial class ConnectionNomenclature : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Code {
+            get {
+                return this.CodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CodeField, value) != true)) {
+                    this.CodeField = value;
+                    this.RaisePropertyChanged("Code");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="EPDM.SearchColumnName", Namespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms")]
     [System.SerializableAttribute()]
     public partial class EPDMSearchColumnName : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -221,7 +282,16 @@ namespace AirVentsCadWpf.ServiceReference6 {
         private string FilePathField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FormatField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IdPdmField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NoteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PositionField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string SummMaterialField;
@@ -328,6 +398,19 @@ namespace AirVentsCadWpf.ServiceReference6 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Format {
+            get {
+                return this.FormatField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FormatField, value) != true)) {
+                    this.FormatField = value;
+                    this.RaisePropertyChanged("Format");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string IdPdm {
             get {
                 return this.IdPdmField;
@@ -336,6 +419,32 @@ namespace AirVentsCadWpf.ServiceReference6 {
                 if ((object.ReferenceEquals(this.IdPdmField, value) != true)) {
                     this.IdPdmField = value;
                     this.RaisePropertyChanged("IdPdm");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Note {
+            get {
+                return this.NoteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NoteField, value) != true)) {
+                    this.NoteField = value;
+                    this.RaisePropertyChanged("Note");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Position {
+            get {
+                return this.PositionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PositionField, value) != true)) {
+                    this.PositionField = value;
+                    this.RaisePropertyChanged("Position");
                 }
             }
         }
@@ -640,6 +749,12 @@ namespace AirVentsCadWpf.ServiceReference6 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/I1cService/GetClassifierMeasureList", ReplyAction="http://tempuri.org/I1cService/GetClassifierMeasureListResponse")]
         System.Threading.Tasks.Task<AirVentsCadWpf.ServiceReference6.ConnectionClassifierMeasure[]> GetClassifierMeasureListAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/I1cService/SearchNomenclatureByName", ReplyAction="http://tempuri.org/I1cService/SearchNomenclatureByNameResponse")]
+        AirVentsCadWpf.ServiceReference6.ConnectionNomenclature[] SearchNomenclatureByName(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/I1cService/SearchNomenclatureByName", ReplyAction="http://tempuri.org/I1cService/SearchNomenclatureByNameResponse")]
+        System.Threading.Tasks.Task<AirVentsCadWpf.ServiceReference6.ConnectionNomenclature[]> SearchNomenclatureByNameAsync(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -683,6 +798,14 @@ namespace AirVentsCadWpf.ServiceReference6 {
         
         public System.Threading.Tasks.Task<AirVentsCadWpf.ServiceReference6.ConnectionClassifierMeasure[]> GetClassifierMeasureListAsync() {
             return base.Channel.GetClassifierMeasureListAsync();
+        }
+        
+        public AirVentsCadWpf.ServiceReference6.ConnectionNomenclature[] SearchNomenclatureByName(string name) {
+            return base.Channel.SearchNomenclatureByName(name);
+        }
+        
+        public System.Threading.Tasks.Task<AirVentsCadWpf.ServiceReference6.ConnectionNomenclature[]> SearchNomenclatureByNameAsync(string name) {
+            return base.Channel.SearchNomenclatureByNameAsync(name);
         }
     }
     

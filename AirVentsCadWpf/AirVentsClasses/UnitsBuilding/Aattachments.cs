@@ -973,8 +973,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
 
             var newSpigotName = modelName + "-" + width + "-" + height;
-            var newSpigotPath = string.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder,
-                SpigotDestinationFolder, newSpigotName);
+            var newSpigotPath = $@"{Settings.Default.DestinationFolder}\{SpigotDestinationFolder}\{newSpigotName}";
 
             if (File.Exists(newSpigotPath + ".SLDDRW"))
             {
@@ -992,14 +991,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             if (modelName == "12-30")
             { drawing = modelName; }
             Dimension myDimension;
-            var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", Settings.Default.SourceFolder,
-                SpigotFolder, drawing);
-            var modelSpigotAsm = String.Format(@"{0}{1}\{2}.SLDASM", Settings.Default.SourceFolder,
-                SpigotFolder, "12-00");
-
-            var pdmFolder = Settings.Default.SourceFolder;
-
+            var modelSpigotDrw = $@"{Settings.Default.SourceFolder}{SpigotFolder}\{drawing}.SLDDRW";
+            
             #region GetLastVersionAsmPdm
+
+            //var modelSpigotAsm = $@"{Settings.Default.SourceFolder}{SpigotFolder}\{"12-00"}.SLDASM";
+            //var pdmFolder = Settings.Default.SourceFolder;
+            
             //var components = new[]
             //{
             //    modelSpigotDrw,
@@ -1014,11 +1012,13 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //};
 
             //GetLastVersionPdm(components, Settings.Default.PdmBaseName);
-            #endregion
+            
             
             //GetLastVersionAsmPdm(modelSpigotAsm, Settings.Default.PdmBaseName);
+
+            #endregion
+
             GetLastVersionAsmPdm(modelSpigotDrw, Settings.Default.PdmBaseName);
-            
 
             if (!InitializeSw(true)) return "";
             if (!Warning()) return "";
@@ -1298,7 +1298,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             #endregion
 
             GabaritsForPaintingCamera(swDoc);
-
           
 
             swDoc.ForceRebuild3(true);
@@ -1317,10 +1316,10 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             { m = 20; }
            drw.SetupSheet5("DRW1", 12, 12, 1, m, true, Settings.Default.DestinationFolder + @"\Vents-PDM\\Библиотека проектирования\\Templates\\Основные надписи\\A3-A-1.slddrt", 0.42, 0.297, "По умолчанию", false);
             //swDrwSpigot.SaveAs2(newSpigotPath + ".SLDDRW", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, false, true);
-            int inin = 0;
-            int sdki = 0;
+            var errors = 0;
+            var warnings = 0;
             
-            swDrwSpigot.SaveAs4(newSpigotPath + ".SLDDRW", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref inin, ref sdki);
+            swDrwSpigot.SaveAs4(newSpigotPath + ".SLDDRW", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref errors, ref warnings);
 
             NewComponents.Add(new FileInfo(newSpigotPath + ".SLDDRW"));
             //MessageBox.Show(new FileInfo(newSpigotPath + ".SLDDRW").Name);
@@ -1568,16 +1567,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         $@"{Settings.Default.DestinationFolder}\{RoofDestinationFolder}\{newPartName}",
                         new[,]
                         {
-                            {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4, CultureInfo.InvariantCulture) : Convert.ToString(lengthD + type4, CultureInfo.InvariantCulture)},
-                            {"D2@Эскиз1", Convert.ToString(widthD, CultureInfo.InvariantCulture)},
-                            {"D4@Эскиз27", Convert.ToString(addwidth2-4.62, CultureInfo.InvariantCulture)},
+                            {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4) : Convert.ToString(lengthD + type4)},
+                            {"D2@Эскиз1", Convert.ToString(widthD)},
+                            {"D4@Эскиз27", Convert.ToString(addwidth2-4.62)},
                             {"D1@Эскиз27", Convert.ToString(90)},
-                            {"D2@Эскиз27", Convert.ToString((75-4.62), CultureInfo.InvariantCulture)},
+                            {"D2@Эскиз27", Convert.ToString((75-4.62))},
 
-                            {"D1@Эскиз24", type == "5" || type == "6" ? Convert.ToString(149.53, CultureInfo.InvariantCulture) : Convert.ToString(9.53, CultureInfo.InvariantCulture)},
+                            {"D1@Эскиз24", type == "5" || type == "6" ? Convert.ToString(149.53) : Convert.ToString(9.53)},
                             
-                            {"D1@Кривая2", Convert.ToString(weldW2*1000, CultureInfo.InvariantCulture)},
-                            {"D1@Кривая1", Convert.ToString(weldW*1000, CultureInfo.InvariantCulture)}
+                            {"D1@Кривая2", Convert.ToString(weldW2*1000)},
+                            {"D1@Кривая1", Convert.ToString(weldW*1000)}
                         },
                         false);
                     try
@@ -1686,16 +1685,16 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             $@"{Settings.Default.DestinationFolder}\{RoofDestinationFolder}\{newPartName}",
                             new[,]
                             {
-                                {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4, CultureInfo.InvariantCulture) : Convert.ToString(lengthD + type4, CultureInfo.InvariantCulture)},
-                                {"D2@Эскиз1", Convert.ToString(widthD, CultureInfo.InvariantCulture)},
-                                {"D4@Эскиз27", Convert.ToString(addwidth2-4.62, CultureInfo.InvariantCulture)},
+                                {"D1@Эскиз1",  type == "5" || type == "6" ? Convert.ToString(140 + lengthD + type4) : Convert.ToString(lengthD + type4)},
+                                {"D2@Эскиз1", Convert.ToString(widthD)},
+                                {"D4@Эскиз27", Convert.ToString(addwidth2-4.62)},
                                 {"D1@Эскиз27", Convert.ToString(90)},
-                                {"D2@Эскиз27", Convert.ToString((75-4.62), CultureInfo.InvariantCulture)},
+                                {"D2@Эскиз27", Convert.ToString((75-4.62))},
                                                                                                                           
                                 {"D2@Эскиз23", type == "5" || type == "6" ? Convert.ToString(165) : Convert.ToString(25)},
                                 
-                                {"D1@Кривая2", Convert.ToString(weldW2*1000, CultureInfo.InvariantCulture)},
-                                {"D1@Кривая1", Convert.ToString(weldW*1000, CultureInfo.InvariantCulture)}
+                                {"D1@Кривая2", Convert.ToString(weldW2*1000)},
+                                {"D1@Кривая1", Convert.ToString(weldW*1000)}
                             },
                             false);
                         try

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -63,13 +64,15 @@ namespace AirVentsCadWpf.DataControls
         {
             if (LenghtBaseFrame.Text == "") return;
 
+            #region
             //var typeOfFrameCopyValue =
             //   TypeOfFrame.SelectedItem.ToString().Replace("System.Windows.Controls.ComboBoxItem: ", "");
-            
+
             //if (typeOfFrameCopyValue != "3")
             //{
             //    FrameOffset.Text = "";
             //}
+            #endregion
 
             if (FrameOffset.Text == "")
             {
@@ -95,7 +98,7 @@ namespace AirVentsCadWpf.DataControls
                 new[]
                 {
                     Ral1.Text, CoatingType1.Text, CoatingClass1.Text,
-                    Ral1.SelectedValue != null ? Ral1.SelectedValue.ToString():""
+                    Ral1.SelectedValue?.ToString() ?? ""
                 });
 
             FrameOffset.Text = "";

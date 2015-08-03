@@ -9,66 +9,49 @@ namespace VentsCadLibrary
 {
     public partial class VentsCad
     {
-
-        public string ConnectionToSQL { get; set; }       
+        public string ConnectionToSql { get; set; }       
 
         public string VaultName { get; set; }
 
-        public string DestVaultName { get; set; }             
-
-
-        string LocalPath(string Vault)
+        public string DestVaultName { get; set; }
+        
+        static string LocalPath(string vault)
         {
             try
             {
                 var edmVault5 = new EdmVault5();
-                edmVault5.LoginAuto(Vault, 0);
+                edmVault5.LoginAuto(vault, 0);
                 return edmVault5.RootFolder.LocalPath;
             }
             catch (Exception exception)
-            {                
-                LoggerError(string.Format("В базе - {1}, не удалось получить корнувую папку ({0})", exception.Message, Vault), "", " LocalPath(string Vault)");
+            {
+                MessageBox.Show(exception.ToString());
+                LoggerError(string.Format("В базе - {1}, не удалось получить корнувую папку ({0})", exception.Message, vault), "", " LocalPath(string Vault)");
                 return null;
             }
         }
-
+        
         SldWorks _swApp;
 
-        public List<VentsCadFiles> NewComponents = new List<VentsCadFiles>();        
+        public List<VentsCadFiles> NewComponents = new List<VentsCadFiles>();
 
         #region Fields
 
         /// <summary>
         ///  Папка с исходной моделью "Вибровставки". 
         /// </summary>
-        public string SpigotFolder = @"\Библиотека проектирования\DriveWorks\12 - Spigot";
+        private const string SpigotFolder = @"\Библиотека проектирования\DriveWorks\12 - Spigot";
 
         /// <summary>
         ///  Папка для сохранения компонентов "Вибровставки". 
         /// </summary>
-        public string SpigotDestinationFolder = @"Проекты\Blauberg\12 - Вибровставка";
+        private const string SpigotDestinationFolder = @"Проекты\Blauberg\12 - Вибровставка";
 
         #endregion
         
+
         public void Spigot(string type, string width, string height, out string newFile)
         {
-            #region
-
-            //newFile = null;
-
-            //MessageBox.Show(ExistInBase("12-445-445", null, null, null, null, null).ToString());
-            ////MessageBox.Show(ExistInBase("04-AV04-4.1-XX.sldm").ToString());
-            ////MessageBox.Show(ExistInBase("04-AV04-4.1-XX.sldasm").ToString());
-
-            //return;
-
-            //newFile = null;
-            //var newFilesList = new List<VentsCadFiles>();
-            //CheckInOutPdm(NewComponents, true, null, out newFilesList);
-            //return;
-
-            #endregion
-
             newFile = null;
 
             if (!IsConvertToInt(new[] { width, height })) return;    
@@ -82,19 +65,18 @@ namespace VentsCadLibrary
                     break;
                 case "30":
                     modelName = "12-30";
-                    break;                
+                    break;
             }
 
             if (string.IsNullOrEmpty(modelName)) return;
-
+            
             var sourceFolder = LocalPath(VaultName);
             var destinationFolder = LocalPath(DestVaultName);
 
             var newSpigotName = modelName + "-" + width + "-" + height;
-            var newSpigotPath = string.Format(@"{0}\{1}\{2}", destinationFolder,
-                SpigotDestinationFolder, newSpigotName);
+            var newSpigotPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newSpigotName}";
             
-            if (ExistInBase(newSpigotName, null, null, null, null, null))
+            if (ExistInBaseSpigot(newSpigotName, null, null, null, null, null))
             {
                 newFile = newSpigotPath + ".SLDDRW";
                 return;
@@ -104,9 +86,7 @@ namespace VentsCadLibrary
             if (modelName == "12-30")
             { drawing = modelName; }
             Dimension myDimension;
-            var modelSpigotDrw = String.Format(@"{0}{1}\{2}.SLDDRW", sourceFolder,
-                SpigotFolder, drawing);
-                       
+            var modelSpigotDrw = $@"{sourceFolder}{SpigotFolder}\{drawing}.SLDDRW";
 
             GetLastVersionAsmPdm(modelSpigotDrw, VaultName);            
 
@@ -218,10 +198,10 @@ namespace VentsCadLibrary
                 //12-20-001
                 _swApp.IActivateDoc2("12-20-001", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
-                newPartName = string.Format("12-20-{0}.SLDPRT", height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
+                newPartName = $"12-20-{height}.SLDPRT";
+                newPartPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newPartName}";
                 
-                if (ExistInBase(newPartName, null, null, null, null, null))
+                if (ExistInBaseSpigot(newPartName, null, null, null, null, null))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
                     swDoc.Extension.SelectByID2("12-20-001-1@12-00", "COMPONENT", 0, 0, 0, false, 0, null, 0);
@@ -247,9 +227,9 @@ namespace VentsCadLibrary
                 //12-20-002
                 _swApp.IActivateDoc2("12-20-002", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
-                newPartName = string.Format("12-20-{0}.SLDPRT", width);
-                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
-                if (ExistInBase(newPartName, null, null, null, null, null))
+                newPartName = $"12-20-{width}.SLDPRT";
+                newPartPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newPartName}";
+                if (ExistInBaseSpigot(newPartName, null, null, null, null, null))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
                     swDoc.Extension.SelectByID2("12-20-002-1@12-00", "COMPONENT", 0, 0, 0, false, 0, null, 0);
@@ -275,9 +255,9 @@ namespace VentsCadLibrary
                 //12-003
                 _swApp.IActivateDoc2("12-003", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
-                newPartName = string.Format("12-03-{0}-{1}.SLDPRT", width, height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
-                if (ExistInBase(newPartName, null, null, null, null, null))
+                newPartName = $"12-03-{width}-{height}.SLDPRT";
+                newPartPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newPartName}";
+                if (ExistInBaseSpigot(newPartName, null, null, null, null, null))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
                     swDoc.Extension.SelectByID2("12-003-1@12-00", "COMPONENT", 0, 0, 0, false, 0, null, 0);
@@ -307,9 +287,9 @@ namespace VentsCadLibrary
                 //12-30-001
                 _swApp.IActivateDoc2("12-30-001", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
-                newPartName = string.Format("12-30-{0}.SLDPRT", height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
-                if (ExistInBase(newPartName, null, null, null, null, null))
+                newPartName = $"12-30-{height}.SLDPRT";
+                newPartPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newPartName}";
+                if (ExistInBaseSpigot(newPartName, null, null, null, null, null))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
                     swDoc.Extension.SelectByID2("12-30-001-1@12-00", "COMPONENT", 0, 0, 0, false, 0, null, 0);
@@ -335,9 +315,9 @@ namespace VentsCadLibrary
                 //12-30-002
                 _swApp.IActivateDoc2("12-30-002", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
-                newPartName = string.Format("12-30-{0}.SLDPRT", width);
-                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
-                if (ExistInBase(newPartName, null, null, null, null, null))
+                newPartName = $"12-30-{width}.SLDPRT";
+                newPartPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newPartName}";
+                if (ExistInBaseSpigot(newPartName, null, null, null, null, null))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
                     swDoc.Extension.SelectByID2("12-30-002-1@12-00", "COMPONENT", 0, 0, 0, false, 0, null, 0);
@@ -363,9 +343,9 @@ namespace VentsCadLibrary
                 //12-003
                 _swApp.IActivateDoc2("12-003", false, 0);
                 swPartDoc = _swApp.IActiveDoc2;
-                newPartName = string.Format("12-03-{0}-{1}.SLDPRT", width, height);
-                newPartPath = string.Format(@"{0}\{1}\{2}", destinationFolder, SpigotDestinationFolder, newPartName);
-                if (ExistInBase(newPartName, null, null, null, null, null))
+                newPartName = $"12-03-{width}-{height}.SLDPRT";
+                newPartPath = $@"{destinationFolder}\{SpigotDestinationFolder}\{newPartName}";
+                if (ExistInBaseSpigot(newPartName, null, null, null, null, null))
                 {
                     swDoc = ((ModelDoc2)(_swApp.ActivateDoc2("12-00.SLDASM", true, 0)));
                     swDoc.Extension.SelectByID2("12-003-2@12-00", "COMPONENT", 0, 0, 0, false, 0, null, 0);
@@ -405,15 +385,12 @@ namespace VentsCadLibrary
             var drw = (DrawingDoc)(_swApp.IActivateDoc3(drawing + ".SLDDRW", true, 0));
             drw.ActivateSheet("DRW1");
             var m = 5;
-            if (Convert.ToInt32(width) > 500 || Convert.ToInt32(height) > 500)
-            { m = 10; }
-            if (Convert.ToInt32(width) > 850 || Convert.ToInt32(height) > 850)
-            { m = 15; }
-            if (Convert.ToInt32(width) > 1250 || Convert.ToInt32(height) > 1250)
-            { m = 20; }
+            if (Convert.ToInt32(width) > 500 || Convert.ToInt32(height) > 500){ m = 10; }
+            if (Convert.ToInt32(width) > 850 || Convert.ToInt32(height) > 850){ m = 15; }
+            if (Convert.ToInt32(width) > 1250 || Convert.ToInt32(height) > 1250){ m = 20; }
             drw.SetupSheet5("DRW1", 12, 12, 1, m, true, destinationFolder + @"\Vents-PDM\\Библиотека проектирования\\Templates\\Основные надписи\\A3-A-1.slddrt", 0.42, 0.297, "По умолчанию", false);            
-            int errors = 0;
-            int warnings = 0;
+            var errors = 0;
+            var warnings = 0;
 
             swDrwSpigot.SaveAs4(newSpigotPath + ".SLDDRW", (int)swSaveAsVersion_e.swSaveAsCurrentVersion, (int)swSaveAsOptions_e.swSaveAsOptions_Silent, ref errors, ref warnings);
             
@@ -423,35 +400,37 @@ namespace VentsCadLibrary
             });
             
             //_swApp.CloseDoc(Path.GetFileNameWithoutExtension(new FileInfo(newSpigotPath + ".SLDDRW").FullName) + " - DRW1");
+
             _swApp.CloseDoc(newSpigotPath);
             _swApp.ExitApp();
             _swApp = null;
 
-            var newFilesList = new List<VentsCadFiles>();
+            List<VentsCadFiles> newFilesList;
             CheckInOutPdm(NewComponents, true, DestVaultName, out newFilesList);
 
             var text = "";
 
             foreach (var item in newFilesList)
             {
-                int typeFile = 0;
+                var typeFile = 0;
                 if (item.LocalPartFileInfo.ToUpper().Contains(".SLDASM")) { typeFile = 1; }
                 if (item.LocalPartFileInfo.ToUpper().Contains(".SLDPRT")) { typeFile = 0; }
                 var fileNameWithoutExtension = item.PartName.Remove(item.PartName.LastIndexOf('.'));
 
-                ExistInBase(fileNameWithoutExtension, item.PartIdPdm, typeFile, Convert.ToInt32(type), Convert.ToInt32(height), Convert.ToInt32(width));
+                ExistInBaseSpigot(fileNameWithoutExtension, item.PartIdPdm, typeFile, Convert.ToInt32(type), Convert.ToInt32(height), Convert.ToInt32(width));
 
                 text = text + "\n PartIdPdm - " + item.PartIdPdm + " PartName - " + item.PartName;
             }
 
-            MessageBox.Show(text);
+            //MessageBox.Show(text);
 
             foreach (var newComponent in NewComponents)
             {
-                //PartInfoToXml(newComponent.LocalPartFileInfo);
+               PartInfoToXml(newComponent.LocalPartFileInfo);
             }
 
             newFile = newSpigotPath + ".SLDDRW";
+
         }
     }
 }

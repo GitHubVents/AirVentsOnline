@@ -66,6 +66,13 @@
             <param name="version">The version.</param>
             <returns></returns>
         </member>
+        <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.ParseDouble(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:MakeDxfUpdatePartData.MakeDxfExportPartDataClass.SaveDrwAsPdf(System.String,System.String@)">
             <summary>
             Saves the DRW as PDF.

@@ -52,11 +52,24 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VentsMaterials">
+      <HintPath>..\AirVentsCadWpf\VentsMaterials.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frame50.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="PdmBatch.cs" />
+    <Compile Include="Service References\VentsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SqlData.cs" />
     <Compile Include="UniversalSwMethods.cs" />
     <Compile Include="Attachments.cs" />
   </ItemGroup>
@@ -73,6 +86,60 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\ConecctorOneC.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\HostingWindowsForms.Data.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\HostingWindowsForms.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\service.wsdl" />
+    <None Include="Service References\VentsService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VentsService\VentsCadLibrary.VentsService.ConnectionClassifierMeasure.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VentsService\VentsCadLibrary.VentsService.ConnectionNomenclature.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VentsService\VentsCadLibrary.VentsService.EPDMBomCells.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\VentsService\VentsCadLibrary.VentsService.EPDMSearchColumnName.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\VentsService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VentsService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VentsService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\VentsService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

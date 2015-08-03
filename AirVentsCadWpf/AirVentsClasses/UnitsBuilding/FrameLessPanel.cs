@@ -17,6 +17,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
     public partial class ModelSw
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
         public List<VentsCadFiles> NewComponentsFull = new List<VentsCadFiles>();
 
         #region PanelsFrameless
@@ -185,7 +188,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             var cкотч =
                 new AddingPanel
                 {
-                    PanelTypeId = Convert.ToInt32(typeOfPanel[2]),
+                    PanelTypeId = 14, // Convert.ToInt32(typeOfPanel[2]),
                     ElementType = 4,
                     Width = Convert.ToInt32(width),
                     Height = Convert.ToInt32(height),
@@ -204,7 +207,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             var pes =
                 new AddingPanel
                 {
-                    PanelTypeId = Convert.ToInt32(typeOfPanel[2]),
+                    PanelTypeId = 15, //Convert.ToInt32(typeOfPanel[2]),
                     ElementType = 5,
                     Width = Convert.ToInt32(width),
                     Height = Convert.ToInt32(height),
@@ -258,7 +261,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     
                     Ral = "Без покрытия",
                     CoatingType = "0",
-                    CoatingClass = Convert.ToInt32("0"),
+                    CoatingClass = Convert.ToInt32("0")
                 };
             id = усиливающаяРамкаПоВысоте.AddPart();
             partIds.Add(id);
@@ -279,7 +282,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                 Ral = "Без покрытия",
                 CoatingType = "0",
-                CoatingClass = Convert.ToInt32("0"),
+                CoatingClass = Convert.ToInt32("0")
             };
             id = кронштейнДверной.AddPart();
             partIds.Add(id);
@@ -325,6 +328,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             }
 
             #endregion
+
 
             #region
 
@@ -613,8 +617,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             //////asm.AddAsm();
             //////MessageBox.Show(asm.NameById);
             //////MessageBox.Show(partIdsInAsm.Aggregate("", (current, panel) => current + panel + "\n"));
-
-#endregion
+            
+            #endregion
             
             var обозначениеНовойПанели = "02-" + typeOfPanel[0] + "-" + idAsm;
 
@@ -657,10 +661,8 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                     break;
             }
             
-            var newFramelessPanelPath = String.Format(@"{0}{1}\{2}.SLDASM",
-                Settings.Default.DestinationFolder,
-                DestinationFolder,
-                обозначениеНовойПанели);
+            var newFramelessPanelPath =
+                $@"{Settings.Default.DestinationFolder}{DestinationFolder}\{обозначениеНовойПанели}.SLDASM";
 
             if (!InitializeSw(true)) return "-";
 
@@ -676,10 +678,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             var sourceFolder = Settings.Default.SourceFolder;
             const string nameAsm = "02-11-40-1";
 
-            var modelPanelAsmbly = new FileInfo(String.Format(@"{0}{1}\{2}.SLDASM",
-                sourceFolder,
-                modelPanelsPath,
-                nameAsm)).FullName;
+            var modelPanelAsmbly = new FileInfo($@"{sourceFolder}{modelPanelsPath}\{nameAsm}.SLDASM").FullName;
 
             #endregion
 
@@ -823,9 +822,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             #region Коэффициенты и радиусы гибов
 
             var sbSqlBaseData = new SqlBaseData();
-            string[] bendParams;
-            double bendRadius;
-            double kFactor;
 
             #endregion
 
@@ -875,7 +871,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                                                 (int)swDeleteSelectionOptions_e.swDelete_Children;
             var swDocExt = swDoc.Extension;
 
-            #region
+            #region Удаление ненужного
 
             //if (ValProfils.PsTy1 == "-")
             //{
@@ -1188,7 +1184,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                         //else
                         //{
                         
-//                      MessageBox.Show("End");
+                    //   MessageBox.Show("End");
 
                         #endregion
 
@@ -1206,9 +1202,11 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
 
                         //ToDo 30mm
 
-                        if (ValProfils.PsTy1 != "-")
-                        {
+                        MessageBox.Show(ValProfils.PsTy1);
 
+                        
+                        if (типУсиливающей != null)  //!string.IsNullOrEmpty(ValProfils.PsTy1))// ValProfils.PsTy1 != "-")
+                        {
                             swDocExt.SelectByID2("D1@2-2@02-11-01-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
                             ((Dimension)(swDoc.Parameter("D1@2-2@02-11-01-40-.Part"))).SystemValue = 0.03;
                             swDoc.EditRebuild3();
@@ -1216,7 +1214,6 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
                             swDocExt.SelectByID2("D1@1-2@02-11-02-40--1@02-11-40-1", "DIMENSION", 0, 0, 0, false, 0, null, 0);
                             ((Dimension)(swDoc.Parameter("D1@1-2@02-11-02-40-.Part"))).SystemValue = 0.01;
                             swDoc.EditRebuild3();
-
                         }
                     }                
                     break;
@@ -2049,7 +2046,7 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             else if (File.Exists(newPartPath) != true)
             {
                 SwPartParamsChangeWithNewName("02-11-02-40-",
-                    String.Format(@"{0}\{1}\{2}", Settings.Default.DestinationFolder, DestinationFolder, newName),
+                    $@"{Settings.Default.DestinationFolder}\{DestinationFolder}\{newName}",
                     new[,]
                     {
                         {"D1@Эскиз1", typeOfPanel[0] == "04" || typeOfPanel[0] == "05" ? Convert.ToString(ширинаПанели-42) : Convert.ToString(ширинаПанели-40)},
@@ -2134,9 +2131,9 @@ namespace AirVentsCadWpf.AirVentsClasses.UnitsBuilding
             if (усиление)
             {
                 const string thiknessF = "1";
-                bendParams = sbSqlBaseData.BendTable(thiknessF);
-                bendRadius = Convert.ToDouble(bendParams[0]);
-                kFactor = Convert.ToDouble(bendParams[1]);
+                var bendParams = sbSqlBaseData.BendTable(thiknessF);
+                var bendRadius = Convert.ToDouble(bendParams[0]);
+                var kFactor = Convert.ToDouble(bendParams[1]);
 
                 const double heightF = 38.0;
                 //if (скотч == "Со скотчем")

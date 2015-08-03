@@ -49,8 +49,7 @@
         </Grid>
         <Grid HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Stretch"/>
         <Grid HorizontalAlignment="Stretch" Grid.Row="7" VerticalAlignment="Stretch"/>
-        <Button x:Name="BuildSpigot" TabIndex="5" Content="Построить" HorizontalAlignment="Left" Height="30" Margin="304,0,0,19" VerticalAlignment="Bottom" Width="100"  Background="{x:Null}" Click="BuildSpigot_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="18" Margin="281,26,0,0" Grid.Row="4" VerticalAlignment="Top" Width="71" Click="Button_Click"/>
+        <Button Grid.Row="0" x:Name="BuildSpigot" TabIndex="5" Content="Построить" HorizontalAlignment="Left" Height="30" Margin="304,0,0,19" VerticalAlignment="Bottom" Width="100"  Background="{x:Null}" Click="BuildSpigot_Click"/>
     </Grid>
 
 

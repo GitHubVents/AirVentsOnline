@@ -2,7 +2,8 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using ModelSw = AirVentsCadWpf.AirVentsClasses.UnitsBuilding.ModelSw;
+using AirVentsCadWpf.Properties;
+
 namespace AirVentsCadWpf.DataControls
 {
     /// <summary>
@@ -18,16 +19,26 @@ namespace AirVentsCadWpf.DataControls
             InitializeComponent();
         }
 
-        private void BuildSpigot_Click(object sender, RoutedEventArgs e)
+        void BuildSpigot_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                //VentsCadLibrary.VentsCad vcad = new VentsCadLibrary.VentsCad();
-                //var unit = "";
-                //vcad.SpigotStr(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text, out unit);
+                var vcad = new VentsCadLibrary.VentsCad
+                {
+                    ConnectionToSql = Settings.Default.ConnectionToSQL,
+                    DestVaultName = Settings.Default.TestPdmBaseName,
+                    VaultName = Settings.Default.PdmBaseName
+                };
+
+                string unit;
+
+                vcad.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text, out unit);
+
                 //MessageBox.Show(unit);
-                var sw = new ModelSw();
-                sw.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text);
+
+                //var sw = new ModelSw();
+                //sw.Spigot(TypeOfSpigot.Text, WidthSpigot.Text, HeightSpigot.Text);
+
             }
             catch (Exception ex)
             {
@@ -35,13 +46,13 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void Grid_Loaded_1(object sender, RoutedEventArgs e)
+        void Grid_Loaded_1(object sender, RoutedEventArgs e)
         {
             //var sw = new ModelSw();
             //sw.CreateDistDirectory(string.Format(@"{0}\{1}", @Properties.Settings.Default.DestinationFolder, sw.SpigotDestinationFolder));
         }
 
-        private void WidthSpigot_KeyDown(object sender, KeyEventArgs e)
+        void WidthSpigot_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -49,7 +60,7 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void HeightSpigot_KeyDown(object sender, KeyEventArgs e)
+        void HeightSpigot_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -57,16 +68,10 @@ namespace AirVentsCadWpf.DataControls
             }
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             var regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var sw = new ModelSw();
-            //sw.Mamba();
         }
     }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/HostingWindowsForms" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/HostingWindowsForms" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:complexType name="ArrayOfEPDM.SearchColumnName">
     <xs:sequence>
@@ -28,7 +28,10 @@
       <xs:element minOccurs="0" name="ErpCode" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FileName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FilePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Format" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="IdPdm" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Note" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Position" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SummMaterial" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Weight" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Количество" nillable="true" type="xs:string" />

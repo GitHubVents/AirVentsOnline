@@ -27,7 +27,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>Vents</PublisherName>
-    <ApplicationRevision>204</ApplicationRevision>
+    <ApplicationRevision>226</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -59,10 +59,11 @@
     <ApplicationIcon>AHU Selection\br_icon_teaser_cad_sr_pos_150%281%29.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>CC107880C4E140EDA417EE301C52FD2B80062870</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>FB5A4492AE89B71796475634351C1125A889B2A6</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AirVentsCadWpf_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -389,11 +390,26 @@
     <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.ConnectionClassifierMeasure.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.ConnectionNomenclature.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.EPDMBomCells.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\ServiceReference6\AirVentsCadWpf.ServiceReference6.EPDMSearchColumnName.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference6\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\ConecctorOneC.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\HostingWindowsForms.Data.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference6\HostingWindowsForms.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceReference6\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
@@ -401,29 +417,16 @@
     </None>
     <None Include="Service References\ServiceReference6\configuration.svcinfo" />
     <None Include="Service References\ServiceReference6\configuration91.svcinfo" />
-    <None Include="Service References\ServiceReference6\VentsService.disco" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="AirVentsCadWpf_TemporaryKey.pfx" />
-    <None Include="Service References\ServiceReference6\VentsService.wsdl" />
-    <None Include="Service References\ServiceReference6\VentsService.xsd">
+    <None Include="Service References\ServiceReference6\service.wsdl" />
+    <None Include="Service References\ServiceReference6\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceReference6\VentsService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceReference6\VentsService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceReference6\VentsService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceReference6\VentsService4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceReference6\VentsService5.xsd">
+    <None Include="Service References\ServiceReference6\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <Resource Include="DataControls\Pictures\Бескаркасная установка\01 - Frameless Design 40mm - 01.JPG" />

@@ -127,7 +127,7 @@ namespace AirVentsCadWpf.DataControls
         {
             try
             {
-                if (SizeOfUnit == null || SizeOfUnit.SelectedItem == null)
+                if (SizeOfUnit?.SelectedItem == null)
                 {
                     return;
                 }
@@ -147,8 +147,7 @@ namespace AirVentsCadWpf.DataControls
                 if (WidthU != null) WidthU.Text = "";
                 if (HeightU != null) HeightU.Text = "";
             }
-
-
+            
             //if (SizeOfUnit == null)
             //{
             //    return;
@@ -156,7 +155,10 @@ namespace AirVentsCadWpf.DataControls
             //var sqlBaseData = new SqlBaseData();
             //var standartUnitSizes =
             //    sqlBaseData.StandartSize(
-            //        SizeOfUnit.SelectedItem.ToString().Replace("System.Windows.Controls.ListBoxItem: ", ""));
+            //        SizeOfUnit.SelectedItem.ToString().
+
+            
+            //System.Windows.Controls.ListBoxItem: ", ""));
 
             //if (WidthU == null || HeightU == null)
             //{
